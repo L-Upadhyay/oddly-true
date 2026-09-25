@@ -6,6 +6,22 @@ A multiplayer trivia party game for **2–8 players**. Each round presents three
 
 No account is needed. Create a room, share its five-character code or invite link, and play from separate devices.
 
+## How it works
+
+```mermaid
+flowchart TD
+  A["Host creates a room"] --> B["Friends join by code or link"]
+  B --> C["Server starts a round"]
+  C --> D["Everyone picks one of three claims"]
+  D --> E["Server checks answers and scores"]
+  E --> F["Votes, truth and leaderboard appear"]
+  F --> G{"Another round?"}
+  G -->|Yes| C
+  G -->|No| H["Final scores"]
+```
+
+The browser shows each player's view. The server keeps the room state, enforces the timer and scoring rules, and reveals the true claim only after voting. See the [architecture diagram](docs/architecture.md) for the local and hosted paths.
+
 ## Project requirements
 
 | Requirement | Implementation | Verification |

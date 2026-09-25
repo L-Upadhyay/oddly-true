@@ -1,0 +1,25 @@
+{
+  "name": "oddly-true",
+  "version": "0.1.0",
+  "description": "A room-code multiplayer trivia party game for 2–8 players.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "open": "node launch.mjs",
+    "dev": "node --watch server/index.js",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "check": "node scripts/check-project.mjs",
+    "build": "node scripts/build-hosted.mjs",
+    "db:generate": "drizzle-kit generate"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2",
+    "esbuild": "^0.25.12"
+  }
+}

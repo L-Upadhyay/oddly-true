@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.wrangler/
+.sites-runtime/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.zip
+*.tar.gz
+coverage/
+*.log
