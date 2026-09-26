@@ -474,8 +474,8 @@ async function leaveRoom() {
 async function enterRoom(nextSeat, startSolo = false) {
   seat = nextSeat;
   sessionStorage.setItem('oddly-true-seat', JSON.stringify(seat));
-  history.replaceState(null, '', `/oddly-true/?room=${seat.code}`);
   receive(startSolo ? await request(`/api/rooms/${seat.code}/start`, {}, seat.token) : await request(`/api/rooms/${seat.code}/state?token=${encodeURIComponent(seat.token)}`));
+  history.replaceState(null, '', state.kind === 'solo' ? '/oddly-true/' : `/oddly-true/?room=${seat.code}`);
   connect();
 }
 
