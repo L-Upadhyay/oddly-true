@@ -33,6 +33,12 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .muted { color: #aeb6d2; line-height: 1.55; }
 .small { font-size: .88rem; }
 .landing { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(330px, .9fr); gap: clamp(26px, 5vw, 76px); align-items: start; padding-top: clamp(18px, 7vh, 85px); }
+.play-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 18px 0 14px; }
+.play-paths button { min-height: 84px; text-align: left; line-height: 1.3; }
+.play-paths small { display: block; margin-top: 5px; font-size: .76rem; font-weight: 500; opacity: .85; }
+.friends-actions { margin-top: 12px; }
+.solo-grid { display: block; max-width: 850px; margin-inline: auto; }
+.solo-score { margin: 20px 0; }
 .landing-copy { padding-top: 26px; }
 .landing-copy h1 em { font-style: normal; color: #b9f57b; }
 .landing-copy p { max-width: 470px; font-size: 1.12rem; color: #c8cee3; line-height: 1.55; }
@@ -219,6 +225,8 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
   .setup-panel { max-width: 610px; }
 }
 @media (max-width: 570px) {
+  .play-paths { grid-template-columns: 1fr; }
+  .play-paths button { min-height: 66px; }
   .app-shell { width: calc(100% - 28px); padding-top: 17px; }
   .app-shell.room-shell { width: calc(100% - 28px); }
   .brand { font-size: 1.8rem; gap: 10px; }

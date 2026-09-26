@@ -84,6 +84,7 @@ export class GameStore {
 
   create(input) {
     const { name, avatar } = cleanPlayer(input);
+    const kind = input?.kind === 'solo' ? 'solo' : 'friends';
     let code;
     do {
       const bytes = randomBytes(5);
@@ -91,9 +92,9 @@ export class GameStore {
     } while (this.rooms.has(code));
     const player = this.newPlayer(name, avatar);
     const room = {
-      code, hostId: player.id, players: [player], phase: 'lobby', rounds: [], roundCount: MAX_ROUNDS,
+      code, kind, hostId: player.id, players: [player], phase: 'lobby', rounds: [], roundCount: kind === 'solo' ? 5 : MAX_ROUNDS,
       roundIndex: -1, answers: new Map(), voteCounts: null, deadline: null,
-      roundMode: 'ten', activeRoundMode: 'ten', playMode: 'solo', activePlayMode: 'solo',
+      roundMode: kind === 'solo' ? 'custom' : 'ten', activeRoundMode: 'ten', playMode: 'solo', activePlayMode: 'solo',
       gameId: null, completedRounds: 0, timer: null, updatedAt: Date.now(),
       history: [], roundResult: null, finalResult: null, lastReaction: null
     };
@@ -107,6 +108,7 @@ export class GameStore {
 
   join(code, input) {
     const room = this.room(code);
+    if (room.kind === 'solo') throw new GameError('This is a Solo game. Create a room to play with friends.');
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('This game has already started.');
     if (room.players.length >= MAX_PLAYERS) throw new GameError('This room is full.');
     const { name, avatar } = cleanPlayer(input);
@@ -145,8 +147,9 @@ export class GameStore {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('Settings can only change between games.');
+    if (room.kind === 'solo') throw new GameError('Solo games have five rounds.');
     if (roundMode !== undefined && !['ten', 'custom', 'host'].includes(roundMode)) throw new GameError('Choose a game length.');
-    if (playMode !== undefined && !['solo', 'teams'].includes(playMode)) throw new GameError('Choose solo or teams.');
+    if (playMode !== undefined && !['solo', 'teams'].includes(playMode)) throw new GameError('Choose individuals or teams.');
     if (roundCount !== undefined && (!Number.isInteger(roundCount) || roundCount < 1 || roundCount > MAX_ROUNDS)) {
       throw new GameError(`Choose between 1 and ${MAX_ROUNDS} rounds.`);
     }
@@ -183,7 +186,7 @@ export class GameStore {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('The game is already running.');
-    if (room.players.length < 2) throw new GameError('You need at least 2 players to start.');
+    if (room.players.length < (room.kind === 'solo' ? 1 : 2)) throw new GameError('You need at least 2 players to start.');
     if (room.playMode === 'teams' && room.players.length < 4) throw new GameError('Teams need at least 4 players.');
     if (room.playMode === 'teams') this.balanceTeams(room);
     for (const p of room.players) { p.score = 0; p.usedWildCard = false; }
@@ -244,6 +247,7 @@ export class GameStore {
     room.deadline = Date.now() + this.voteMs;
     room.voteCounts = [0, 0, 0];
     for (const answer of room.answers.values()) room.voteCounts[answer.choice]++;
+    if (room.kind === 'solo') { this.reveal(room); return; }
     const index = room.roundIndex;
     if (this.scheduleTimers) room.timer = setTimeout(() => {
       if (room.phase === 'votes' && room.roundIndex === index) this.reveal(room);
@@ -353,7 +357,7 @@ export class GameStore {
     const roundTeams = revealed && room.activePlayMode === 'teams'
       ? teamStandings(room, member => roundPoints.get(member.id) ?? 0) : [];
     return {
-      code: room.code, phase: room.phase, hostId: room.hostId, you: playerId, gameId: room.gameId,
+      code: room.code, kind: room.kind ?? 'friends', phase: room.phase, hostId: room.hostId, you: playerId, gameId: room.gameId,
       players: scores, maxPlayers: MAX_PLAYERS, maxRounds: MAX_ROUNDS,
       round: room.phase === 'finished' ? room.completedRounds : Math.max(0, room.roundIndex + 1),
       totalRounds: room.phase === 'finished' ? room.completedRounds : room.phase === 'lobby'

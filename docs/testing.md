@@ -4,7 +4,7 @@ With Node.js 24, run `npm ci`, `npm run check`, `npm test`, and `npm run build`.
 
 ## Automated scope
 
-The 12-test suite covers rules, scores, Wild Cards, ties, timeouts, character/assets, capacity, team averages, host finish/transfer, real local HTTP/SSE, eight concurrent hosted players, persisted room reconstruction and exactly-once reveal scoring. Hosted API tests check seat authentication, foreign-origin mutations and expired rooms.
+The 13-test suite covers Solo's five-fact flow and replay; multiplayer rules, scores, Wild Cards, ties, timeouts, character/assets, capacity, team averages, host finish/transfer, real local HTTP/SSE, eight concurrent hosted players, persisted room reconstruction and exactly-once reveal scoring. Hosted API tests check seat authentication, foreign-origin mutations and expired rooms.
 
 Hosted persistence tests adapt SQLite to the D1 prepared-statement interface. They verify our SQL/concurrency logic, not production load or network latency. CI uses Node 24 so hosted tests run rather than being skipped on an older runtime.
 
@@ -16,10 +16,13 @@ These are steps to perform, **not a claim that every combination has passed**. R
 
 | Check | Expected result |
 | --- | --- |
+| Play Solo, answer and let a timer expire | Starts without a guest; no room votes or opponent leaderboard; five facts, final score and replay |
+| Solo invite attempt | Solo cannot be joined |
+| Landing and invite link | Solo/Friends choices are clear; invite link opens the Friends join path with code filled |
 | Two devices on different networks use public URL | Both load without signing in |
 | Create room; guest joins by code | Same roster and rules on both devices |
 | Join by invite link | Room code prefilled |
-| Custom two-round solo game | Picks lock; votes/truth reveal; host advances |
+| Custom two-round Individuals game | Picks lock; votes/truth reveal; host advances |
 | Correct and incorrect picks | +10 and 0 consistent across devices |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
@@ -42,5 +45,7 @@ These are steps to perform, **not a claim that every combination has passed**. R
 4. Choose different answers; show votes, truth and scores.
 5. Use a Wild Card in round 2, then show final scores and replay.
 6. Repeat joining on a phone for a genuine separate-device demonstration. Two windows on one computer are useful tests, not evidence of separate devices.
+
+To show independent exploration, choose Play Solo on a separate visit; demonstrate that no second player is required and the result is a personal score. The competition requirement remains the two-device multiplayer path above.
 
 Use the repository bug template for failures. Remove tokens and unrelated personal information from screenshots.
