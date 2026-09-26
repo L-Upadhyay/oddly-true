@@ -86,14 +86,19 @@ function landing() {
   return `${topbar()}
     <div class="landing">
       <section class="landing-copy">
-        <div class="eyebrow">A real-time party game · 2–8 players</div>
+        <div class="eyebrow">Play Solo or with 2–8 friends</div>
         <h1>Sounds fake.<br><em>Oddly true.</em></h1>
-        <p>Three bizarre claims. Only one actually happened. Bring your people, trust your gut, and prepare to be confidently wrong.</p>
+        <p>Three bizarre claims. Only one actually happened. Trust your gut, bring your people if you like, and prepare to be confidently wrong.</p>
         <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Pick the one true claim from three before the 20-second timer ends.</li><li>Correct: +10 points. Wrong or timeout: 0. Your one Wild Card earns +20 if right or −5 if wrong.</li><li>Play five facts alone, or invite friends. With friends, the host advances; the highest individual or team score wins. Ties share the win.</li></ol></section>
-        <div class="rule-line"><span>2–8 players</span><span>20 seconds each</span><span>+10 for a true fact</span><span>One Wild Card</span></div>
+        <div class="rule-line"><span>Alone or together</span><span>20 seconds each</span><span>+10 for a true fact</span><span>One Wild Card</span></div>
       </section>
-      <section class="panel setup-panel" aria-label="Join a game">
-        <h2>Pick your identity</h2>
+      <section class="panel setup-panel" aria-label="Choose a game and identity">
+        <h2>How do you want to play?</h2>
+        <div class="play-paths" role="group" aria-label="Choose how to play">
+          <button class="${landingMode === 'solo' ? 'primary' : 'secondary'}" type="button" data-action="choose-solo" aria-pressed="${landingMode === 'solo'}">Play Solo <small>Five quick rounds, just you</small></button>
+          <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>2–8 people, on separate devices</small></button>
+        </div>
+        <h3 class="identity-title">Pick your identity</h3>
         <label class="field" for="player-name">Your name</label>
         <input id="player-name" class="text-input" maxlength="24" autocomplete="nickname" placeholder="Professor Pigeon" value="${escapeHtml(draftName)}">
         <div class="preset-heading"><span class="field">Choose a character</span><button type="button" class="text-button" data-action="random-persona">Surprise me</button></div>
@@ -102,10 +107,6 @@ function landing() {
         <div class="form-row">
           ${characterPreview()}
           <p class="identity-hint">${identityMode === 'custom' ? 'Try an animal or a theme: Jellyfish Queen, Trust (dog), or Sky (pigeon). We match familiar words; other names get a repeatable surprise. You can always try another character.' : 'Choose a preset to fill in its linked name, or select Create your own for a custom match.'}</p>
-        </div>
-        <div class="play-paths" role="group" aria-label="Choose how to play">
-          <button class="${landingMode === 'solo' ? 'primary' : 'secondary'}" type="button" data-action="choose-solo" aria-pressed="${landingMode === 'solo'}">Play Solo <small>Five quick rounds, just you</small></button>
-          <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>2–8 people, on separate devices</small></button>
         </div>
         ${landingMode === 'solo' ? `<button class="primary full" type="button" data-action="create-solo" ${pending ? 'disabled' : ''}>Start Solo game</button>` : ''}
         ${landingMode === 'friends' ? `<div class="friends-actions"><button class="primary full" type="button" data-action="create" ${pending ? 'disabled' : ''}>Create a room</button>
@@ -473,8 +474,8 @@ async function leaveRoom() {
 async function enterRoom(nextSeat, startSolo = false) {
   seat = nextSeat;
   sessionStorage.setItem('oddly-true-seat', JSON.stringify(seat));
-  history.replaceState(null, '', `/oddly-true/?room=${seat.code}`);
   receive(startSolo ? await request(`/api/rooms/${seat.code}/start`, {}, seat.token) : await request(`/api/rooms/${seat.code}/state?token=${encodeURIComponent(seat.token)}`));
+  history.replaceState(null, '', state.kind === 'solo' ? '/oddly-true/' : `/oddly-true/?room=${seat.code}`);
   connect();
 }
 
