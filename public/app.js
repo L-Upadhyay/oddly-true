@@ -29,6 +29,8 @@ let lastQuestion = null;
 let draftName = '';
 let draftCode = new URLSearchParams(location.search).get('room')?.toUpperCase() ?? '';
 let landingMode = draftCode ? 'friends' : null;
+let soloLength = 'five';
+let soloCustomRounds = 5;
 let connectionStatus = '';
 let toastTimer;
 let lastEffectKey = '';
@@ -175,7 +177,7 @@ function landing() {
         <div class="eyebrow">Play Solo or with 2–8 friends</div>
         <h1>Sounds fake.<br><em>Oddly true.</em></h1>
         <p>Three bizarre claims. Only one actually happened. Trust your gut, bring your people if you like, and prepare to be confidently wrong.</p>
-        <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Pick the one true claim from three before the 20-second timer ends.</li><li>Correct: +10 points. Wrong or timeout: 0. Your one Wild Card earns +20 if right or −5 if wrong.</li><li>Play five facts alone, or invite friends. With friends, the host advances; the highest individual or team score wins. Ties share the win.</li></ol></section>
+        <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Pick the one true claim from three before the 20-second timer ends.</li><li>Correct: +10 points. Wrong or timeout: 0. Your one Wild Card earns +20 if right or −5 if wrong.</li><li>Choose 5, 10, or a custom Solo length, or invite friends. With friends, the host advances; the highest individual or team score wins. Ties share the win.</li></ol></section>
         <div class="rule-line"><span>Alone or together</span><span>20 seconds each</span><span>+10 for a true fact</span><span>One Wild Card</span></div>
       </section>
       <section class="panel setup-panel" aria-label="Choose a game and identity">
@@ -184,6 +186,12 @@ function landing() {
           <button class="${landingMode === 'solo' ? 'primary' : 'secondary'}" type="button" data-action="choose-solo" aria-pressed="${landingMode === 'solo'}">Play Solo <small>Five quick rounds, just you</small></button>
           <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>2–8 people, on separate devices</small></button>
         </div>
+        ${landingMode === 'solo' ? `<div class="solo-length" role="group" aria-label="Solo game length"><span class="field">How many Solo facts?</span><div class="solo-length-options">
+          <button type="button" class="solo-length-choice" data-action="solo-length" data-length="five" aria-pressed="${soloLength === 'five'}">Quick · 5</button>
+          <button type="button" class="solo-length-choice" data-action="solo-length" data-length="ten" aria-pressed="${soloLength === 'ten'}">Full · 10</button>
+          <button type="button" class="solo-length-choice" data-action="solo-length" data-length="custom" aria-pressed="${soloLength === 'custom'}">Custom</button></div>
+          ${soloLength === 'custom' ? `<label class="field" for="solo-round-count">Choose 1–10 facts</label><input id="solo-round-count" class="text-input number-input" type="number" min="1" max="10" step="1" inputmode="numeric" value="${soloCustomRounds}">` : ''}
+          <p class="muted small">You can finish early after any fact is revealed.</p></div>` : ''}
         <h3 class="identity-title">Pick your identity</h3>
         <label class="field" for="player-name">Your name</label>
         <input id="player-name" class="text-input" maxlength="24" autocomplete="nickname" placeholder="Professor Pigeon" value="${escapeHtml(draftName)}">
@@ -195,7 +203,7 @@ function landing() {
           ${characterPreview()}
           <p class="identity-hint">${identityMode === 'custom' ? 'Try an animal or a theme: Jellyfish Queen, Trust (dog), or Sky (pigeon). We match familiar words; other names get a repeatable surprise. You can always try another character.' : 'Choose a preset to fill in its linked name, or select Create your own for a custom match.'}</p>
         </div>
-        ${landingMode === 'solo' ? `<button class="primary full" type="button" data-action="create-solo" ${pending ? 'disabled' : ''}>Start Solo game</button>` : ''}
+        ${landingMode === 'solo' ? `<button class="primary full" type="button" data-action="create-solo" ${pending ? 'disabled' : ''}>Start ${soloLength === 'five' ? '5' : soloLength === 'ten' ? '10' : soloCustomRounds}-fact Solo game</button>` : ''}
         ${landingMode === 'friends' ? `<div class="friends-actions"><button class="primary full" type="button" data-action="create" ${pending ? 'disabled' : ''}>Create a room</button>
           <div class="divider">or join your friends</div>
           <label class="field" for="room-input">Room code</label>
@@ -361,7 +369,7 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
+      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
       ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : '<p class="muted small next-status">Waiting for the host to start the next round…</p>'}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
@@ -599,6 +607,7 @@ app.addEventListener('input', event => {
     if (previewName) previewName.textContent = draftName.trim() || personaForAvatar(selectedAvatar).name;
   }
   if (event.target.id === 'room-input') draftCode = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (event.target.id === 'solo-round-count') soloCustomRounds = Number(event.target.value);
 });
 
 app.addEventListener('change', async event => {
@@ -610,6 +619,9 @@ app.addEventListener('change', async event => {
       notify(`Choose a whole number from 1 to ${state.maxRounds}.`);
       render();
     } else await action('settings', { roundMode: 'custom', roundCount: count });
+  }
+  if (event.target.id === 'solo-round-count' && (!Number.isInteger(soloCustomRounds) || soloCustomRounds < 1 || soloCustomRounds > 10)) {
+    notify('Choose a whole number from 1 to 10.');
   }
 });
 
@@ -631,6 +643,7 @@ app.addEventListener('click', async event => {
     render();
     return;
   }
+  if (kind === 'solo-length') { soloLength = button.dataset.length; render(); return; }
   if (kind === 'home') {
     event.preventDefault();
     if (state.kind === 'solo' || state.phase === 'lobby' || state.phase === 'finished') await leaveRoom();
@@ -675,10 +688,11 @@ app.addEventListener('click', async event => {
   if (kind === 'create' || kind === 'join' || kind === 'create-solo') {
     if (!draftName.trim()) { notify('Add a name first.'); document.querySelector('#player-name')?.focus(); return; }
     if (kind === 'join' && draftCode.trim().length !== 5) { notify('Enter the 5-character room code.'); return; }
+    if (kind === 'create-solo' && soloLength === 'custom' && (!Number.isInteger(soloCustomRounds) || soloCustomRounds < 1 || soloCustomRounds > 10)) { notify('Choose a whole number from 1 to 10.'); return; }
     pending = true; render();
     try {
       const path = kind === 'join' ? `/api/rooms/${draftCode.trim()}/join` : '/api/rooms';
-      await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar, ...(kind === 'create-solo' ? { kind: 'solo' } : {}) }), kind === 'create-solo');
+      await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar, ...(kind === 'create-solo' ? { kind: 'solo', roundMode: soloLength === 'ten' ? 'ten' : 'custom', roundCount: soloLength === 'custom' ? soloCustomRounds : 5 } : {}) }), kind === 'create-solo');
       const me = state.players.find(player => player.id === state.you);
       welcome(`Welcome, ${me.name}!`, me.avatar);
       void playSound(kind === 'create-solo' ? 'question' : 'welcome');
