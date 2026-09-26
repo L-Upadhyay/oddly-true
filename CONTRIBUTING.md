@@ -22,4 +22,4 @@ Run `npm run check`, `npm test`, and `npm run build` before submitting.
 - New facts need a verified true claim, two invented decoys, explanation, source and credited/licensed imagery.
 - Preserve third-party licences. Do not commit dependencies, generated builds or runtime databases.
 
-See [testing](docs/testing.md) and [deployment](docs/deployment.md). Passing CI does not automatically publish.
+See [testing](docs/testing.md) and [deployment](docs/deployment.md). Cloudflare deploys commits on `main`; passing GitHub CI on another branch does not publish.

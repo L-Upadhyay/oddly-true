@@ -2,7 +2,7 @@
 
 A multiplayer trivia party game for **2–8 players**. Each round presents three bizarre claims. Exactly one is true.
 
-**[Play the live game](https://oddly-true.lucky-upay.chatgpt.site)** · [Architecture](docs/architecture.md) · [Testing](docs/testing.md) · [API](docs/api.md)
+**[Play the live game](https://oddly-true.oddlytrue-play.workers.dev)** · [Architecture](docs/architecture.md) · [Testing](docs/testing.md) · [API](docs/api.md)
 
 No account is needed. Create a room, share its five-character code or invite link, and play from separate devices.
 
@@ -115,7 +115,7 @@ The browser displays player-specific snapshots; it never decides correctness or 
 | `npm run build` | Build the hosted Worker/browser assets into `dist/` |
 | `npm run db:generate` | Generate a migration after a schema change |
 
-CI installs from the lockfile, checks syntax, tests and builds. CI does **not** automatically deploy the public site. See [deployment](docs/deployment.md) and [contributing](CONTRIBUTING.md).
+GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflare builds and deploys changes merged into `main`. See [deployment](docs/deployment.md) and [contributing](CONTRIBUTING.md).
 
 ## Data and limitations
 
