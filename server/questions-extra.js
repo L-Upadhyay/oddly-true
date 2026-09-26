@@ -1,4 +1,4 @@
-// Reviewed question batch 1: 20 animal facts, sources, and image credits.
+// Reviewed animal and space question batches.
 export const EXTRA_QUESTIONS = [
   {
     "id": "archerfish-water-shot",
@@ -458,6 +458,471 @@ export const EXTRA_QUESTIONS = [
       "creditUrl": "https://commons.wikimedia.org/wiki/File:Lesser_Flamingo_adult_feeding_crop_milk.jpg",
       "license": "CC BY 4.0",
       "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  {
+    "id": "blue-whale-heart-rate",
+    "topic": "BLUE WHALE PHYSIOLOGY",
+    "choices": [
+      "A blue whale’s heart can slow to just two beats per minute during a dive.",
+      "Blue whales possess two separate hearts—one for body circulation and one dedicated solely to their massive tail.",
+      "Blue whales maintain constant heart rate regardless of activity, using massive blood volume instead for oxygen efficiency."
+    ],
+    "correct": 0,
+    "explanation": "Researchers measured a blue whale’s heart at 4–8 beats per minute during dives, reaching as low as two beats per minute.",
+    "source": {
+      "label": "PNAS",
+      "url": "https://www.pnas.org/doi/10.1073/pnas.1914273116"
+    },
+    "image": {
+      "path": "/assets/questions/blue-whale-heart-rate.jpg",
+      "alt": "A blue whale viewed from above in the sea.",
+      "credit": "NOAA Fisheries (TBjornstad 11:20, 18 April 2007 (UTC)) / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Blue_Whale_001_noaa_body_color.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Blue_Whale_001_noaa_body_color.jpg"
+    }
+  },
+  {
+    "id": "saturn-polar-hexagon",
+    "topic": "SATURN",
+    "choices": [
+      "Saturn has a giant hexagon-shaped jet stream around its north pole.",
+      "Saturn has a square shadow that appears during every equinox.",
+      "Saturn has a triangle-shaped gap that cuts through its rings."
+    ],
+    "correct": 0,
+    "explanation": "Cassini observed a persistent six-sided jet stream around Saturn’s north pole.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/mission/cassini/science/saturn/hexagon-in-motion/"
+    },
+    "image": {
+      "path": "/assets/questions/saturn-polar-hexagon.jpg",
+      "alt": "Cassini's view of the hexagonal jet stream at Saturn's north pole.",
+      "credit": "NASA / JPL-Caltech / Space Science Institute / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Saturn_north_polar_hexagon_2012-11-27.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Saturn_north_polar_hexagon_2012-11-27.jpg"
+    }
+  },
+  {
+    "id": "mars-blue-sunset",
+    "topic": "MARS",
+    "choices": [
+      "Sunsets on Mars turn the whole sky bright green.",
+      "Sunsets on Mars can look blue near the Sun.",
+      "Sunsets on Mars make shadows point in two directions."
+    ],
+    "correct": 1,
+    "explanation": "Fine dust in the Martian atmosphere scatters sunlight differently than Earth's air, letting bluish light show near the setting Sun.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/solar-system/planets/mars/what-does-a-sunrise-sunset-look-like-on-mars/"
+    },
+    "image": {
+      "path": "/assets/questions/mars-blue-sunset.jpg",
+      "alt": "A sunset seen from the surface of Mars.",
+      "credit": "NASA/JPL-Caltech / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Mars_sunset_PIA01547.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Mars_sunset_PIA01547.jpg"
+    }
+  },
+  {
+    "id": "mercury-polar-ice",
+    "topic": "MERCURY",
+    "choices": [
+      "Mercury has floating icebergs in its night-side atmosphere.",
+      "Mercury grows frost rings around its equator every morning.",
+      "Mercury has water ice hidden in shadowed polar craters."
+    ],
+    "correct": 2,
+    "explanation": "Even though Mercury is close to the Sun, some crater floors near its poles stay permanently dark and cold enough to preserve water ice.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/mercury/facts/"
+    },
+    "image": {
+      "path": "/assets/questions/mercury-polar-ice.jpg",
+      "alt": "A radar map of Mercury's north polar region.",
+      "credit": "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Radar-bright_Deposits_near_Mercury%27s_North_Pole_messenger_orbit_image20120322.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Radar-bright_Deposits_near_Mercury%27s_North_Pole_messenger_orbit_image20120322.jpg",
+      "fit": "contain"
+    }
+  },
+  {
+    "id": "uranus-sideways-spin",
+    "topic": "URANUS",
+    "choices": [
+      "Uranus rotates almost on its side compared with its orbit.",
+      "Uranus spins backward once every two Earth hours.",
+      "Uranus points the same pole at the Sun all year long."
+    ],
+    "correct": 0,
+    "explanation": "Uranus has an axial tilt of about 98 degrees, so its rotation axis is tipped over dramatically compared with most planets.",
+    "source": {
+      "label": "NASA Goddard Space Flight Center",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html"
+    },
+    "image": {
+      "path": "/assets/questions/uranus-sideways-spin.jpg",
+      "alt": "Uranus photographed by Voyager 2.",
+      "credit": "NASA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Uranus_-_Voyager_2.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Uranus_-_Voyager_2.jpg"
+    }
+  },
+  {
+    "id": "sun-hot-corona",
+    "topic": "THE SUN",
+    "choices": [
+      "The Sun's core is cooler than Earth's upper atmosphere.",
+      "The Sun's surface is colder than interplanetary space.",
+      "The Sun's outer corona is much hotter than its visible surface."
+    ],
+    "correct": 2,
+    "explanation": "The Sun's corona reaches temperatures far above the visible surface, a real puzzle known as the coronal heating problem.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/sun/facts/"
+    },
+    "image": {
+      "path": "/assets/questions/sun-hot-corona.jpg",
+      "alt": "The solar corona visible during a total eclipse.",
+      "credit": "NASA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Solar_eclipse_2006-03-28,_The_sun%27s_corona,_or_outer_atmosphere,_is_visible_during_totality.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Solar_eclipse_2006-03-28,_The_sun%27s_corona,_or_outer_atmosphere,_is_visible_during_totality.jpg"
+    }
+  },
+  {
+    "id": "enceladus-ice-geysers",
+    "topic": "ENCELADUS",
+    "choices": [
+      "Enceladus has sand dunes made from frozen oxygen.",
+      "Enceladus sprays icy water vapor from cracks near its pole.",
+      "Enceladus glows red because its surface is covered in rust."
+    ],
+    "correct": 1,
+    "explanation": "NASA's Cassini mission observed plumes of water vapor and ice particles jetting from fractures near Enceladus's south pole.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/saturn/moons/enceladus/"
+    },
+    "image": {
+      "path": "/assets/questions/enceladus-ice-geysers.jpg",
+      "alt": "Icy plumes rising from the edge of Enceladus.",
+      "credit": "NASA/JPL/SSI / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Enceladus_geysers_June_2009.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Enceladus_geysers_June_2009.jpg"
+    }
+  },
+  {
+    "id": "europa-hidden-ocean",
+    "topic": "EUROPA",
+    "choices": [
+      "Europa likely has a salty ocean beneath its icy crust.",
+      "Europa has lava seas exposed across half its surface.",
+      "Europa is wrapped in rings made of frozen nitrogen."
+    ],
+    "correct": 0,
+    "explanation": "Evidence from spacecraft and magnetic measurements suggests Europa has a global ocean under its outer shell of ice.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/jupiter/moons/europa/"
+    },
+    "image": {
+      "path": "/assets/questions/europa-hidden-ocean.jpg",
+      "alt": "A spacecraft image of the icy surface of Europa.",
+      "credit": "NASA / Jet Propulsion Lab-Caltech / SETI Institute / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:PIA19048_realistic_color_Europa_mosaic_edited.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:PIA19048_realistic_color_Europa_mosaic_edited.jpg"
+    }
+  },
+  {
+    "id": "io-active-volcanoes",
+    "topic": "IO",
+    "choices": [
+      "Io has forests that erupt sulfur smoke at night.",
+      "Io is covered by liquid-water rivers that never freeze.",
+      "Io has many active volcanoes on its surface."
+    ],
+    "correct": 2,
+    "explanation": "Jupiter's gravity and orbital interactions flex Io's interior, generating heat that powers intense volcanic activity.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/jupiter/moons/io/"
+    },
+    "image": {
+      "path": "/assets/questions/io-active-volcanoes.jpg",
+      "alt": "A plume above a volcano on Jupiter’s moon Io.",
+      "credit": "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Tvashtar_volcano_on_Io_from_New_Horizons.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Tvashtar_volcano_on_Io_from_New_Horizons.jpg"
+    }
+  },
+  {
+    "id": "saturn-low-density",
+    "topic": "SATURN",
+    "choices": [
+      "Saturn is denser on average than solid iron.",
+      "Saturn's average density is lower than water's.",
+      "Saturn's rings make it heavier than Jupiter."
+    ],
+    "correct": 1,
+    "explanation": "Saturn is mostly hydrogen and helium, giving it an average density below that of liquid water.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/saturn/facts/"
+    },
+    "image": {
+      "path": "/assets/questions/saturn-low-density.jpg",
+      "alt": "Saturn and its rings photographed by Cassini.",
+      "credit": "NASA/JPL/Space Science Institute / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Saturn_from_Cassini_Orbiter_(2004-10-06).jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Saturn_from_Cassini_Orbiter_(2004-10-06).jpg"
+    }
+  },
+  {
+    "id": "neutron-star-density",
+    "topic": "NEUTRON STARS",
+    "choices": [
+      "A sugar cube of neutron-star matter would weigh about a billion tons on Earth.",
+      "Neutron stars are hollow shells around empty space.",
+      "Neutron stars are made mostly of frozen methane crystals."
+    ],
+    "correct": 0,
+    "explanation": "Neutron-star matter is so dense that NASA estimates a sugar cube of it would weigh roughly one billion tons on Earth.",
+    "source": {
+      "label": "NASA Imagine the Universe",
+      "url": "https://imagine.gsfc.nasa.gov/science/objects/neutron_stars1.html"
+    },
+    "image": {
+      "path": "/assets/questions/neutron-star-density.jpg",
+      "alt": "An artist illustration of a neutron star.",
+      "credit": "Credit: X-ray: NASA/CXC/Southampton/W. Ho et al.; Illustration: NASA/CXC/M.Weiss / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Artist%27s_Illustration_of_Neutron_Star_(2009-cassio-more-2_-_neutron).jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Artist%27s_Illustration_of_Neutron_Star_(2009-cassio-more-2_-_neutron).jpg"
+    }
+  },
+  {
+    "id": "pulsar-lighthouse-beams",
+    "topic": "PULSARS",
+    "choices": [
+      "Pulsars flash because planets pass in front of them daily.",
+      "Pulsars blink by opening and closing physical vents.",
+      "Pulsars sweep beams of radiation like cosmic lighthouses."
+    ],
+    "correct": 2,
+    "explanation": "A pulsar is a rotating neutron star whose radiation beams sweep across space; if a beam crosses Earth, we detect pulses.",
+    "source": {
+      "label": "NASA Imagine the Universe",
+      "url": "https://imagine.gsfc.nasa.gov/science/objects/pulsars1.html"
+    },
+    "image": {
+      "path": "/assets/questions/pulsar-lighthouse-beams.jpg",
+      "alt": "A diagram showing a pulsar and its radiation beams.",
+      "credit": "NASA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Pulsar_model.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Pulsar_model.jpg",
+      "fit": "contain"
+    }
+  },
+  {
+    "id": "comet-tail-direction",
+    "topic": "COMETS",
+    "choices": [
+      "A comet's tail points generally away from the Sun.",
+      "A comet's tail always points backward along its path.",
+      "A comet's tail is made of burning rock flames."
+    ],
+    "correct": 0,
+    "explanation": "Solar radiation and the solar wind push comet dust and gas away from the Sun, so the tail is controlled by sunlight and solar wind rather than simple motion.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/solar-system/comets/"
+    },
+    "image": {
+      "path": "/assets/questions/comet-tail-direction.jpg",
+      "alt": "A diagram showing comet tails pointing away from the Sun.",
+      "credit": "NASA Space Place / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Comet_tail_diagram.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "fit": "contain"
+    }
+  },
+  {
+    "id": "moonquakes",
+    "topic": "THE MOON",
+    "choices": [
+      "The Moon has daily hurricanes made of helium.",
+      "The Moon experiences quakes beneath its surface.",
+      "The Moon's craters slowly refill with blue ice foam."
+    ],
+    "correct": 1,
+    "explanation": "Seismometers left by Apollo astronauts detected moonquakes, including deep quakes linked to tidal stresses from Earth.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/moon/moonquakes/"
+    },
+    "image": {
+      "path": "/assets/questions/moonquakes.jpg",
+      "alt": "The Apollo 11 lunar module on the Moon.",
+      "credit": "Neil Armstrong / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Lander_-_5927_NASA.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Lander_-_5927_NASA.jpg"
+    }
+  },
+  {
+    "id": "ganymede-magnetic-field",
+    "topic": "GANYMEDE",
+    "choices": [
+      "Ganymede has its own magnetic field.",
+      "Ganymede has a breathable oxygen atmosphere.",
+      "Ganymede is smaller than Earth's Moon."
+    ],
+    "correct": 0,
+    "explanation": "Ganymede, Jupiter's largest moon, is unusual because it generates a magnetic field of its own.",
+    "source": {
+      "label": "NASA",
+      "url": "https://science.nasa.gov/jupiter/moons/ganymede/"
+    },
+    "image": {
+      "path": "/assets/questions/ganymede-magnetic-field.jpg",
+      "alt": "Ganymede photographed by a spacecraft.",
+      "credit": "NASA/JPL/DLR / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Ganymede,_moon_of_Jupiter,_NASA.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Ganymede,_moon_of_Jupiter,_NASA.jpg"
+    }
+  },
+  {
+    "id": "pluto-water-ice-mountains",
+    "topic": "PLUTO",
+    "choices": [
+      "Pluto's mountains are made of soft metallic mercury.",
+      "Pluto has trees that freeze flat during winter.",
+      "Pluto has mountains made of water ice."
+    ],
+    "correct": 2,
+    "explanation": "On Pluto, water ice is hard enough at very low temperatures to form rugged mountains, while softer nitrogen ice can flow more like a glacier.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/"
+    },
+    "image": {
+      "path": "/assets/questions/pluto-water-ice-mountains.jpg",
+      "alt": "A NASA montage identifying mountains on Pluto.",
+      "credit": "NASA's Scientific Visualization Studio - Marit Jentoft-Nilsen, Global Science and Technology, Inc./Mark Malanoski, Global Science and Technology, Inc. / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Close-Ups_of_Pluto_(SVS30619_-_pluto_mountains).png",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Close-Ups_of_Pluto_(SVS30619_-_pluto_mountains).png",
+      "fit": "contain"
+    }
+  },
+  {
+    "id": "rogue-planets",
+    "topic": "EXOPLANETS",
+    "choices": [
+      "Rogue planets are planets that orbit inside stars.",
+      "Some planets can drift through space without orbiting a star.",
+      "Every planet must orbit exactly one star to count as a planet."
+    ],
+    "correct": 1,
+    "explanation": "Rogue planets are planet-sized worlds that travel through interstellar space instead of being bound to a host star.",
+    "source": {
+      "label": "NASA Exoplanet Exploration",
+      "url": "https://exoplanets.nasa.gov/what-is-an-exoplanet/planet-types/rogue-planets/"
+    },
+    "image": {
+      "path": "/assets/questions/rogue-planets.jpg",
+      "alt": "An artist rendering of a planet drifting in space.",
+      "credit": "NASA's Scientific Visualization Studio - Chris Meaney, Scott Wiessinger, Ashley Balzer / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Icy_Earth-mass_Rogue_Planet_(SVS14380).jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Icy_Earth-mass_Rogue_Planet_(SVS14380).jpg"
+    }
+  },
+  {
+    "id": "asteroid-ida-moon",
+    "topic": "ASTEROIDS",
+    "choices": [
+      "The asteroid Ida has a small moon named Dactyl.",
+      "All asteroids are too small to have moons.",
+      "Asteroid moons are always larger than their asteroids."
+    ],
+    "correct": 0,
+    "explanation": "NASA's Galileo spacecraft imaged asteroid Ida and its tiny natural satellite, Dactyl.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/solar-system/asteroids/243-ida/"
+    },
+    "image": {
+      "path": "/assets/questions/asteroid-ida-moon.jpg",
+      "alt": "Asteroid Ida with the small moon Dactyl nearby.",
+      "credit": "NASA/JPL / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Ida_and_Dactyl_by_Galileo_(P-44131).jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Ida_and_Dactyl_by_Galileo_(P-44131).jpg"
+    }
+  },
+  {
+    "id": "black-hole-spaghettification",
+    "topic": "BLACK HOLES",
+    "choices": [
+      "Black holes have solid surfaces that spacecraft can land on.",
+      "Black holes shine because their centers are made of glass.",
+      "Near a black hole, tidal gravity can stretch objects into thin strands."
+    ],
+    "correct": 2,
+    "explanation": "Because gravity can be much stronger on the near side of an object than the far side, an object falling near a black hole can be stretched in a process often called spaghettification.",
+    "source": {
+      "label": "NASA Imagine the Universe",
+      "url": "https://imagine.gsfc.nasa.gov/science/objects/black_holes1.html"
+    },
+    "image": {
+      "path": "/assets/questions/black-hole-spaghettification.jpg",
+      "alt": "An illustration of an astronaut stretched near a black hole.",
+      "credit": "NASA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Spaghettification.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "fit": "contain"
+    }
+  },
+  {
+    "id": "mercury-comet-tail",
+    "topic": "PLANETARY FEATURES",
+    "choices": [
+      "Mercury has a glowing sodium tail that can make it look like a comet.",
+      "Mercury trails a thick cloud of ice crystals that forms a bright white ring behind its orbit.",
+      "Mercury leaves a dark trail of soot in its wake due to solar wind burning its carbon crust."
+    ],
+    "correct": 0,
+    "explanation": "Sunlight releases sodium atoms from Mercury and pushes them away, creating a glowing tail visible in long exposures.",
+    "source": {
+      "label": "NASA Astronomy Picture of the Day",
+      "url": "https://apod.nasa.gov/apod/ap220503.html"
+    },
+    "image": {
+      "path": "/assets/questions/mercury-comet-tail.jpg",
+      "alt": "An image of Mercury and its sodium tail.",
+      "credit": "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Mercury_Sodium_tail_(PIA11076).jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Mercury_Sodium_tail_(PIA11076).jpg"
     }
   }
 ];
