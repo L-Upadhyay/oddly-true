@@ -66,21 +66,32 @@ async function playSound(cue) {
     lock: [[660, 0, .07]],
     correct: [[523, 0, .11], [659, .10, .11], [784, .20, .22]],
     wrong: [[440, 0, .14], [349, .14, .20]],
+    steady: [[440, 0, .11], [523, .12, .18]],
+    softLanding: [[392, 0, .12], [330, .14, .22]],
     celebrate: [[523, 0, .10], [659, .11, .10], [784, .22, .11], [1047, .34, .36]]
   }[cue] ?? [];
   for (const [frequency, offset, duration] of notes) {
     const oscillator = context.createOscillator();
     const envelope = context.createGain();
     const start = context.currentTime + offset;
-    oscillator.type = cue === 'wrong' ? 'sine' : 'triangle';
+    oscillator.type = cue === 'wrong' || cue === 'softLanding' ? 'sine' : 'triangle';
     oscillator.frequency.value = frequency;
     envelope.gain.setValueAtTime(.0001, start);
-    envelope.gain.exponentialRampToValueAtTime(cue === 'wrong' ? .10 : .16, start + .018);
+    envelope.gain.exponentialRampToValueAtTime(cue === 'wrong' || cue === 'softLanding' ? .10 : .16, start + .018);
     envelope.gain.exponentialRampToValueAtTime(.0001, start + duration);
     oscillator.connect(envelope).connect(masterVolume);
     oscillator.start(start);
     oscillator.stop(start + duration + .01);
   }
+}
+
+function soloScoreFeedback(result, playerId) {
+  const score = result.players.find(player => player.id === playerId)?.score ?? 0;
+  // Ten points per played fact is the baseline. A Wild Card can lift the score above 100%.
+  const percent = score / Math.max(1, result.roundsPlayed * 10) * 100;
+  if (percent >= 70) return { cue: 'celebrate', message: 'Brilliant run! You spotted so many truths.' };
+  if (percent <= 20) return { cue: 'softLanding', message: 'Those facts were tricky. Take a breath and try another set!' };
+  return { cue: 'steady', message: 'Nice work! A few more truths are waiting for you.' };
 }
 
 function soundForTransition(previous, next) {
@@ -94,6 +105,7 @@ function soundForTransition(previous, next) {
     if (answerLocked) setTimeout(() => { void playSound(cue); }, 140);
     else void playSound(cue);
   } else if (next.phase === 'finished' && previous.phase !== 'finished') {
+    if (next.kind === 'solo') { void playSound(soloScoreFeedback(next.finalResult, next.you).cue); return; }
     const result = next.finalResult;
     const won = result.playMode === 'teams'
       ? result.teams.some(team => team.rank === 1 && team.members.includes(next.you))
@@ -392,8 +404,8 @@ function finished() {
   const result = state.finalResult;
   if (state.kind === 'solo') {
     const score = result.players.find(player => player.id === state.you)?.score ?? 0;
-    return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} facts</div><h2>Your final score</h2>
-      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${score >= 40 ? 'Brilliant run! You spotted almost every truth.' : score > 0 ? 'Nice work! How many can you get next time?' : 'Those facts were tricky. Give it another try!'}</span></div></div>
+    return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'fact' : 'facts'}</div><h2>Your final score</h2>
+      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${soloScoreFeedback(result, state.you).message}</span></div></div>
       <button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>
       <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button>`;
   }
