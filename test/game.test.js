@@ -45,6 +45,19 @@ test('Solo plays five facts without a guest or vote wait, then replays; friends 
   assert.throws(() => game.start(friends.code, friends.token), /at least 2 players/);
 });
 
+test('Solo can leave mid-game without leaving an active room behind', () => {
+  const game = new GameStore({ scheduleTimers: false });
+  const solo = game.create({ name: 'Solo Fox', kind: 'solo' });
+  game.start(solo.code, solo.token);
+  game.leave(solo.code, solo.token);
+  assert.throws(() => game.room(solo.code), /Room not found/);
+
+  const host = game.create({ name: 'Host' });
+  const guest = game.join(host.code, { name: 'Guest' });
+  game.start(host.code, host.token);
+  assert.throws(() => game.leave(host.code, guest.token), /Leave between games/);
+});
+
 test('two players join, answer, see votes before truth, and score a Wild Card', async () => {
   const game = new GameStore({ roundMs: 1000, voteMs: 10 });
   const host = game.create({ name: 'Professor Pigeon', avatar: '🐧' });

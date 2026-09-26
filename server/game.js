@@ -322,7 +322,7 @@ export class GameStore {
 
   leave(code, token) {
     const { room, player } = this.authenticate(code, token);
-    if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('Leave between games.');
+    if (room.kind !== 'solo' && room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('Leave between games.');
     room.players = room.players.filter(member => member.id !== player.id);
     if (!room.players.length) {
       this.clearTimer(room);
