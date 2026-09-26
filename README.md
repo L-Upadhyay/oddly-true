@@ -67,6 +67,7 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
 - Bundled illustrated avatars, a custom pigeon, brief welcome overlays and credited fact photographs.
+- Original short sound cues for questions, locked answers, reveals and final celebrations, with a persistent Sound on/off button. Audible cues begin only after a player interacts with the page.
 - Light/dark themes, labelled controls, text feedback and reduced-motion support.
 - Same-tab reconnection, replay, and host transfer when leaving between games.
 
@@ -123,7 +124,7 @@ GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflar
 
 ## Data and limitations
 
-Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. See [security/privacy](SECURITY.md).
+Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. The theme and sound choice are stored in this browser. See [security/privacy](SECURITY.md).
 
 This is a playable project, not a load-tested commercial service. Solo selects five facts; multiplayer selects up to ten rounds from 50 questions: the original ten and two reviewed batches of 20. Each new question has a source and a credited representative image. Further drafts are held out of play while their answers, links and images are reviewed in batches. Hosted updates use roughly 900 ms polling. A disconnected multiplayer host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
 
