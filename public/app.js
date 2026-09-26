@@ -28,6 +28,7 @@ let wildCardSelected = false;
 let lastQuestion = null;
 let draftName = '';
 let draftCode = new URLSearchParams(location.search).get('room')?.toUpperCase() ?? '';
+let landingMode = draftCode ? 'friends' : null;
 let connectionStatus = '';
 let toastTimer;
 let lastEffectKey = '';
@@ -88,7 +89,7 @@ function landing() {
         <div class="eyebrow">A real-time party game · 2–8 players</div>
         <h1>Sounds fake.<br><em>Oddly true.</em></h1>
         <p>Three bizarre claims. Only one actually happened. Bring your people, trust your gut, and prepare to be confidently wrong.</p>
-        <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Pick the one true claim from three before the 20-second timer ends.</li><li>Correct: +10 points. Wrong or timeout: 0. Your one Wild Card earns +20 if right or −5 if wrong.</li><li>After the reveal, the host continues. Highest total wins solo; highest team average wins in teams. Ties share the win.</li></ol></section>
+        <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Pick the one true claim from three before the 20-second timer ends.</li><li>Correct: +10 points. Wrong or timeout: 0. Your one Wild Card earns +20 if right or −5 if wrong.</li><li>Play five facts alone, or invite friends. With friends, the host advances; the highest individual or team score wins. Ties share the win.</li></ol></section>
         <div class="rule-line"><span>2–8 players</span><span>20 seconds each</span><span>+10 for a true fact</span><span>One Wild Card</span></div>
       </section>
       <section class="panel setup-panel" aria-label="Join a game">
@@ -102,15 +103,21 @@ function landing() {
           ${characterPreview()}
           <p class="identity-hint">${identityMode === 'custom' ? 'Try an animal or a theme: Jellyfish Queen, Trust (dog), or Sky (pigeon). We match familiar words; other names get a repeatable surprise. You can always try another character.' : 'Choose a preset to fill in its linked name, or select Create your own for a custom match.'}</p>
         </div>
-        <button class="primary full" type="button" data-action="create" ${pending ? 'disabled' : ''}>Create a room</button>
-        <div class="divider">or join your friends</div>
-        <label class="field" for="room-input">Room code</label>
-        <div class="join-row"><input id="room-input" class="text-input" maxlength="5" autocapitalize="characters" autocomplete="off" placeholder="ABCDE" value="${escapeHtml(draftCode)}"><button class="secondary" type="button" data-action="join" ${pending ? 'disabled' : ''}>Join room</button></div>
+        <div class="play-paths" role="group" aria-label="Choose how to play">
+          <button class="${landingMode === 'solo' ? 'primary' : 'secondary'}" type="button" data-action="choose-solo" aria-pressed="${landingMode === 'solo'}">Play Solo <small>Five quick rounds, just you</small></button>
+          <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>2–8 people, on separate devices</small></button>
+        </div>
+        ${landingMode === 'solo' ? `<button class="primary full" type="button" data-action="create-solo" ${pending ? 'disabled' : ''}>Start Solo game</button>` : ''}
+        ${landingMode === 'friends' ? `<div class="friends-actions"><button class="primary full" type="button" data-action="create" ${pending ? 'disabled' : ''}>Create a room</button>
+          <div class="divider">or join your friends</div>
+          <label class="field" for="room-input">Room code</label>
+          <div class="join-row"><input id="room-input" class="text-input" maxlength="5" autocapitalize="characters" autocomplete="off" placeholder="ABCDE" value="${escapeHtml(draftCode)}"><button class="secondary" type="button" data-action="join" ${pending ? 'disabled' : ''}>Join room</button></div></div>` : ''}
       </section>
     </div>`;
 }
 
 function roomHeader() {
+  if (state.kind === 'solo') return '';
   return `<div class="room-header">
     <button class="room-code" type="button" data-action="copy-code" title="Copy room code" aria-label="Copy room code ${escapeHtml(state.code)}"><small>Room</small>${escapeHtml(state.code)} <span aria-hidden="true">⧉</span></button>
     <div class="room-actions"><button class="secondary" type="button" data-action="copy-link">Copy invite link</button></div>
@@ -150,7 +157,7 @@ function roundSettings() {
 
 function teamSettings() {
   return `<fieldset class="settings-group"><legend>Play style</legend><div class="option-row">
-    <label class="mode-option"><input type="radio" name="play-mode" value="solo" ${state.playMode === 'solo' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Solo</span></label>
+    <label class="mode-option"><input type="radio" name="play-mode" value="solo" ${state.playMode === 'solo' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Individuals</span></label>
     <label class="mode-option"><input type="radio" name="play-mode" value="teams" ${state.playMode === 'teams' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Teams · 4–8</span></label>
   </div><p class="muted small">${state.playMode === 'teams' ? 'Everyone answers independently. Team score is the average of its members’ points. Each person has their own Wild Card.' : 'The highest personal score wins.'}</p></fieldset>`;
 }
@@ -177,14 +184,14 @@ function lobby() {
       </ul>
     </div>
     ${teamLobby()}
-    ${isHost ? `${roundSettings()}${teamSettings()}` : `<p class="muted">${state.roundMode === 'host' ? 'Host decides when to finish, up to 10 rounds' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'}`} · ${state.playMode === 'teams' ? 'Teams by average score' : 'Solo scores'}. The host sets the rules.</p>`}
+    ${isHost ? `${roundSettings()}${teamSettings()}` : `<p class="muted">${state.roundMode === 'host' ? 'Host decides when to finish, up to 10 rounds' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'}`} · ${state.playMode === 'teams' ? 'Teams by average score' : 'Individuals by total points'}. The host sets the rules.</p>`}
     <div class="lobby-footer">${isHost ? `<button class="primary" type="button" data-action="start" ${!ready || pending ? 'disabled' : ''}>Start the game</button><p class="muted small">${!ready ? `Waiting for ${requiredPlayers} players.` : state.roundMode === 'host' ? 'Finish after any reveal, at most 10 rounds.' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'} · plan for ${Math.ceil(state.totalRounds / 2)}+ ${state.totalRounds <= 2 ? 'minute' : 'minutes'}; host sets the pace.`}</p>` : `<p class="muted">${ready ? 'Waiting for the host to start…' : 'Waiting for more players…'}</p>`}</div>`;
 }
 
 function choiceList() {
   const question = state.question;
   const locked = Boolean(state.myAnswer);
-  const visible = state.phase === 'votes' || state.phase === 'reveal';
+  const visible = (state.phase === 'votes' || state.phase === 'reveal') && state.kind !== 'solo';
   return `<div class="choices" role="group" aria-label="Three claims">
     ${question.choices.map((choice, index) => {
       const selected = state.myAnswer?.choice === index;
@@ -264,10 +271,10 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      <div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
-      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : '<p class="muted small next-status">Waiting for the host to start the next round…</p>'}</div>`;
+      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note" role="status">${points > 0 ? 'You spotted the truth!' : 'The next fact is your fresh chance.'}</p><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
+      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : '<p class="muted small next-status">Waiting for the host to start the next round…</p>'}</div>`}`;
   }
-  return `<div class="stage-head"><span class="progress-label">ROUND ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
+  return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
     <div class="stage-question"><div class="eyebrow">Which claim is real?</div><h2>Only one of these is oddly true.</h2></div>
     ${choiceList()}${bottom}`;
 }
@@ -285,6 +292,13 @@ function factArt(question) {
 
 function finished() {
   const result = state.finalResult;
+  if (state.kind === 'solo') {
+    const score = result.players.find(player => player.id === state.you)?.score ?? 0;
+    return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} facts</div><h2>Your final score</h2>
+      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${score > 0 ? 'Nicely spotted. How many can you get next time?' : 'The facts were tricky. Give it another try!'}</span></div></div>
+      <button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>
+      <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button>`;
+  }
   const teams = result.playMode === 'teams';
   const best = teams ? result.teams[0].score : result.players[0].score;
   const winners = (teams ? result.teams : result.players).filter(entry => entry.score === best);
@@ -306,10 +320,10 @@ function render() {
   app.classList.toggle('room-shell', Boolean(state));
   if (!state) { app.innerHTML = landing(); return; }
   const stage = state.phase === 'lobby' ? lobby() : state.phase === 'finished' ? finished() : questionStage();
-  const side = state.phase === 'reveal'
+  const side = state.kind === 'solo' ? '' : state.phase === 'reveal'
     ? `<aside class="reveal-side" aria-label="Round standings and reactions">${roundLeaderboard()}<section class="panel reaction-panel"><h3>React to this fact</h3><p class="muted small">Let the room know what you think.</p>${reactionButtons('React to the reveal')}</section>${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}</aside>`
     : sidebar();
-  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.phase === 'reveal' ? 'reveal-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
+  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'reveal' ? 'reveal-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
   updateTimer();
 }
 
@@ -337,6 +351,7 @@ function showReaction(reaction) {
 }
 
 function showOutcomeEffect(next) {
+  if (next.kind === 'solo') return;
   if (next.phase !== 'reveal' && next.phase !== 'finished') return;
   const key = `${next.gameId}:${next.phase}:${next.round}`;
   if (key === lastEffectKey) return;
@@ -432,6 +447,7 @@ function resetHome() {
   lastEffectKey = '';
   connectionStatus = '';
   draftCode = '';
+  landingMode = null;
   reactionTray.replaceChildren();
   sessionStorage.removeItem('oddly-true-seat');
   history.replaceState(null, '', '/oddly-true/');
@@ -454,11 +470,11 @@ async function leaveRoom() {
   }
 }
 
-async function enterRoom(nextSeat) {
+async function enterRoom(nextSeat, startSolo = false) {
   seat = nextSeat;
   sessionStorage.setItem('oddly-true-seat', JSON.stringify(seat));
   history.replaceState(null, '', `/oddly-true/?room=${seat.code}`);
-  receive(await request(`/api/rooms/${seat.code}/state?token=${encodeURIComponent(seat.token)}`));
+  receive(startSolo ? await request(`/api/rooms/${seat.code}/start`, {}, seat.token) : await request(`/api/rooms/${seat.code}/state?token=${encodeURIComponent(seat.token)}`));
   connect();
 }
 
@@ -509,6 +525,11 @@ app.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
   const kind = button.dataset.action;
+  if (kind === 'choose-solo' || kind === 'choose-friends') {
+    landingMode = kind === 'choose-solo' ? 'solo' : 'friends';
+    render();
+    return;
+  }
   if (kind === 'home') {
     event.preventDefault();
     if (state.phase === 'lobby' || state.phase === 'finished') await leaveRoom();
@@ -550,13 +571,13 @@ app.addEventListener('click', async event => {
     app.querySelector('[data-action="reroll-custom"]')?.focus({ preventScroll: true });
     return;
   }
-  if (kind === 'create' || kind === 'join') {
+  if (kind === 'create' || kind === 'join' || kind === 'create-solo') {
     if (!draftName.trim()) { notify('Add a name first.'); document.querySelector('#player-name')?.focus(); return; }
     if (kind === 'join' && draftCode.trim().length !== 5) { notify('Enter the 5-character room code.'); return; }
     pending = true; render();
     try {
-      const path = kind === 'create' ? '/api/rooms' : `/api/rooms/${draftCode.trim()}/join`;
-      await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar }));
+      const path = kind === 'join' ? `/api/rooms/${draftCode.trim()}/join` : '/api/rooms';
+      await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar, ...(kind === 'create-solo' ? { kind: 'solo' } : {}) }), kind === 'create-solo');
     } catch (error) { notify(error.message); }
     finally { pending = false; render(); }
     return;
