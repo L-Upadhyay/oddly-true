@@ -6,7 +6,7 @@ Most character SVGs derive from [Microsoft Fluent Emoji](https://github.com/micr
 
 ## Fact photographs
 
-The following credits and usage links are recorded in `server/questions.js` and displayed during the reveal. Fact sources and image sources are separate: an article supporting a claim does not itself grant rights to an image. Preserve each image's attribution and applicable terms when redistributing or replacing it.
+The following credits and usage links are recorded in `server/questions.js` and `server/questions-extra.js` and displayed during the reveal. Fact sources and image sources are separate: an article supporting a claim does not itself grant rights to an image. The images in `public/assets/questions/` were resized and converted to JPEG for display. Preserve each image's attribution and applicable terms when redistributing or replacing it.
 
 | Bundled file | Creator/source | Recorded licence or usage terms |
 | --- | --- | --- |
@@ -21,9 +21,29 @@ The following credits and usage links are recorded in `server/questions.js` and 
 | `titan.jpg` | [NASA / JPL-Caltech / Space Science Institute](https://science.nasa.gov/saturn/moons/titan/facts/) | [NASA image](https://www.nasa.gov/nasa-brand-center/images-and-media/) |
 | `blood-falls.jpg` | [U.S. Department of State / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Blood_Falls_in_the_McMurdo_Dry_Valleys_in_Antarctica_(30877662646).jpg) | [Public domain](https://commons.wikimedia.org/wiki/File:Blood_Falls_in_the_McMurdo_Dry_Valleys_in_Antarctica_(30877662646).jpg) |
 
+| `questions/archerfish-water-shot.jpg` | [Chrumps / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Toxotes_jaculatrix.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/bombardier-beetle-spray.jpg` | [VPaleontologist / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Manchaca_Brachinus_-_bombardier_beetle_15.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/lyrebird-sound-mimic.jpg` | [John Manger, CSIRO / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CSIRO_ScienceImage_10356_Superb_Lyrebird.jpg) | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| `questions/decorator-crab-camouflage.jpg` | [Dan Hershman / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Decorator_Crab_(Oregonia_gracilis)_with_yellow_sponges_on_its_back.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/sea-cucumber-organ-ejection.jpg` | [François Michonneau / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Actinopyga_echinites1.jpg) | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| `questions/axolotl-regeneration.jpg` | [Stan Shebs / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ambystoma_mexicanum_1.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/bowerbird-decorations.jpg` | [JJ Harrison / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Satin_Bowerbird_at_Bower_6533.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/naked-mole-rat-queen.jpg` | [Bernard DUPONT from FRANCE / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Naked_Mole_Rat_(Heterocephalus_glaber)_(7662741774).jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
+| `questions/platypus-electroreception.jpg` | [Charles J. Sharp / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Duck-billed_platypus_(Ornithorhynchus_anatinus)_Scottsdale.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/clownfish-sex-change.jpg` | [Nick Hobgood / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Amphiprion_ocellaris_(Clown_anemonefish)_by_Nick_Hobgood.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/leafcutter-ant-farming.jpg` | [Alex Wild / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Leafcutter_ant_carrying_leaf.jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `questions/bolas-spider-lure.jpg` | [Christina Butler from Georgia, United States / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mastophora_hutchinsoni_%E2%99%80_(48448404301).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/star-nosed-mole-sniffing.jpg` | [Dan MacNeal / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Condylura_cristata_(Ontario,_Canada)_3.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `questions/dung-beetle-galaxy.jpg` | [Kitsotshipa23 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Dung_Beetle_In_Takapori_Village,_Taung,_North_West,_South_Africa.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/surinam-toad-birth.jpg` | [Dein Freund der Baum / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Surinam_toad_(DFdB).jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/pigs-can-videogame.jpg` | [Gzen92 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cochon_domestique_(Sus_scrofa_domesticus)_(2).jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/anglerfish-parasitism.jpg` | [R. Mintern / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Melanocetus_murrayi_(Murrays_abyssal_anglerfish).jpg) | [Public domain](https://commons.wikimedia.org/wiki/File:Melanocetus_murrayi_(Murrays_abyssal_anglerfish).jpg) |
+| `questions/naked-mole-rat-oxygen.jpg` | [Ltshears - Trisha M Shears / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Naked_Mole_Rat_Eating.jpg) | [Public domain](https://commons.wikimedia.org/wiki/File:Naked_Mole_Rat_Eating.jpg) |
+| `questions/common-swift-flight.jpg` | [Alexis Lours / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Common_Swift_2025_07_18_02.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `questions/flamingo-crop-milk.jpg` | [Vidhari911 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lesser_Flamingo_adult_feeding_crop_milk.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+
 ## Fonts and dependencies
 
 DM Sans and Space Grotesk are loaded through Google Fonts; font files are not bundled. The page falls back to system fonts if the font request is unavailable. Development dependencies are declared in `package.json` and pinned by `package-lock.json`; their own licences continue to apply.
 
 These notices do not grant a new licence over the original application code or override third-party terms.
-
