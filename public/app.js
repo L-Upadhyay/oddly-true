@@ -33,6 +33,72 @@ let connectionStatus = '';
 let toastTimer;
 let lastEffectKey = '';
 let welcomeTimer;
+let soundEnabled = true;
+try { soundEnabled = localStorage.getItem('oddly-true-sound') !== 'off'; } catch { /* use this visit's setting */ }
+let audioContext;
+let masterVolume;
+
+async function audioReady() {
+  if (!soundEnabled) return null;
+  try {
+    const Audio = window.AudioContext || window.webkitAudioContext;
+    if (!Audio) return null;
+    if (!audioContext) {
+      audioContext = new Audio();
+      masterVolume = audioContext.createGain();
+      masterVolume.gain.value = 0.45;
+      masterVolume.connect(audioContext.destination);
+    }
+    if (audioContext.state === 'suspended') await audioContext.resume();
+    return audioContext.state === 'running' ? audioContext : null;
+  } catch { return null; }
+}
+
+async function playSound(cue) {
+  const context = await audioReady();
+  if (!context || !soundEnabled) return;
+  // Original short Web Audio cues; no third-party sample or music loop.
+  const notes = {
+    welcome: [[523, 0, .10], [659, .10, .15]],
+    question: [[392, 0, .09], [523, .09, .12]],
+    lock: [[660, 0, .07]],
+    correct: [[523, 0, .11], [659, .10, .11], [784, .20, .22]],
+    wrong: [[440, 0, .14], [349, .14, .20]],
+    celebrate: [[523, 0, .10], [659, .11, .10], [784, .22, .11], [1047, .34, .36]]
+  }[cue] ?? [];
+  for (const [frequency, offset, duration] of notes) {
+    const oscillator = context.createOscillator();
+    const envelope = context.createGain();
+    const start = context.currentTime + offset;
+    oscillator.type = cue === 'wrong' ? 'sine' : 'triangle';
+    oscillator.frequency.value = frequency;
+    envelope.gain.setValueAtTime(.0001, start);
+    envelope.gain.exponentialRampToValueAtTime(cue === 'wrong' ? .10 : .16, start + .018);
+    envelope.gain.exponentialRampToValueAtTime(.0001, start + duration);
+    oscillator.connect(envelope).connect(masterVolume);
+    oscillator.start(start);
+    oscillator.stop(start + duration + .01);
+  }
+}
+
+function soundForTransition(previous, next) {
+  if (!previous || previous.code !== next.code) return;
+  const answerLocked = !previous.myAnswer && next.myAnswer && previous.round === next.round;
+  if (answerLocked) void playSound('lock');
+  if (next.phase === 'question' && (previous.phase !== 'question' || previous.round !== next.round || previous.gameId !== next.gameId)) {
+    void playSound('question');
+  } else if (next.phase === 'reveal' && (previous.phase !== 'reveal' || previous.round !== next.round)) {
+    const cue = next.myAnswer?.choice === next.question.correct ? 'correct' : 'wrong';
+    if (answerLocked) setTimeout(() => { void playSound(cue); }, 140);
+    else void playSound(cue);
+  } else if (next.phase === 'finished' && previous.phase !== 'finished') {
+    const result = next.finalResult;
+    const won = result.playMode === 'teams'
+      ? result.teams.some(team => team.rank === 1 && team.members.includes(next.you))
+      : result.players.some(player => player.rank === 1 && player.id === next.you);
+    if (won) void playSound('celebrate');
+  }
+}
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -57,7 +123,7 @@ function welcome(message, avatar = selectedAvatar) {
 }
 
 function topbar(note = 'The real fact is the weirdest one.') {
-  return `<header class="topbar"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
+  return `<header class="topbar"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
 }
 
 function avatarArt(avatar, className = 'avatar-art') {
@@ -401,6 +467,7 @@ function showOutcomeEffect(next) {
 
 function receive(next) {
   if (state?.code === next.code && next.revision != null && state.revision != null && next.revision <= state.revision) return;
+  const previous = state;
   if (state && next.lastReaction && next.lastReaction.id !== state.lastReaction?.id) showReaction(next.lastReaction);
   if (next.phase === 'question' && next.question?.id !== lastQuestion) {
     wildCardSelected = false;
@@ -409,6 +476,7 @@ function receive(next) {
   state = next;
   render();
   showOutcomeEffect(next);
+  soundForTransition(previous, next);
 }
 
 async function request(path, body = null, token = null) {
@@ -540,6 +608,15 @@ app.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
   const kind = button.dataset.action;
+  if (kind === 'sound') {
+    soundEnabled = !soundEnabled;
+    try { localStorage.setItem('oddly-true-sound', soundEnabled ? 'on' : 'off'); } catch { /* keep this visit's setting */ }
+    if (masterVolume) masterVolume.gain.value = soundEnabled ? .45 : 0;
+    if (soundEnabled) void playSound('welcome');
+    render();
+    return;
+  }
+  void audioReady();
   if (kind === 'choose-solo' || kind === 'choose-friends') {
     landingMode = kind === 'choose-solo' ? 'solo' : 'friends';
     render();
@@ -595,6 +672,7 @@ app.addEventListener('click', async event => {
       await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar, ...(kind === 'create-solo' ? { kind: 'solo' } : {}) }), kind === 'create-solo');
       const me = state.players.find(player => player.id === state.you);
       welcome(`Welcome, ${me.name}!`, me.avatar);
+      void playSound(kind === 'create-solo' ? 'question' : 'welcome');
     } catch (error) { notify(error.message); }
     finally { pending = false; render(); }
     return;
