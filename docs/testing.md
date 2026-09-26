@@ -19,11 +19,13 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Play Solo, answer and let a timer expire | Starts without a guest; no room votes or opponent leaderboard; five facts, final score and replay |
 | Solo invite attempt | Solo cannot be joined |
 | Landing and invite link | Solo/Friends choices are clear; invite link opens the Friends join path with code filled |
+| Open landing; create or join a room | A brief welcome appears over the character and fades; named welcome appears once on entry, not on every poll or refresh |
 | Two devices on different networks use public URL | Both load without signing in |
 | Create room; guest joins by code | Same roster and rules on both devices |
 | Join by invite link | Room code prefilled |
 | Custom two-round Individuals game | Picks lock; votes/truth reveal; host advances |
 | Correct and incorrect picks | +10 and 0 consistent across devices |
+| Round and final results | Personal messages match correct/wrong/timeout, ties, team outcomes and final winner; losing remains encouraging |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
 | Host decides reveal | Finish game is available to host only |

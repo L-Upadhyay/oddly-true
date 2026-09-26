@@ -64,9 +64,9 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 - Room codes, invite links and token-protected player seats.
 - Five-fact Solo practice; 2–8-player Individuals/Teams; fixed, custom and host-controlled multiplayer lengths.
 - Locked answers, server-enforced deadlines and once-per-game Wild Cards.
-- Round results, cumulative leaderboards, reactions and brief celebrations.
+- Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
-- Bundled illustrated avatars, a custom pigeon, silent greetings and credited fact photographs.
+- Bundled illustrated avatars, a custom pigeon, brief welcome overlays and credited fact photographs.
 - Light/dark themes, labelled controls, text feedback and reduced-motion support.
 - Same-tab reconnection, replay, and host transfer when leaving between games.
 
