@@ -20,7 +20,7 @@ flowchart TD
   G -->|No| H["Final scores"]
 ```
 
-The browser shows each player's view. The server keeps the room state, enforces the timer and scoring rules, and reveals the true claim only after voting. See the [architecture diagram](docs/architecture.md) for the local and hosted paths.
+The browser shows each player's view. The server keeps the room state, enforces the timer and scoring rules, and reveals the true claim only after voting. See the [system architecture and data flow](docs/architecture.md) for the local and hosted paths.
 
 ## Project requirements
 

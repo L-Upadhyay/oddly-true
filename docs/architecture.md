@@ -13,6 +13,28 @@ flowchart TD
   G --> Q[Fact bank and characters]
 ```
 
+## Data flow
+
+The hosted answer path is shown below. The server authenticates the player's seat and owns every game transition; the browser receives only a player-specific snapshot.
+
+```mermaid
+sequenceDiagram
+  participant B as Player browser
+  participant A as Hosted API
+  participant G as GameStore rules
+  participant D as Room database
+  B->>A: Submit answer and seat token
+  A->>D: Load room and revision
+  D-->>A: Current room state
+  A->>G: Settle deadline and apply answer
+  G-->>A: Updated game state
+  A->>D: Save if revision still matches
+  D-->>A: New revision
+  A-->>B: Player-specific snapshot
+```
+
+If another request saves first, the hosted adapter reloads and retries the action against the newer revision. The hosted browser polls for later snapshots; local play uses the same rules with in-memory rooms and server-sent events instead of the shared database.
+
 ## Boundaries
 
 - `public/app.js` handles screens, transient UI choices and room connections. Styling is separate. Vanilla JavaScript suits the current screen count; split screen rendering when added complexity warrants it rather than adding a framework for folder count.
