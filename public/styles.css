@@ -181,7 +181,8 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .reaction-panel { padding: 22px 24px; }
 .reaction-panel h3 { margin-bottom: 3px; }
 .reaction-panel p { margin-bottom: 12px; }
-.reaction-panel .reaction-buttons { margin: 0; }
+.reaction-panel .reaction-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); gap: 6px; margin: 0; }
+.reaction-panel .reaction-buttons button { min-width: 0; padding-inline: 5px; }
 .reaction-buttons { display: flex; gap: 7px; flex-wrap: wrap; margin: 14px 0 20px; }
 .reaction-buttons button { border: 1px solid #4f5876; background: #28304e; border-radius: 11px; padding: 7px 11px; font-size: 1.25rem; }
 .reaction-buttons button:hover { background: #3b476a; }
@@ -236,6 +237,7 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
   .choice-votes { font-size: .72rem; }
   .choice-meta { flex-direction: column; align-items: flex-end; gap: 3px; }
   .score-side { padding: 19px; }
+  .reaction-panel .reaction-buttons { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .lobby-guide { grid-template-columns: 1fr; }
   .lobby-guide li { padding: 13px; }
 }
