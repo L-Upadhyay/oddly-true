@@ -22,6 +22,9 @@
 .persona-avatar { display: grid; place-items: center; width: 34px; height: 34px; }
 .persona-art { display: block; width: 34px; height: 34px; object-fit: contain; }
 .persona-name { min-width: 0; overflow-wrap: anywhere; }
+.more-personas { margin-top: 9px; }
+.more-personas summary { width: fit-content; padding: 5px 2px; cursor: pointer; font-size: .84rem; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.more-personas .persona-grid { margin-top: 8px; }
 .custom-persona-option { width: 100%; display: grid; grid-template-columns: 43px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 61px; margin-top: 9px; padding: 8px 12px; border: 1px dashed; border-radius: 14px; color: inherit; background: transparent; text-align: left; transition: background .15s, border-color .15s, transform .15s; }
 .custom-persona-option:hover, .custom-persona-option[aria-pressed="true"] { transform: translateY(-1px); }
 .custom-persona-art { display: grid; place-items: center; width: 43px; height: 43px; border-radius: 12px; background: #ffffff18; }
