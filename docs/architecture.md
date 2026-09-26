@@ -58,7 +58,7 @@ stateDiagram-v2
 ```
 
 Early finish requires Host decides mode. Joining/settings are allowed between games. Leaving between games transfers host ownership when needed.
-Solo sessions use the same server-owned timer and scoring, but skip the multiplayer vote delay and cannot be joined. Existing rooms without a `kind` field are treated as friends rooms.
+Solo sessions use the same server-owned timer and scoring, support 1–10 facts and finishing after a reveal, but skip the multiplayer vote delay and cannot be joined. Existing rooms without a `kind` field are treated as friends rooms.
 
 ## Durable concurrency
 

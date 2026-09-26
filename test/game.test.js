@@ -21,7 +21,7 @@ test('Solo plays five facts without a guest or vote wait, then replays; friends 
   assert.equal(game.snapshot(room, solo.playerId).kind, 'solo');
   assert.equal(game.snapshot(room, solo.playerId).totalRounds, 5);
   assert.throws(() => game.join(solo.code, { name: 'Guest' }), /Solo game/);
-  assert.throws(() => game.setSettings(solo.code, solo.token, { playMode: 'teams' }), /five rounds/);
+  assert.throws(() => game.setSettings(solo.code, solo.token, { playMode: 'teams' }), /individual scoring/);
   game.start(solo.code, solo.token);
   for (let index = 0; index < 5; index++) {
     const correct = room.rounds[index].correct;
@@ -43,6 +43,31 @@ test('Solo plays five facts without a guest or vote wait, then replays; friends 
   const friends = game.create({ name: 'Host' });
   assert.equal(game.snapshot(game.room(friends.code), friends.playerId).kind, 'friends');
   assert.throws(() => game.start(friends.code, friends.token), /at least 2 players/);
+});
+
+test('Solo custom and full lengths allow an early finish after a reveal, then replay', () => {
+  const game = new GameStore({ scheduleTimers: false });
+  assert.throws(() => game.create({ name: 'Invalid', kind: 'solo', roundMode: 'host' }), /Solo game length/);
+  assert.throws(() => game.create({ name: 'Invalid', kind: 'solo', roundCount: 11 }), /between 1 and 10/);
+  const solo = game.create({ name: 'Solo Fox', kind: 'solo', roundMode: 'custom', roundCount: 3 });
+  const room = game.room(solo.code);
+  assert.equal(game.snapshot(room, solo.playerId).totalRounds, 3);
+  game.start(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).totalRounds, 3);
+  assert.throws(() => game.finish(solo.code, solo.token), /Finish after a reveal/);
+  game.answer(solo.code, solo.token, { choice: room.rounds[0].correct });
+  game.finish(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).finalResult.roundsPlayed, 1);
+  game.setSettings(solo.code, solo.token, { roundMode: 'ten' });
+  game.start(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).totalRounds, 10);
+
+  const host = game.create({ name: 'Host' });
+  const guest = game.join(host.code, { name: 'Guest' });
+  game.start(host.code, host.token);
+  game.answer(host.code, host.token, { choice: game.room(host.code).rounds[0].correct });
+  game.answer(host.code, guest.token, { choice: 0 });
+  assert.throws(() => game.finish(host.code, host.token), /Host decides mode/);
 });
 
 test('Solo can leave mid-game without leaving an active room behind', () => {
