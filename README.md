@@ -71,6 +71,19 @@ Character matching uses curated words, not AI generation. Trust maps to a dog an
 
 ## Architecture and folders
 
+```mermaid
+flowchart TD
+  B["Player browsers"] --> L["Local HTTP and live events"]
+  B --> H["Hosted HTTP and polling"]
+  L --> G["GameStore rules engine"]
+  H --> P["Durable room adapter"]
+  P --> G
+  P --> D[(Shared room database)]
+  G --> Q["Fact bank and characters"]
+```
+
+Local and hosted play use the same game rules. The hosted path saves rooms in a shared database; the local path keeps them in memory.
+
 | Path | Responsibility |
 | --- | --- |
 | `public/` | Browser UI, responsive styles, themes and bundled images |
