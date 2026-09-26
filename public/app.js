@@ -37,11 +37,15 @@ let lastEffectKey = '';
 let welcomeTimer;
 let soundEnabled = true;
 try { soundEnabled = localStorage.getItem('oddly-true-sound') !== 'off'; } catch { /* use this visit's setting */ }
+let musicEnabled = false; // Every visit starts quiet until the player opts in.
 let audioContext;
 let masterVolume;
+let musicVolume;
+let musicTimer;
+let musicSession = 0;
+const musicVoices = new Set();
 
 async function audioReady() {
-  if (!soundEnabled) return null;
   try {
     const Audio = window.AudioContext || window.webkitAudioContext;
     if (!Audio) return null;
@@ -57,9 +61,10 @@ async function audioReady() {
 }
 
 async function playSound(cue) {
+  if (!soundEnabled) return;
   const context = await audioReady();
   if (!context || !soundEnabled) return;
-  // Original short Web Audio cues; no third-party sample or music loop.
+  // Original short Web Audio cues; no third-party samples.
   const notes = {
     welcome: [[523, 0, .10], [659, .10, .15]],
     question: [[392, 0, .09], [523, .09, .12]],
@@ -84,6 +89,51 @@ async function playSound(cue) {
     oscillator.stop(start + duration + .01);
   }
 }
+
+function stopMusic() {
+  musicSession++;
+  clearInterval(musicTimer);
+  musicTimer = null;
+  for (const voice of musicVoices) {
+    try { voice.stop(); } catch { /* the note may have ended already */ }
+  }
+  musicVoices.clear();
+}
+
+async function startMusic() {
+  if (!musicEnabled || state || musicTimer) return;
+  const session = ++musicSession;
+  const context = await audioReady();
+  if (!context || session !== musicSession || !musicEnabled || state) return;
+  if (!musicVolume) {
+    musicVolume = context.createGain();
+    musicVolume.gain.value = .09; // Much quieter than the answer cues.
+    musicVolume.connect(context.destination);
+  }
+  const playPhrase = () => {
+    if (!musicEnabled || state) { stopMusic(); return; }
+    const phrase = [[262, 0, 2.7], [523, .15, .72], [659, 1.25, .72], [392, 2.3, 2.6], [784, 2.5, .72], [659, 3.65, .85]];
+    for (const [frequency, offset, duration] of phrase) {
+      const voice = context.createOscillator();
+      const envelope = context.createGain();
+      const start = context.currentTime + offset + .03;
+      voice.type = 'sine';
+      voice.frequency.value = frequency;
+      envelope.gain.setValueAtTime(.0001, start);
+      envelope.gain.exponentialRampToValueAtTime(.08, start + .08);
+      envelope.gain.exponentialRampToValueAtTime(.0001, start + duration);
+      voice.connect(envelope).connect(musicVolume);
+      musicVoices.add(voice);
+      voice.onended = () => musicVoices.delete(voice);
+      voice.start(start);
+      voice.stop(start + duration + .02);
+    }
+  };
+  playPhrase();
+  musicTimer = setInterval(playPhrase, 8000);
+}
+
+window.addEventListener('pagehide', stopMusic);
 
 function soloScoreFeedback(result, playerId) {
   const score = result.players.find(player => player.id === playerId)?.score ?? 0;
@@ -137,7 +187,7 @@ function welcome(message, avatar = selectedAvatar) {
 }
 
 function topbar(note = 'The real fact is the weirdest one.', isLanding = false) {
-  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
+  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound effects ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
 }
 
 function avatarArt(avatar, className = 'avatar-art') {
@@ -189,6 +239,7 @@ function landing() {
         <div class="eyebrow">Play Solo or with 2–8 friends</div>
         <h1>Sounds fake.<br><em>Oddly true.</em></h1>
         <p>Three bizarre claims. Only one actually happened. Trust your gut, bring your people if you like, and prepare to be confidently wrong.</p>
+        <div class="music-control"><button type="button" class="secondary music-button" data-action="music" aria-pressed="${musicEnabled}" aria-label="Turn background music ${musicEnabled ? 'off' : 'on'}">${musicEnabled ? '♪ Music on' : '♪ Music off'}</button><span>Soft background loop, separate from game sound effects. Starts only when you choose.</span></div>
         <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Pick the one true claim from three before the 20-second timer ends.</li><li>Correct: +10 points. Wrong or timeout: 0. Your one Wild Card earns +20 if right or −5 if wrong.</li><li>Choose 5, 10, or a custom Solo length, or invite friends. With friends, the host advances; the highest individual or team score wins. Ties share the win.</li></ol></section>
         <div class="rule-line"><span>Alone or together</span><span>20 seconds each</span><span>+10 for a true fact</span><span>One Wild Card</span></div>
       </section>
@@ -428,7 +479,8 @@ function finished() {
 
 function render() {
   app.classList.toggle('room-shell', Boolean(state));
-  if (!state) { app.innerHTML = landing(); return; }
+  if (!state) { app.innerHTML = landing(); if (musicEnabled) void startMusic(); return; }
+  stopMusic();
   const stage = state.phase === 'lobby' ? lobby() : state.phase === 'finished' ? finished() : questionStage();
   const side = state.kind === 'solo' ? '' : state.phase === 'reveal'
     ? `<aside class="reveal-side" aria-label="Round standings and reactions">${roundLeaderboard()}<section class="panel reaction-panel"><h3>React to this fact</h3><p class="muted small">Let the room know what you think.</p>${reactionButtons('React to the reveal')}</section>${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}</aside>`
@@ -646,6 +698,12 @@ app.addEventListener('click', async event => {
     try { localStorage.setItem('oddly-true-sound', soundEnabled ? 'on' : 'off'); } catch { /* keep this visit's setting */ }
     if (masterVolume) masterVolume.gain.value = soundEnabled ? .45 : 0;
     if (soundEnabled) void playSound('welcome');
+    render();
+    return;
+  }
+  if (kind === 'music') {
+    musicEnabled = !musicEnabled;
+    if (!musicEnabled) stopMusic();
     render();
     return;
   }
