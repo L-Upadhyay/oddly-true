@@ -88,6 +88,13 @@
 .vote-bar { position: absolute; left: 0; bottom: 0; height: 100%; opacity: .16; background: currentColor; transition: width .5s ease-out; pointer-events: none; }
 .reveal-box { display: grid; grid-template-columns: minmax(280px, .42fr) minmax(0, 1fr); gap: 24px; align-items: center; animation: fact-appear .35s ease-out; }
 .fact-image { margin: 0; min-width: 0; }
+.fact-art { min-width: 0; height: clamp(210px, 18vw, 320px); border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; overflow: hidden; text-align: center; padding: 18px; background: radial-gradient(circle at 75% 25%, #d7baff 0, transparent 40%), linear-gradient(135deg, #7657b4, #253f6a); color: white; }
+.fact-art-animal { background: radial-gradient(circle at 78% 22%, #f5dca3 0, transparent 38%), linear-gradient(135deg, #3f936e, #286264); }
+.fact-art-history { background: radial-gradient(circle at 80% 25%, #f2d09e 0, transparent 38%), linear-gradient(135deg, #a96848, #694869); }
+.fact-art-food { background: radial-gradient(circle at 80% 25%, #ffd5c3 0, transparent 38%), linear-gradient(135deg, #c26475, #864f7d); }
+.fact-art-earth { background: radial-gradient(circle at 78% 23%, #d7ef9c 0, transparent 38%), linear-gradient(135deg, #499878, #386f9b); }
+.fact-art-symbol { font-size: clamp(4.5rem, 7vw, 7rem); line-height: 1; text-shadow: 0 7px 20px #12243855; }
+.fact-art-topic { font-weight: 800; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; line-height: 1.35; }
 .fact-image img { width: 100%; height: clamp(210px, 18vw, 320px); object-fit: cover; display: block; border-radius: 12px; background: #dce4df; }
 .fact-image figcaption { margin-top: 8px; font-size: .72rem; line-height: 1.4; }
 .fact-copy { min-width: 0; }
@@ -233,6 +240,7 @@
 @media (min-width: 571px) and (max-width: 1200px) {
   .reveal-box { grid-template-columns: 1fr; }
   .fact-image img { height: 270px; }
+  .fact-art { height: 270px; }
 }
 @media (max-width: 700px) {
   .lobby-guide { grid-template-columns: 1fr; }
@@ -244,6 +252,7 @@
   .landing-copy h1 { font-size: clamp(2.85rem, 11vw, 4rem); }
   .reveal-box { grid-template-columns: 1fr; }
   .fact-image img { height: 190px; }
+  .fact-art { height: 190px; }
   .persona-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
   .persona-option { min-height: 55px; padding: 7px 8px; font-size: .8rem; }
   .landing-copy::after { font-size: 20rem; right: -4px; bottom: -75px; }

@@ -51,7 +51,7 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 2. **Set the game:** choose 10 rounds, a custom number from 1–10, or Host decides, up to 10 rounds. One question is one round.
 3. **Answer:** choose one claim within 20 seconds. A pick locks immediately. If everyone answers early, the round proceeds early.
 4. **Score:** correct earns **+10**; incorrect or timeout earns **0**. Each player has one optional Wild Card per game: **+20** if correct, **−5** if wrong.
-5. **Reveal:** votes appear first, then the truth, fact explanation, credited image, round winner and cumulative leaderboard. The host advances.
+5. **Reveal:** votes appear first, then the truth, fact explanation, a credited photo or themed illustration, round winner and cumulative leaderboard. The host advances.
 6. **Finish:** after the final reveal, the host selects See final scores. In Host decides mode, the host may finish after any reveal. The highest cumulative score wins; tied players share the win.
 
 **Teams:** available for 4–8 players. Two teams are balanced automatically, with host-controlled swaps in the lobby. Everyone answers independently. Team scores average members' personal scores. The best positive average earned in a round wins that round; the highest cumulative average wins the game. Ties share the win. When nobody earns a positive round score, there is no round winner.
@@ -89,7 +89,7 @@ Local and hosted play use the same game rules. The hosted path saves rooms in a 
 | `public/` | Browser UI, responsive styles, themes and bundled images |
 | `shared/personas.js` | Character catalogue and deterministic name matching |
 | `server/game.js` | Authoritative rules, scores and game phases |
-| `server/questions.js` | Facts, decoys, sources and image credits |
+| `server/questions.js`, `server/questions-extra.js` | Fact bank, decoys, sources and available image credits |
 | `server/index.js` | Local Node HTTP server and server-sent events |
 | `server/worker.js` | Hosted HTTP entry point and input boundary |
 | `server/hosted.js` | Durable room storage, concurrency and deadline recovery |
@@ -121,7 +121,7 @@ GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflar
 
 Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. See [security/privacy](SECURITY.md).
 
-This is a playable project, not a load-tested commercial service. There are ten facts. Hosted updates use roughly 900 ms polling. A disconnected host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
+This is a playable project, not a load-tested commercial service. Games select up to ten rounds from a larger question bank. The expanded drafts received a structural and duplicate check, not an exhaustive fact audit. Hosted updates use roughly 900 ms polling. A disconnected host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
 
 ## Credits and reuse
 

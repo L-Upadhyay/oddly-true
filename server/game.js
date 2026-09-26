@@ -5,7 +5,7 @@ import { AVATARS } from '../shared/personas.js';
 export const ROUND_SECONDS = 20;
 export const VOTE_REVEAL_MS = 4200;
 export const MAX_PLAYERS = 8;
-export const MAX_ROUNDS = QUESTIONS.length;
+export const MAX_ROUNDS = 10;
 export const TEAMS = [
   { id: 'A', name: 'Truth Troop' },
   { id: 'B', name: 'Odd Squad' }

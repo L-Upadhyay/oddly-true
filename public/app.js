@@ -261,7 +261,7 @@ function questionStage() {
   } else {
     const points = me ? (me.choice === state.question.correct ? (me.wildCard ? 20 : 10) : (me.wildCard ? -5 : 0)) : 0;
     const label = !me ? 'Time ran out · 0 points' : points > 0 ? `You got it · +${points} points` : points < 0 ? 'Wild Card missed · −5 points' : 'The fact fooled you · 0 points';
-    const picture = state.question.image ? `<figure class="fact-image"><img src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : '';
+    const picture = state.question.image ? `<figure class="fact-image"><img src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
       <div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
@@ -270,6 +270,17 @@ function questionStage() {
   return `<div class="stage-head"><span class="progress-label">ROUND ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
     <div class="stage-question"><div class="eyebrow">Which claim is real?</div><h2>Only one of these is oddly true.</h2></div>
     ${choiceList()}${bottom}`;
+}
+
+function factArt(question) {
+  const subject = `${question.topic} ${question.id}`.toLowerCase();
+  const theme = /saturn|mars|moon|star|planet|space|solar|galax|comet|cosmic|asteroid|neptune|uranus|mercury|jupiter|pluto|black.hole|pulsar|astron|venus|titan|io-/.test(subject) ? 'space'
+    : /animal|bird|fish|frog|whale|octopus|mole|shrimp|spider|crab|beetle|penguin|toad|dolphin|ant-|bat-|lizard|platypus|seahorse|jellyfish/.test(subject) ? 'animal'
+    : /history|ancient|invent|roman|viking|machine|archae|artifact|civilization|patent/.test(subject) ? 'history'
+    : /food|taste|coffee|chocolate|honey|ketchup|fruit|body|brain|human|medicine|sugar|cheese|bread/.test(subject) ? 'food'
+    : 'earth';
+  const symbol = { space: '✦', animal: '🐾', history: '⌛', food: '✿', earth: '🌿' }[theme];
+  return `<div class="fact-art fact-art-${theme}" role="img" aria-label="Illustration for ${escapeHtml(question.topic)}"><span class="fact-art-symbol" aria-hidden="true">${symbol}</span><span class="fact-art-topic" aria-hidden="true">${escapeHtml(question.topic)}</span></div>`;
 }
 
 function finished() {

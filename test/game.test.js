@@ -38,7 +38,7 @@ test('two players join, answer, see votes before truth, and score a Wild Card', 
   const reveal = game.snapshot(room, host.playerId);
   assert.equal(reveal.phase, 'reveal');
   assert.equal(reveal.question.correct, answer);
-  assert.equal(reveal.question.image.path, room.rounds[0].image.path);
+  assert.deepEqual(reveal.question.image ?? null, room.rounds[0].image ?? null);
   assert.deepEqual(reveal.roundResult.winners.map(player => player.id), [host.playerId]);
   assert.equal(reveal.roundResult.points, 20);
   assert.equal(room.players[0].score, 20);
@@ -131,12 +131,17 @@ test('host can choose the length, round winners can tie, and nobody can win a mi
   game.clearTimer(room);
 });
 
-test('every fact has a bundled reveal image with an attribution and a source', () => {
-  assert.equal(QUESTIONS.length, 10);
+test('the question bank has sourced facts and optional credited images', () => {
+  assert.ok(QUESTIONS.length > MAX_ROUNDS);
+  assert.equal(new Set(QUESTIONS.map(question => question.id)).size, QUESTIONS.length);
   for (const question of QUESTIONS) {
     assert.ok(question.source.url.startsWith('https://'), `${question.id}: source`);
-    assert.ok(question.image.credit && question.image.creditUrl && question.image.license, `${question.id}: image credit`);
-    assert.ok(existsSync(new URL(`../public${question.image.path}`, import.meta.url)), `${question.id}: image file`);
+    assert.equal(question.choices.length, 3, `${question.id}: choices`);
+    assert.ok([0, 1, 2].includes(question.correct), `${question.id}: answer`);
+    if (question.image) {
+      assert.ok(question.image.credit && question.image.creditUrl && question.image.license, `${question.id}: image credit`);
+      assert.ok(existsSync(new URL(`../public${question.image.path}`, import.meta.url)), `${question.id}: image file`);
+    }
   }
 });
 

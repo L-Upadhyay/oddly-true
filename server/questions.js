@@ -1,3 +1,5 @@
+import { EXTRA_QUESTIONS } from './questions-extra.js';
+
 // Each true claim is accompanied by the source shown after its reveal.
 // The other two claims are deliberately invented for this game.
 export const QUESTIONS = [
@@ -80,5 +82,6 @@ export const QUESTIONS = [
     explanation: 'Iron-rich brine seeps from beneath Taylor Glacier and colors the outflow red.',
     source: { label: 'U.S. National Science Foundation', url: 'https://par.nsf.gov/servlets/purl/10328233' },
     image: { path: '/assets/blood-falls.jpg', alt: 'Red-stained Blood Falls flowing out of ice in Antarctica.', credit: 'U.S. Department of State / Wikimedia Commons', creditUrl: 'https://commons.wikimedia.org/wiki/File:Blood_Falls_in_the_McMurdo_Dry_Valleys_in_Antarctica_(30877662646).jpg', license: 'Public domain', licenseUrl: 'https://commons.wikimedia.org/wiki/File:Blood_Falls_in_the_McMurdo_Dry_Valleys_in_Antarctica_(30877662646).jpg' }
-  }
+  },
+  ...EXTRA_QUESTIONS
 ];
