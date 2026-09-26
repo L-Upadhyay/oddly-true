@@ -1,66 +1,6 @@
 // Drafts awaiting fact, source, and image review. Not imported into the live game.
 export const PENDING_QUESTIONS = [
   {
-    "id": "hyperion-static-shock",
-    "topic": "MOON ANATOMY",
-    "choices": [
-      "Saturn's moon Hyperion acts as a giant magnet, pulling space debris into its orbit like a cosmic broom.",
-      "Saturn's moon Hyperion is so icy that its surface is completely frictionless, making landings impossible.",
-      "Cassini detected a beam of electrons coming from Saturn’s moon Hyperion."
-    ],
-    "correct": 2,
-    "explanation": "Cassini detected an electron beam from Hyperion, evidence that the moon was charged with static electricity.",
-    "source": {
-      "label": "NASA Jet Propulsion Laboratory (JPL)",
-      "url": "https://www.jpl.nasa.gov/news/cassini-caught-in-hyperions-particle-beam"
-    }
-  },
-  {
-    "id": "cosmic-water-reservoir",
-    "topic": "DEEP SPACE DISCOVERIES",
-    "choices": [
-      "A distant cloud of water vapor holds about 140 trillion times the water in Earth’s oceans.",
-      "A giant ocean of liquid water has been found floating freely between two galaxies in the Andromeda constellation.",
-      "A frozen ice cloud twice the size of our Solar System is orbiting a supermassive black hole."
-    ],
-    "correct": 0,
-    "explanation": "Astronomers observed an immense water vapor reservoir around a distant quasar, with about 140 trillion times the water in Earth’s oceans.",
-    "source": {
-      "label": "NASA Jet Propulsion Laboratory (JPL)",
-      "url": "https://www.jpl.nasa.gov/news/astronomers-find-largest-most-distant-reservoir-of-water"
-    }
-  },
-  {
-    "id": "triton-backward-orbit",
-    "topic": "RETROGRADE MOONS",
-    "choices": [
-      "Triton is Neptune's only moon that possesses active freshwater geysers.",
-      "Triton is the only large moon in our Solar System that orbits in the opposite direction of its planet's rotation.",
-      "Triton's orbit is so unstable that it swaps places with another Neptunian moon every few hundred years."
-    ],
-    "correct": 1,
-    "explanation": "Neptune's moon Triton has a retrograde orbit, meaning it moves in the opposite direction of Neptune's rotation. This unique path suggests Triton did not form around Neptune, but was instead a Kuiper Belt object gravitationally captured by the planet.",
-    "source": {
-      "label": "NASA Science",
-      "url": "https://science.nasa.gov/neptune/moons/triton/"
-    }
-  },
-  {
-    "id": "sun-system-mass",
-    "topic": "SOLAR MASS",
-    "choices": [
-      "The Sun shares its gravitational mass equally with Jupiter, with each controlling 45% of the system.",
-      "The Sun makes up exactly 75% of the Solar System's mass, with gas giants holding the remainder.",
-      "The Sun is so massive that it accounts for 99.8% of all the mass in our entire Solar System."
-    ],
-    "correct": 2,
-    "explanation": "The Sun dwarfs all other objects in our neighborhood combined. It is so extraordinarily massive that all eight planets, their moons, the asteroid belt, and comets make up just a tiny 0.2 percent fraction of the Solar System's total mass.",
-    "source": {
-      "label": "NASA Science",
-      "url": "https://science.nasa.gov/sun/facts/"
-    }
-  },
-  {
     "id": "moon-drift-apart",
     "topic": "LUNAR ORBIT",
     "choices": [
@@ -73,36 +13,6 @@ export const PENDING_QUESTIONS = [
     "source": {
       "label": "NASA Science",
       "url": "https://science.nasa.gov/moon/facts/"
-    }
-  },
-  {
-    "id": "sagittarius-a-star-orbits",
-    "topic": "GALACTIC CENTER STARS",
-    "choices": [
-      "Stars orbiting Sagittarius A* have been tracked completing full elliptical orbits, directly proving a supermassive black hole.",
-      "Stars near the galactic center move in perfect circles because the black hole's gravity dominates all orbital perturbations.",
-      "No complete stellar orbits have been observed at the galactic center due to the 26,000 light-year distance."
-    ],
-    "correct": 0,
-    "explanation": "Using decades of infrared observations, astronomers have tracked complete elliptical orbits of stars like S2 around Sagittarius A*. These orbits follow Kepler's laws and provide direct dynamical evidence for a 4-million-solar-mass black hole.",
-    "source": {
-      "label": "European Southern Observatory",
-      "url": "https://www.eso.org/public/news/eso2006/"
-    }
-  },
-  {
-    "id": "death-valley-sailing-stones",
-    "topic": "DESERTS",
-    "choices": [
-      "Heavy rocks in Death Valley can slide across a dry lakebed on their own.",
-      "Death Valley sand dunes hum only during solar eclipses.",
-      "Death Valley stones grow a new mineral shell every summer."
-    ],
-    "correct": 0,
-    "explanation": "At Racetrack Playa, thin ice can form around rocks; when it breaks up and wind pushes it, the rocks can slowly move and leave tracks in the mud.",
-    "source": {
-      "label": "National Park Service",
-      "url": "https://www.nps.gov/deva/planyourvisit/the-racetrack.htm"
     }
   },
   {
