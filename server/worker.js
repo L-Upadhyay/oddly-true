@@ -40,7 +40,7 @@ export default {
         ctx.waitUntil(game.prune());
         return json(seat, 201);
       }
-      const match = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{5})\/(join|settings|swap|start|answer|advance|finish|leave|react|state)$/i);
+      const match = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{5})\/(join|settings|swap|start|answer|advance|finish|extend-solo|leave|react|state)$/i);
       if (!match) return json({ error: 'Page not found.' }, 404);
       const [, code, action] = match;
       if (request.method !== (action === 'state' ? 'GET' : 'POST')) return json({ error: 'Method not allowed.' }, 405);
