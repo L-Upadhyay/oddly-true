@@ -50,6 +50,12 @@ test('hosted rooms preserve simultaneous joins and answers across server instanc
     assert.equal(state.phase, 'finished');
     assert.equal(state.finalResult.roundsPlayed, 1);
     assert.ok(state.finalResult.players.every(player => player.score === 10));
+    await assert.rejects(act(guests[0], 'extend'), /Only the host/);
+    state = await act(host, 'extend');
+    assert.equal(state.phase, 'question');
+    assert.equal(state.totalRounds, 6);
+    assert.ok(state.players.every(player => player.score === 10));
+    assert.notEqual(state.question.id, room.rounds[0].id);
   } finally { db.sql.close(); }
 });
 
@@ -85,8 +91,8 @@ test('hosted Solo extension persists its score and next question', { skip: !sqli
     await act('answer', { choice: room.rounds[0].correct });
     const score = await act('advance');
     assert.equal(score.phase, 'finished');
-    assert.ok(score.soloFactsAvailable >= 5);
-    const continued = await act('extend-solo');
+    assert.ok(score.factsAvailable >= 5);
+    const continued = await act('extend');
     assert.equal(continued.phase, 'question');
     assert.equal(continued.round, 2);
     assert.equal(continued.totalRounds, 6);
