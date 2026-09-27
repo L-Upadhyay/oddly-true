@@ -24,6 +24,13 @@
 .solo-length-choice[aria-pressed="true"] { color: #173123; background: #b9f57b; border-color: #b9f57b; }
 .solo-length .number-input { margin: 2px 0 8px; }
 .solo-length p { margin: 9px 0 0; }
+.solo-auto-choice { display: flex; flex-direction: column; gap: 3px; width: 100%; margin-top: 13px; padding: 10px 12px; border: 1px solid #668374; border-radius: 11px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.solo-auto-choice[aria-pressed="true"] { background: #b9f57b; border-color: #b9f57b; color: #173123; }
+.solo-auto-choice span { font-size: .79rem; line-height: 1.35; }
+.solo-auto-status { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: .88rem; font-weight: 700; }
+.solo-result-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.solo-result-actions-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.solo-result-actions button { min-width: 0; }
 .preset-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 17px 0 7px; }
 .preset-heading .field { margin: 0; }
 .persona-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -270,6 +277,7 @@
   .lobby-guide { grid-template-columns: 1fr; }
 }
 @media (max-width: 570px) {
+  .solo-result-actions, .solo-result-actions-two { grid-template-columns: 1fr; }
   .landing-topbar { flex-wrap: wrap; }
   .landing-topbar .topbar-right { width: 100%; justify-content: flex-end; }
   .landing-topbar .brand { font-size: 1.8rem; }
