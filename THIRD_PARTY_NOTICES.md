@@ -63,6 +63,17 @@ The following credits and usage links are recorded in `server/questions.js` and 
 | `questions/black-hole-spaghettification.jpg` | [NASA / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Spaghettification.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `questions/mercury-comet-tail.jpg` | [NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mercury_Sodium_tail_(PIA11076).jpg) | [Public domain](https://commons.wikimedia.org/wiki/File:Mercury_Sodium_tail_(PIA11076).jpg) |
 
+| `questions/microwave-radar-candy.jpg` | [TaurusEmerald / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Amana_Radarange_Microwave_Oven.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/treadmill-prison-punishment.jpg` | [British Library / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Treadmill_at_Brixton_Prison_in_London.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/terracotta-army-burial.jpg` | [Maros / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Terracotta_Army_Pit_1_1.jpg) | [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/) |
+| `questions/nazca-lines-geoglyphs.jpg` | [Diego Delso / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:L%C3%ADneas_de_Nazca,_Nazca,_Per%C3%BA,_2015-07-29,_DD_52.JPG) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/roman-hypocaust-heat.jpg` | [Chris 73 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hypocaust_floor_heating_ostia_antica_rome_01.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/archimedes-screw-water.jpg` | [Eunostos / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Archimedes%27_screw,_replica_in_the_Museum_of_ancient_Greek_technology.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/aeolipile-steam.jpg` | [Gts-tg / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hero%27s_Aeolipile,_1st_century_AD,_Alexandria_(reconstruction).jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/braille-night-writing.jpg` | [Lrcg2012 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Braille_closeup.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/lycurgus-cup-color.jpg` | [Chappsnet / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Top_view_of_the_famed_Lycurgus_Cup_in_the_British_Museum,_showing_the_glass_both_green_and_ruby_red.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `questions/bayeux-tapestry-embroidery.jpg` | [Unknown medieval embroiderers / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Tapestry_by_unknown_weaver_-_The_Bayeux_Tapestry_(detail)_-_WGA24167.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+
 ## Fonts and dependencies
 
 DM Sans and Space Grotesk are loaded through Google Fonts; font files are not bundled. The page falls back to system fonts if the font request is unavailable. Development dependencies are declared in `package.json` and pinned by `package-lock.json`; their own licences continue to apply.
