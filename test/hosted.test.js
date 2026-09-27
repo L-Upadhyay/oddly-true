@@ -50,6 +50,12 @@ test('hosted rooms preserve simultaneous joins and answers across server instanc
     assert.equal(state.phase, 'finished');
     assert.equal(state.finalResult.roundsPlayed, 1);
     assert.ok(state.finalResult.players.every(player => player.score === 10));
+    await assert.rejects(act(guests[0], 'extend'), /Only the host/);
+    state = await act(host, 'extend');
+    assert.equal(state.phase, 'question');
+    assert.equal(state.totalRounds, 6);
+    assert.ok(state.players.every(player => player.score === 10));
+    assert.notEqual(state.question.id, room.rounds[0].id);
   } finally { db.sql.close(); }
 });
 
@@ -70,5 +76,28 @@ test('hosted API authenticates seats, rejects foreign writes, and expires rooms'
     await Promise.all(jobs);
     await new HostedGame(db).prune();
     assert.equal(db.sql.prepare('SELECT count(*) AS count FROM rooms').get().count, 0);
+  } finally { db.sql.close(); }
+});
+
+test('hosted Solo extension persists its score and next question', { skip: !sqlite }, async () => {
+  const db = database();
+  try {
+    const hosted = new HostedGame(db);
+    const seat = await hosted.create({ name: 'Solo Fox', kind: 'solo', roundCount: 1 });
+    const act = (action, body) => new HostedGame(db).execute(seat.code, seat.token, action, body);
+    await act('start');
+    const room = decodeRoom(db.sql.prepare('SELECT state FROM rooms WHERE code = ?').get(seat.code).state);
+    const firstId = room.rounds[0].id;
+    await act('answer', { choice: room.rounds[0].correct });
+    const score = await act('advance');
+    assert.equal(score.phase, 'finished');
+    assert.ok(score.factsAvailable >= 5);
+    const continued = await act('extend');
+    assert.equal(continued.phase, 'question');
+    assert.equal(continued.round, 2);
+    assert.equal(continued.totalRounds, 6);
+    assert.equal(continued.players[0].score, 10);
+    assert.notEqual(continued.question.id, firstId);
+    assert.equal((await act('state')).question.id, continued.question.id);
   } finally { db.sql.close(); }
 });

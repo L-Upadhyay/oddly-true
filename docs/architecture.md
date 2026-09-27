@@ -54,11 +54,11 @@ stateDiagram-v2
   Votes --> Reveal: Reveal delay ends
   Reveal --> Question: Host advances
   Reveal --> Finished: Last round or host finishes
-  Finished --> Question: Host replays
+  Finished --> Question: Host replays or continues
 ```
 
-Early finish requires Host decides mode. Joining/settings are allowed between games. Leaving between games transfers host ownership when needed.
-Solo sessions use the same server-owned timer and scoring, support 1–10 facts and finishing after a reveal, but skip the multiplayer vote delay and cannot be joined. Existing rooms without a `kind` field are treated as friends rooms.
+The host can finish Friends games after a reveal in any mode. From the score screen, the host can continue with five unseen facts while preserving scores. Joining/settings are allowed between games. Leaving between games transfers host ownership when needed.
+Solo sessions use the same server-owned timer and scoring, support 1–10 initial facts, early finish and five-fact extensions, but skip the multiplayer vote delay and cannot be joined. Existing rooms without a `kind` field are treated as friends rooms.
 
 ## Durable concurrency
 
