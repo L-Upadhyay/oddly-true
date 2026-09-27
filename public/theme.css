@@ -4,9 +4,9 @@
 .theme-toggle:hover { transform: translateY(-1px); }
 .landing-topbar .brand { font-size: clamp(2.7rem, 4.2vw, 3.7rem); }
 .landing-topbar .brand-mark { width: 76px; height: 76px; border-radius: 19px; font-size: 2.8rem; }
-.landing { padding-top: clamp(8px, 2vh, 24px); }
+.landing { gap: clamp(18px, 2.5vw, 42px); margin-inline: clamp(8px, 1.5vw, 24px); padding-top: clamp(8px, 2vh, 24px); }
 .landing-copy { position: relative; overflow: hidden; min-height: 550px; padding: clamp(27px, 4vw, 48px); border-radius: 29px; display: flex; align-items: flex-start; flex-direction: column; }
-.landing-copy::after { content: '?'; position: absolute; right: 35px; bottom: 30px; font: 700 clamp(13rem, 22vw, 20rem)/1 'Space Grotesk', sans-serif; transform: rotate(-10deg); pointer-events: none; opacity: .075; }
+.landing-copy::after { content: '?'; position: absolute; right: 26px; bottom: 18px; font: 700 clamp(14rem, 24vw, 22rem)/1 'Space Grotesk', sans-serif; transform: rotate(-10deg); pointer-events: none; opacity: .075; }
 .landing-copy > * { position: relative; z-index: 1; }
 .landing-copy .rule-line { margin-top: auto; padding-top: 25px; }
 .landing-copy h1 { font-size: clamp(2.75rem, 5.55vw, 5.1rem); }
@@ -260,6 +260,7 @@
 [data-theme="dark"] .fact-image figcaption { color: #d1e0d0; }
 
 @media (max-width: 850px) {
+  .landing { margin-inline: 0; }
   .landing-topbar .top-note { display: none; }
   .landing-copy { min-height: 0; }
   .landing-copy .rule-line { margin-top: 15px; padding-top: 0; }
