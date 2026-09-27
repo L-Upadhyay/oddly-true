@@ -402,17 +402,18 @@ function reactionButtons(label) {
 function outcomeText() {
   const me = state.myAnswer;
   const gotIt = me?.choice === state.question.correct;
+  const nextChance = state.round === state.totalRounds ? 'Final scores are next.' : 'The next fact is a fresh chance.';
   if (state.activePlayMode === 'teams') {
     const winners = state.roundResult.teamWinnerIds;
-    if (!winners.length) return gotIt ? 'You found the truth. Neither team earned a positive average this round.' : 'Neither team took this round. The next fact is a fresh chance.';
+    if (!winners.length) return gotIt ? 'You found the truth. Neither team earned a positive average this round.' : `Neither team took this round. ${nextChance}`;
     return winners.includes(state.players.find(player => player.id === state.you)?.teamId)
       ? (winners.length > 1 ? 'Your team tied for the round! Your points are shown above.' : 'Your team took the round! Your points are shown above.')
-      : gotIt ? 'You found the truth, even though the other team took the round.' : 'The other team took this one. Your next fact awaits.';
+      : gotIt ? 'You found the truth, even though the other team took the round.' : `The other team took this one. ${nextChance}`;
   }
-  if (!state.roundResult.winners.length) return 'That fact fooled everyone. Ready for the next one?';
+  if (!state.roundResult.winners.length) return state.round === state.totalRounds ? 'That fact fooled everyone. Final scores are next.' : 'That fact fooled everyone. Ready for the next one?';
   return state.roundResult.winners.some(player => player.id === state.you)
     ? state.roundResult.winners.length > 1 ? 'You tied for the round! Nicely spotted.' : 'You took the round! Nicely spotted.'
-    : gotIt ? 'You got it right! A Wild Card took the round.' : 'This one got you. The next fact is a fresh chance.';
+    : gotIt ? 'You got it right! A Wild Card took the round.' : `This one got you. ${nextChance}`;
 }
 
 function questionStage() {
@@ -431,8 +432,8 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
-      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : '<p class="muted small next-status">Waiting for the host to start the next round…</p>'}</div>`}`;
+      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : state.round === state.totalRounds ? 'This one was sneaky. See how you did.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
+      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : `<p class="muted small next-status">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>`}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
     <div class="stage-question"><div class="eyebrow">Which claim is real?</div><h2>Only one of these is oddly true.</h2></div>
