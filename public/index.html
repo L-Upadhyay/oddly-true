@@ -9,11 +9,11 @@
     <script>
       try {
         const saved = localStorage.getItem('oddly-true-theme');
-        const mode = saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const mode = saved === 'light' || saved === 'dark' ? saved : 'light';
         document.documentElement.dataset.theme = mode;
         document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#121b19' : '#f8f5f0';
       } catch {
-        const mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const mode = 'light';
         document.documentElement.dataset.theme = mode;
         document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#121b19' : '#f8f5f0';
       }
