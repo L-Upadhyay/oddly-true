@@ -312,6 +312,23 @@ export class GameStore {
     this.finishGame(room);
   }
 
+  extendSolo(code, token) {
+    const { room, player } = this.authenticate(code, token);
+    this.requireHost(room, player);
+    if (room.kind !== 'solo' || room.phase !== 'finished') throw new GameError('Finish a Solo session before continuing.');
+    const seen = new Set(room.rounds.slice(0, room.completedRounds).map(question => question.id));
+    const available = QUESTIONS.filter(question => !seen.has(question.id));
+    if (!available.length) throw new GameError('You have seen every fact in this session. Start a new game to play again.');
+    const more = shuffle(available).slice(0, 5).map(question => {
+      const order = shuffle([0, 1, 2]);
+      return { ...question, choices: order.map(index => question.choices[index]), correct: order.indexOf(question.correct) };
+    });
+    room.rounds = room.rounds.slice(0, room.completedRounds).concat(more);
+    room.roundIndex = room.completedRounds - 1;
+    room.finalResult = null;
+    this.nextRound(room);
+  }
+
   finishGame(room) {
     this.clearTimer(room);
     room.finalResult = {
@@ -390,6 +407,8 @@ export class GameStore {
       } : null,
       awards: room.phase === 'finished' ? room.finalResult.awards : null,
       finalResult: room.phase === 'finished' ? room.finalResult : null,
+      soloFactsAvailable: room.kind === 'solo' && room.phase === 'finished'
+        ? QUESTIONS.length - new Set(room.rounds.slice(0, room.completedRounds).map(q => q.id)).size : 0,
       lastReaction: room.lastReaction
     };
   }
