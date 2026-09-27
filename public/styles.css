@@ -111,6 +111,7 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .room-actions { display: flex; gap: 9px; flex-wrap: wrap; }
 .room-actions .secondary { min-height: 42px; font-size: .86rem; padding: 8px 13px; }
 .game-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 480px); gap: 24px; align-items: start; }
+.game-grid.solo-grid { display: block; width: 100%; max-width: 850px; }
 .stage { padding: clamp(22px, 4vw, 42px); min-height: 485px; }
 .stage-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 24px; }
 .progress-label { color: #b8c0dc; font-size: .9rem; font-weight: 700; }
@@ -177,6 +178,8 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .round-finish { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 18px; margin-top: 18px; }
 .round-finish .outcome-note { margin-bottom: 0; }
 .round-finish .continue-actions { justify-content: flex-end; }
+.solo-grid .round-finish { grid-template-columns: 1fr; }
+.solo-grid .round-finish .continue-actions { justify-content: flex-start; }
 .next-status { margin: 0; max-width: 170px; }
 .reveal-side { display: grid; gap: 18px; min-width: 0; }
 .reveal-side .leaderboard { margin: 0; padding: 24px; background: #202c29; box-shadow: 0 18px 52px #07170e1a; }
