@@ -1062,5 +1062,120 @@ export const EXTRA_QUESTIONS = [
       "license": "CC BY-SA 3.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
     }
+  },
+  {
+    "id": "corpse-flower-smell",
+    "topic": "PLANTS",
+    "choices": [
+      "A corpse flower's giant bloom is one single flower.",
+      "A blooming corpse flower heats up and smells like rotting meat to draw insects.",
+      "A corpse flower releases its strongest scent in daylight to attract bees."
+    ],
+    "correct": 1,
+    "explanation": "The titan arum's towering bloom is a cluster of small flowers. Heat helps spread a smell like rotting flesh, luring carrion beetles and flies that pollinate it.",
+    "source": {
+      "label": "United States Botanic Garden",
+      "url": "https://www.usbg.gov/gardens-plants/corpse-flowers"
+    },
+    "image": {
+      "path": "/assets/questions/corpse-flower-smell.jpg",
+      "alt": "A blooming titan arum at the United States Botanic Garden.",
+      "credit": "United States Botanic Garden / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Titan-arum1web.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "welwitschia-two-leaves",
+    "topic": "DESERT PLANTS",
+    "choices": [
+      "Welwitschia adds one new leaf every decade, so old plants have dozens.",
+      "Welwitschia sheds both leaves during drought and regrows them after rain.",
+      "Welwitschia keeps just two permanent leaves that grow and split into strips."
+    ],
+    "correct": 2,
+    "explanation": "Welwitschia's original pair of leaves keeps growing for the plant's life. Wind and age shred the leaves, making them look like many separate ones.",
+    "source": {
+      "label": "South African National Biodiversity Institute",
+      "url": "https://pza.sanbi.org/welwitschia-mirabilis"
+    },
+    "image": {
+      "path": "/assets/questions/welwitschia-two-leaves.jpg",
+      "alt": "A Welwitschia plant with long shredded leaves in the Namib Desert.",
+      "credit": "Hans Hillewaert / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Welwitschia_mirabilis.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "strangler-fig-host",
+    "topic": "TREES",
+    "choices": [
+      "A strangler fig can sprout in another tree's branches and send roots down around it.",
+      "A strangler fig grows only on bare rock and cannot root in soil.",
+      "A strangler fig wraps its branches around a host only after the host has fallen."
+    ],
+    "correct": 0,
+    "explanation": "Some strangler figs start as seedlings on another tree. Their aerial roots grow toward the ground, eventually surrounding the host.",
+    "source": {
+      "label": "University of Florida IFAS Extension",
+      "url": "https://ask.ifas.ufl.edu/publication/ST250"
+    },
+    "image": {
+      "path": "/assets/questions/strangler-fig-host.jpg",
+      "alt": "A strangler fig with roots wrapped around a host tree trunk.",
+      "credit": "Tinny Jnr / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Strangler_fig_tree.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "dodder-parasite-plant",
+    "topic": "PARASITIC PLANTS",
+    "choices": [
+      "Dodder catches insects in yellow threads and digests them for food.",
+      "Dodder taps into other plants to take their water and nutrients.",
+      "Dodder lives only on fallen logs and feeds on decaying wood."
+    ],
+    "correct": 1,
+    "explanation": "Dodder is a parasitic vine. It wraps around a host and uses specialized structures called haustoria to draw water and nutrients from it.",
+    "source": {
+      "label": "University of Florida IFAS Extension",
+      "url": "https://blogs.ifas.ufl.edu/escambiaco/2022/09/07/weekly-what-is-it-dodder/"
+    },
+    "image": {
+      "path": "/assets/questions/dodder-parasite-plant.jpg",
+      "alt": "Yellow dodder vines covering a host tree.",
+      "credit": "Khalid Mahmood / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Cuscuta_parasite_plant.JPG",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "resurrection-plant-revives",
+    "topic": "DESERT PLANTS",
+    "choices": [
+      "A resurrection plant can dry into a tight ball and unfurl when water returns.",
+      "A resurrection plant survives drought by replacing all its roots overnight.",
+      "A resurrection plant stores rain in hollow stone-like leaves for decades."
+    ],
+    "correct": 0,
+    "explanation": "Selaginella lepidophylla tolerates extreme drying. Its fronds curl inward while dry and spread again after rehydration; living tissue can resume activity.",
+    "source": {
+      "label": "Plant Physiology and Biochemistry review",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/24813728/"
+    },
+    "image": {
+      "path": "/assets/questions/resurrection-plant-revives.jpg",
+      "alt": "A dry curled resurrection plant beside a hydrated green one.",
+      "credit": "James St. John / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Selaginella_lepidophylla_(resurrection_plant)_(Mexico)_1_(49748122767).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
   }
 ];
