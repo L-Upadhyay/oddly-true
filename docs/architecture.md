@@ -68,6 +68,6 @@ Maps are encoded/revived explicitly; timer handles are never persisted. Hosted r
 
 ## State and trade-offs
 
-The server is authoritative. `sessionStorage` keeps a tab's seat; `localStorage` keeps the theme. Snapshots omit other seat tokens and hide correct answers until reveal. The source contains the fact bank, so this is casual play rather than an anti-cheat competition.
+The server is authoritative. `sessionStorage` keeps a tab's seat; `localStorage` keeps theme and audio preferences. Snapshots omit other seat tokens and hide correct answers until reveal. The source contains the fact bank, so this is casual play rather than an anti-cheat competition.
 
 Polling adds requests and approximately one interval plus network delay to updates. JSON room records keep transitions atomic but are not an analytics model. There is no active-game host takeover or commercial-scale load test. Compatible deployments preserve rooms; changing room-state shape needs explicit compatibility/migration planning.
