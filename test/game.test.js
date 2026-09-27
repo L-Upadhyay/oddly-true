@@ -70,6 +70,34 @@ test('Solo custom and full lengths allow an early finish after a reveal, then re
   assert.throws(() => game.finish(host.code, host.token), /Host decides mode/);
 });
 
+test('Solo continues from the score screen with five unseen facts and the same score', () => {
+  const game = new GameStore({ scheduleTimers: false });
+  const solo = game.create({ name: 'Solo Fox', kind: 'solo', roundCount: 1 });
+  const room = game.room(solo.code);
+  assert.throws(() => game.extendSolo(solo.code, solo.token), /Finish a Solo session/);
+  game.start(solo.code, solo.token);
+  const firstId = room.rounds[0].id;
+  game.answer(solo.code, solo.token, { choice: room.rounds[0].correct, wildCard: true });
+  game.advance(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).finalResult.players[0].score, 20);
+  game.extendSolo(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).totalRounds, 6);
+  assert.equal(room.players[0].score, 20);
+  assert.equal(room.players[0].usedWildCard, true);
+  assert.equal(new Set(room.rounds.map(q => q.id)).size, 6);
+  assert.notEqual(room.rounds[1].id, firstId);
+  for (let index = 1; index < 6; index++) {
+    game.answer(solo.code, solo.token, { choice: room.rounds[index].correct });
+    game.advance(solo.code, solo.token);
+  }
+  assert.equal(game.snapshot(room, solo.playerId).finalResult.players[0].score, 70);
+  game.extendSolo(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).totalRounds, 11);
+  assert.equal(new Set(room.rounds.map(q => q.id)).size, 11);
+  const friends = game.create({ name: 'Host' });
+  assert.throws(() => game.extendSolo(friends.code, friends.token), /Finish a Solo session/);
+});
+
 test('Solo can leave mid-game without leaving an active room behind', () => {
   const game = new GameStore({ scheduleTimers: false });
   const solo = game.create({ name: 'Solo Fox', kind: 'solo' });
