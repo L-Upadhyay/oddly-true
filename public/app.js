@@ -186,7 +186,16 @@ function notify(message) {
   toast.textContent = message;
   toast.classList.add('visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('visible'), 3500);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('visible');
+    toast.textContent = '';
+  }, 3500);
+}
+
+function clearToast() {
+  clearTimeout(toastTimer);
+  toast.classList.remove('visible');
+  toast.textContent = '';
 }
 
 function welcome(message, avatar = selectedAvatar) {
@@ -837,6 +846,7 @@ app.addEventListener('click', async event => {
     try {
       const path = kind === 'join' ? `/api/rooms/${draftCode.trim()}/join` : '/api/rooms';
       await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar, ...(kind === 'create-solo' ? { kind: 'solo', roundMode: soloLength === 'ten' ? 'ten' : 'custom', roundCount: soloLength === 'custom' ? soloCustomRounds : 5 } : {}) }), kind === 'create-solo');
+      clearToast();
       const me = state.players.find(player => player.id === state.you);
       welcome(`Welcome, ${me.name}!`, me.avatar);
       void playSound(kind === 'create-solo' ? 'question' : 'welcome');
