@@ -19,11 +19,11 @@ Keep tokens private. Mutations use `X-Player-Token`; state and local SSE use a `
 | POST | `/api/rooms/{code}/start` | Host starts/replays; `{}` |
 | POST | `/api/rooms/{code}/answer` | `{choice: 0..2, wildCard: boolean}` |
 | POST | `/api/rooms/{code}/advance` | Host advances after reveal; `{}` |
-| POST | `/api/rooms/{code}/finish` | Host ends Host decides mode after reveal; `{}` |
-| POST | `/api/rooms/{code}/extend-solo` | Continue a finished Solo session with up to five unseen facts, keeping the score; `{}` |
+| POST | `/api/rooms/{code}/finish` | Solo player or Friends host ends a game after reveal; `{}` |
+| POST | `/api/rooms/{code}/extend` | Solo player or Friends host continues a finished game with up to five unseen facts, keeping scores; `{}` |
 | POST | `/api/rooms/{code}/react` | `{emoji}` from allowed reactions |
 | POST | `/api/rooms/{code}/leave` | Leave between games; `{left:true}` response |
 
-For friends, `roundMode`: `ten`, `custom`, `host`. `playMode`: `solo` (shown as **Individuals** in the UI), `teams`. Custom count: 1–10. Friends require 2–8 players; Teams require 4–8. Settings cannot change during play. A Solo session defaults to five facts, supports 1–10, can finish after any reveal, and skips the votes phase; its `kind` is `solo` in snapshots. Finished Solo snapshots include `soloFactsAvailable`, the number of unseen facts eligible for a five-fact extension. The internal `playMode: "solo"` value remains for compatibility with existing saved rooms.
+For friends, `roundMode`: `ten`, `custom`, `host`. `playMode`: `solo` (shown as **Individuals** in the UI), `teams`. Custom count: 1–10. Friends require 2–8 players; Teams require 4–8. Settings cannot change during play. A Solo session defaults to five facts, supports 1–10, can finish after any reveal, and skips the votes phase; its `kind` is `solo` in snapshots. The host can finish Friends games after any reveal. Finished snapshots include `factsAvailable`, the number of unseen facts eligible for a five-fact extension. The internal `playMode: "solo"` value remains for compatibility with existing saved rooms.
 
 Snapshots include phase, roster, round, scores, deadline and viewer answer. Votes become visible in the votes phase; correctness, explanation, source and image appear at reveal. Common errors: 400 invalid action, 403 invalid seat/host permission, 404 missing/expired room, 405 wrong method, 413 oversized input. Hosted storage may return 409 after repeated conflicts or 503 while unavailable. Bodies are limited to 16 KiB. Do not blindly retry mutations that might already have succeeded.
