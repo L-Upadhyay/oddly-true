@@ -55,14 +55,14 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 3. **Answer:** choose one claim within 20 seconds. A pick locks immediately. If everyone answers early, the round proceeds early.
 4. **Score:** correct earns **+10**; incorrect or timeout earns **0**. Each player has one optional Wild Card per game: **+20** if correct, **−5** if wrong.
 5. **Reveal:** Solo shows the truth, explanation, credited image and points immediately after an answer or timeout. Friends see votes first, then the truth, round winner and leaderboard; the host advances.
-6. **Finish:** Solo can finish early after any reveal or show your score after the chosen number. From the score screen, continue with up to five unseen facts and keep your score, or replay from zero. In Friends, the host selects See final scores after the last reveal, or may finish after any reveal in Host decides mode. The highest cumulative score wins; tied players share the win.
+6. **Finish or continue:** Solo can finish early after any reveal or show your score after the chosen number. In Friends, the host can finish after any reveal, too. At the score screen, Solo or the Friends host can add up to five unseen facts and keep the score, or replay from zero. The highest cumulative score wins; tied players share the win.
 
 **Teams:** available for 4–8 players. Two teams are balanced automatically, with host-controlled swaps in the lobby. Everyone answers independently. Team scores average members' personal scores. The best positive average earned in a round wins that round; the highest cumulative average wins the game. Ties share the win. When nobody earns a positive round score, there is no round winner.
 
 ## Implemented features
 
 - Room codes, invite links and token-protected player seats.
-- Solo practice with a chosen 1–10 facts, early finish and five-fact extensions without repeated facts; 2–8-player Individuals/Teams; fixed, custom and host-controlled multiplayer lengths.
+- Solo practice with a chosen 1–10 facts; 2–8-player Individuals/Teams with fixed, custom and host-controlled lengths. Both modes can finish early and extend with up to five unseen facts while keeping scores.
 - Locked answers, server-enforced deadlines and once-per-game Wild Cards.
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
