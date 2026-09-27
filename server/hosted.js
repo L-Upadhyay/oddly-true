@@ -51,7 +51,7 @@ export class HostedGame {
         case 'answer': game.answer(code, token, body); break;
         case 'advance': game.advance(code, token); break;
         case 'finish': game.finish(code, token); break;
-        case 'extend-solo': game.extendSolo(code, token); break;
+        case 'extend': game.extend(code, token); break;
         case 'react': game.react(code, token, body.emoji); break;
         case 'leave': game.leave(code, token); response = { left: true }; break;
         default: throw new GameError('Action not found.', 404);
