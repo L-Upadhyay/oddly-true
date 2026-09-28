@@ -122,8 +122,8 @@ function welcome(message, avatar = selectedAvatar) {
   welcomeTimer = setTimeout(() => card.remove(), 3300);
 }
 
-function topbar(note = 'The real fact is the weirdest one.') {
-  return `<header class="topbar"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
+function topbar(note = 'The real fact is the weirdest one.', isLanding = false) {
+  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
 }
 
 function avatarArt(avatar, className = 'avatar-art') {
@@ -161,7 +161,7 @@ function landing() {
   const customCharacter = identityMode === 'custom'
     ? characterForAvatar(selectedAvatar)
     : customCharacterForName(draftName, customVariation);
-  return `${topbar()}
+  return `${topbar('The real fact is the weirdest one.', true)}
     <div class="landing">
       <section class="landing-copy">
         <div class="eyebrow">Play Solo or with 2–8 friends</div>
