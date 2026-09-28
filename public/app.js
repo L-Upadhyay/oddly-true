@@ -161,6 +161,14 @@ function landing() {
   const customCharacter = identityMode === 'custom'
     ? characterForAvatar(selectedAvatar)
     : customCharacterForName(draftName, customVariation);
+  const featured = [0, 1, 2, 3, 4, 5];
+  const selectedIndex = personas.findIndex(persona => persona.avatar === selectedAvatar);
+  if (identityMode === 'preset' && selectedIndex >= featured.length) featured[5] = selectedIndex;
+  const more = personas.map((_, index) => index).filter(index => !featured.includes(index));
+  const personaButton = index => {
+    const persona = personas[index];
+    return `<button type="button" class="persona-option" data-action="persona" data-persona="${index}" aria-pressed="${identityMode === 'preset' && persona.avatar === selectedAvatar}"><span class="persona-avatar" aria-hidden="true">${avatarArt(persona.avatar, 'persona-art')}</span><span class="persona-name">${escapeHtml(persona.name)}</span></button>`;
+  };
   return `${topbar('The real fact is the weirdest one.', true)}
     <div class="landing">
       <section class="landing-copy">
@@ -180,7 +188,8 @@ function landing() {
         <label class="field" for="player-name">Your name</label>
         <input id="player-name" class="text-input" maxlength="24" autocomplete="nickname" placeholder="Professor Pigeon" value="${escapeHtml(draftName)}">
         <div class="preset-heading"><span class="field">Choose a character</span><button type="button" class="text-button" data-action="random-persona">Surprise me</button></div>
-        <div class="persona-grid" role="group" aria-label="Choose a character and suggested name">${personas.map((persona, index) => `<button type="button" class="persona-option" data-action="persona" data-persona="${index}" aria-pressed="${identityMode === 'preset' && persona.avatar === selectedAvatar}"><span class="persona-avatar" aria-hidden="true">${avatarArt(persona.avatar, 'persona-art')}</span><span class="persona-name">${escapeHtml(persona.name)}</span></button>`).join('')}</div>
+        <div class="persona-grid" role="group" aria-label="Featured characters">${featured.map(personaButton).join('')}</div>
+        <details class="more-personas"><summary>See ${more.length} more characters</summary><div class="persona-grid" role="group" aria-label="More characters">${more.map(personaButton).join('')}</div></details>
         <button type="button" class="custom-persona-option" data-action="custom-persona" aria-pressed="${identityMode === 'custom'}"><span class="custom-persona-art" aria-hidden="true">${avatarArt(customCharacter.avatar, 'persona-art')}</span><span><strong>Create your own</strong><small>Type any name and we’ll match an illustrated character.</small></span><span class="custom-arrow" aria-hidden="true">→</span></button>
         <div class="form-row">
           ${characterPreview()}
