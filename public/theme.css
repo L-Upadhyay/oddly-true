@@ -10,6 +10,10 @@
 .landing-copy > * { position: relative; z-index: 1; }
 .landing-copy .rule-line { margin-top: auto; padding-top: 25px; }
 .landing-copy h1 { font-size: clamp(2.8rem, 5.7vw, 5.25rem); }
+.music-control { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 13px; margin: 0 0 18px; }
+.music-control .music-button { flex: none; padding: 10px 15px; border-radius: 999px; font-weight: 800; }
+.music-control .music-button[aria-pressed="true"] { background: #b9f57b; border-color: #b9f57b; color: #173123; }
+.music-control span { max-width: 290px; font-size: .78rem; line-height: 1.35; opacity: .85; }
 .rules-details { max-width: 520px; margin: 2px 0 13px; padding-top: 15px; border-top: 1px solid currentColor; line-height: 1.45; }
 .rules-details h2 { font-size: 1.04rem; letter-spacing: -.02em; margin: 0 0 7px; }
 .rules-details ol { margin: 0; padding-left: 20px; font-size: .88rem; }
@@ -260,6 +264,7 @@
   .lobby-guide { grid-template-columns: 1fr; }
 }
 @media (max-width: 570px) {
+  .music-control { margin-bottom: 15px; }
   .landing-topbar .brand { font-size: 1.45rem; }
   .landing-topbar .brand-mark { width: 39px; height: 39px; border-radius: 12px; font-size: 1.5rem; }
   .topbar-right { gap: 6px; }
