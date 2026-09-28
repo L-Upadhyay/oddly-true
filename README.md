@@ -67,7 +67,7 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
 - Bundled illustrated avatars, a custom pigeon, brief welcome overlays and credited fact photographs.
-- Original short sound cues for questions, locked answers, reveals and final celebrations, with a persistent Sound on/off button. Audible cues begin only after a player interacts with the page.
+- Original short sound cues for questions, locked answers, reveals and final scores, with a persistent Sound on/off button. Solo completion uses celebratory (70%+), gentle (20% or less), or steady (between) feedback based on points relative to 10 per fact played; a Wild Card can exceed that baseline. Audible cues begin only after a player interacts with the page.
 - Light/dark themes, labelled controls, text feedback and reduced-motion support.
 - Same-tab reconnection, replay, and host transfer when leaving between games.
 
