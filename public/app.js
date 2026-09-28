@@ -715,7 +715,15 @@ app.addEventListener('input', event => {
     if (previewName) previewName.textContent = draftName.trim() || personaForAvatar(selectedAvatar).name;
   }
   if (event.target.id === 'room-input') draftCode = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (event.target.id === 'solo-round-count') soloCustomRounds = Number(event.target.value);
+  if (event.target.id === 'solo-round-count') {
+    soloCustomRounds = Number(event.target.value);
+    const valid = Number.isInteger(soloCustomRounds) && soloCustomRounds >= 1 && soloCustomRounds <= 10;
+    const start = app.querySelector('[data-action="create-solo"]');
+    if (start) {
+      start.textContent = valid ? `Start ${soloCustomRounds}-fact Solo game` : 'Choose 1–10 facts to start';
+      start.disabled = !valid;
+    }
+  }
 });
 
 app.addEventListener('change', async event => {
