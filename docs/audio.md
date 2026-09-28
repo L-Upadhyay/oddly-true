@@ -1,6 +1,6 @@
 # Audio design and provenance
 
-The landing jingle and gameplay cues are generated in `public/app.js` with Web Audio oscillators and gain envelopes. No recorded music, sound pack, Candy Crush audio, or other third-party sound sample is bundled. This lets the game use its own playful game-show feel without an external audio license or attribution requirement.
+The landing jingle and gameplay cues are original patterns generated in `public/app.js` with Web Audio oscillators and gain envelopes. The composition and implementation are documented below.
 
 ## Landing jingle
 
@@ -14,6 +14,6 @@ Music and Sound both start enabled, and the theme starts light on each page load
 
 ## Gameplay cues
 
-Short oscillator patterns signal welcome, question, answer lock, correct and wrong answers, and final score feedback. The final Solo cue changes for scores of 70% or more, 20% or less, and the middle range. These patterns are also generated in `public/app.js` and use no external samples.
+Short oscillator patterns signal welcome, question, answer lock, correct and wrong answers, and final score feedback. The final Solo cue changes for scores of 70% or more, 20% or less, and the middle range. These patterns are also generated in `public/app.js`.
 
 If a recorded sound is added later, document its creator, source URL, exact license, required attribution, and any edits here and in `THIRD_PARTY_NOTICES.md` before bundling it.

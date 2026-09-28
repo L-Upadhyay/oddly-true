@@ -77,7 +77,7 @@ async function playSound(cue) {
   if (!soundEnabled) return;
   const context = await audioReady();
   if (!context || !soundEnabled) return;
-  // Original short Web Audio cues; no third-party samples.
+  // Original short Web Audio cues.
   const notes = {
     welcome: [[523, 0, .10], [659, .10, .15]],
     question: [[392, 0, .09], [523, .09, .12]],

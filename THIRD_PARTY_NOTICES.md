@@ -118,7 +118,7 @@ The following credits and usage links are recorded in `server/questions.js` and 
 
 ## Audio
 
-The jingle and feedback cues are generated in `public/app.js` with original Web Audio oscillator patterns. No third-party audio samples are bundled. See [audio design and provenance](docs/audio.md).
+The jingle and feedback cues are generated in `public/app.js` with original Web Audio oscillator patterns. See [audio design and provenance](docs/audio.md).
 
 ## Fonts and dependencies
 
