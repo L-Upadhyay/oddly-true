@@ -10,7 +10,7 @@ The landing jingle and gameplay cues are original patterns generated in `public/
 - **Bed:** four sine-wave bass notes at 131, 165, 147, and 196 Hz. A note begins every two seconds and lasts 2.08 seconds, crossing the next note and the eight-second loop boundary. The melody has deliberate short rhythmic spaces, but the track has no multi-second silent break.
 - **Playback:** the Web Audio clock schedules overlapping bars ahead of time; a short interval fills its queue. Music stops when play begins or the Music control is switched off. The music bus is quieter than the answer effects.
 
-Music and Sound both start enabled, and the theme starts light on each page load. Browser autoplay rules can leave audio suspended until the first pointer or key interaction; that interaction resumes the context and starts the jingle without requiring a Music off/on cycle. The controls change the current visit only.
+Music and Sound both start enabled, and the theme starts light on each page load. Browser autoplay rules can leave audio suspended until the first pointer or key interaction; the Music control then reads “Play music” and starts it in one click. Any other pointer or key interaction on the landing page also starts it. Once it is playing the control reads “Music on.” The controls change the current visit only.
 
 ## Gameplay cues
 

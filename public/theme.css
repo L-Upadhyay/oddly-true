@@ -13,7 +13,7 @@
 .landing-copy > * { position: relative; z-index: 1; }
 .landing-copy .rule-line { margin-top: auto; padding-top: 25px; }
 .landing-copy h1 { font-size: clamp(2.75rem, 5.55vw, 5.1rem); }
-.music-button[aria-pressed="true"] { background: #b9f57b; border-color: #b9f57b; color: #173123; }
+.music-button[aria-pressed="true"], .sound-toggle[aria-pressed="true"] { background: #b9f57b; border-color: #b9f57b; color: #173123; }
 .rules-details { max-width: 520px; margin: 2px 0 13px; padding-top: 15px; border-top: 1px solid currentColor; line-height: 1.45; }
 .rules-details h2 { font-size: 1.04rem; letter-spacing: -.02em; margin: 0 0 7px; }
 .rules-details ol { margin: 0; padding-left: 20px; font-size: .88rem; }
@@ -139,7 +139,7 @@
 [data-theme="light"] .brand { color: #183328; }
 [data-theme="light"] .top-note { color: #526b59; }
 [data-theme="light"] .theme-toggle { color: #264b37; border-color: #abc8a9; background: #fff; }
-[data-theme="light"] .music-button[aria-pressed="true"] { color: #173123; border-color: #b9f57b; background: #b9f57b; }
+[data-theme="light"] .music-button[aria-pressed="true"], [data-theme="light"] .sound-toggle[aria-pressed="true"] { color: #173123; border-color: #b9f57b; background: #b9f57b; }
 [data-theme="light"] .eyebrow { color: #345e35; }
 [data-theme="light"] .landing-copy { background: #e1f2c9; border: 1px solid #bedfa4; box-shadow: 0 20px 55px #5e7b4c1c; }
 [data-theme="light"] .landing-copy h1 em { color: #225e3f; }
