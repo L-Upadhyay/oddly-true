@@ -94,7 +94,6 @@ Local and hosted play use the same game rules. The hosted path saves rooms in a 
 | `shared/personas.js` | Character catalogue and deterministic name matching |
 | `server/game.js` | Authoritative rules, scores and game phases |
 | `server/questions.js`, `server/questions-extra.js` | Live fact bank, decoys, sources and image credits |
-| `server/questions-pending.js` | Drafts held out of play until reviewed in batches |
 | `server/index.js` | Local Node HTTP server and server-sent events |
 | `server/worker.js` | Hosted HTTP entry point and input boundary |
 | `server/hosted.js` | Durable room storage, concurrency and deadline recovery |
@@ -126,7 +125,7 @@ GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflar
 
 Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. Theme, audio and Solo Auto next choices are stored in this browser. See [security/privacy](SECURITY.md).
 
-This is a playable project, not a load-tested commercial service. Solo selects up to ten facts; multiplayer selects up to ten rounds from 80 vetted questions: the original ten, two reviewed batches of 20, six from the third review, five plant facts, nine history and invention facts, and ten further reviewed facts. Each new question has a source and a credited representative image. Further drafts are held out of play while their answers, links and images are reviewed in batches. Hosted updates use roughly 900 ms polling. A disconnected multiplayer host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
+This is a playable project, not a load-tested commercial service. Solo selects up to ten facts; multiplayer selects up to ten rounds from 100 vetted questions. Each new question has a source and a credited representative image. Unused drafts are held privately outside the public repository. Hosted updates use roughly 900 ms polling. A disconnected multiplayer host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
 
 ## Credits and reuse
 
