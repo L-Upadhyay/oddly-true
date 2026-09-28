@@ -1,4 +1,4 @@
-// Reviewed animal, space and nature question batches.
+// Reviewed animal, space, nature, history and invention question batches.
 export const EXTRA_QUESTIONS = [
   {
     "id": "archerfish-water-shot",
@@ -1176,6 +1176,213 @@ export const EXTRA_QUESTIONS = [
       "creditUrl": "https://commons.wikimedia.org/wiki/File:Selaginella_lepidophylla_(resurrection_plant)_(Mexico)_1_(49748122767).jpg",
       "license": "CC BY 2.0",
       "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  },
+  {
+    "id": "mangrove-salt-leaves",
+    "topic": "MANGROVES",
+    "choices": [
+      "Some mangroves push extra salt out through their leaves.",
+      "Some mangroves convert seawater into fresh water inside fruit.",
+      "Some mangroves shed their roots each time the tide turns."
+    ],
+    "correct": 0,
+    "explanation": "Some mangrove species have leaf glands that secrete excess salt; salt crystals can appear on the leaf surface.",
+    "source": {
+      "label": "NOAA Ocean Service",
+      "url": "https://oceanservice.noaa.gov/education/tutorial_estuaries/est07_adaptations.html"
+    },
+    "image": {
+      "path": "/assets/questions/mangrove-salt-leaves.jpg",
+      "alt": "Salt crystals on a black mangrove leaf.",
+      "credit": "Ulf Mehlig / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Avicennia_germinans-salt_excretion.jpg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/"
+    }
+  },
+  {
+    "id": "antikythera-gears",
+    "topic": "ANCIENT DEVICES",
+    "choices": [
+      "The Antikythera mechanism used gears to model cycles in the sky.",
+      "The Antikythera mechanism used steam to launch signal flares.",
+      "The Antikythera mechanism sorted coins by their weight."
+    ],
+    "correct": 0,
+    "explanation": "The ancient Greek geared mechanism tracked astronomical cycles, including motions of the Sun and Moon and eclipse patterns.",
+    "source": {
+      "label": "Antikythera Mechanism Research Project",
+      "url": "https://www.antikythera-mechanism.gr/system/files/0608_Nature.pdf"
+    },
+    "image": {
+      "path": "/assets/questions/antikythera-gears.jpg",
+      "alt": "Three surviving fragments of the Antikythera mechanism.",
+      "credit": "Therese Clutario / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Fragments_of_the_Antikythera_Mechanism.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  },
+  {
+    "id": "rosetta-three-scripts",
+    "topic": "ANCIENT WRITING",
+    "choices": [
+      "The Rosetta Stone contains a map of tombs in three styles.",
+      "The Rosetta Stone carries the same decree in three scripts.",
+      "The Rosetta Stone lists three different kings in three scripts."
+    ],
+    "correct": 1,
+    "explanation": "The decree is inscribed in Egyptian hieroglyphs, Demotic and Greek; comparing the texts helped decipher hieroglyphs.",
+    "source": {
+      "label": "The British Museum",
+      "url": "https://www.britishmuseum.org/collection/object/Y_EA24"
+    },
+    "image": {
+      "path": "/assets/questions/rosetta-three-scripts.jpg",
+      "alt": "The Rosetta Stone at the British Museum.",
+      "credit": "Hans Hillewaert / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Rosetta_Stone.JPG",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "mechanical-turk-operator",
+    "topic": "AUTOMATA",
+    "choices": [
+      "The Mechanical Turk played chess by reading magnetic ink on the pieces.",
+      "The Mechanical Turk chose moves using a hidden clockwork calculator.",
+      "The Mechanical Turk hid a human chess player inside its cabinet."
+    ],
+    "correct": 2,
+    "explanation": "The apparent chess-playing automaton was an illusion: a skilled player concealed inside the cabinet determined its moves.",
+    "source": {
+      "label": "Computer History Museum",
+      "url": "https://www.computerhistory.org/chess/stl-431e1a07e7e40/"
+    },
+    "image": {
+      "path": "/assets/questions/mechanical-turk-operator.jpg",
+      "alt": "An eighteenth-century illustration of the Mechanical Turk chess automaton.",
+      "credit": "Joseph Friedrich zu Racknitz (1789) / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Chess_Turk.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "tyrian-purple-snails",
+    "topic": "DYES",
+    "choices": [
+      "Ancient Tyrian purple dye came from marine snails.",
+      "Ancient Tyrian purple dye came from powdered amethyst.",
+      "Ancient Tyrian purple dye came from fermented purple grapes."
+    ],
+    "correct": 0,
+    "explanation": "Phoenician dyers produced prized purple from murex sea snails; the dye was labor-intensive and associated with status.",
+    "source": {
+      "label": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/exhibitions/listings/2014/assyria-to-iberia/blog/posts/phoenicia-and-the-bible"
+    },
+    "image": {
+      "path": "/assets/questions/tyrian-purple-snails.jpg",
+      "alt": "A shell of Hexaplex trunculus, a murex snail associated with ancient purple dye.",
+      "credit": "James St. John / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Hexaplex_trunculus_(trunculus_murex_snail)_(24436251519).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  },
+  {
+    "id": "quipu-knotted-records",
+    "topic": "RECORD KEEPING",
+    "choices": [
+      "Inka quipu recorded figures by arranging polished stones.",
+      "Inka quipu used knotted cords to record information.",
+      "Inka quipu encoded messages in layers of colored sand."
+    ],
+    "correct": 1,
+    "explanation": "Inka officials used khipus (quipus), cords with knots and other features, to record numerical information such as census and goods data.",
+    "source": {
+      "label": "National Museum of the American Indian",
+      "url": "https://americanindian.si.edu/exhibitions/infinityofnations/andes/143866.html"
+    },
+    "image": {
+      "path": "/assets/questions/quipu-knotted-records.jpg",
+      "alt": "An Inka quipu made of cords and knots.",
+      "credit": "Brooklyn Museum (unknown maker) / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Inca._Quipu.jpg",
+      "license": "No known copyright restrictions",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Inca._Quipu.jpg"
+    }
+  },
+  {
+    "id": "glass-armonica-bowls",
+    "topic": "MUSICAL INVENTIONS",
+    "choices": [
+      "Benjamin Franklin devised an instrument played with candle flames.",
+      "Benjamin Franklin devised an instrument with magnetic strings.",
+      "Benjamin Franklin devised a glass instrument played with wet fingers."
+    ],
+    "correct": 2,
+    "explanation": "Franklin’s glass armonica has rotating glass bowls; a performer touches their rims with moistened fingers to make tones.",
+    "source": {
+      "label": "The Franklin Institute",
+      "url": "https://fi.edu/en/science-and-education/collection/benjamin-franklins-glass-armonica"
+    },
+    "image": {
+      "path": "/assets/questions/glass-armonica-bowls.jpg",
+      "alt": "A glass armonica with a series of nested glass bowls.",
+      "credit": "Vince Flango / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Glassarmonica.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "velcro-burrs",
+    "topic": "INVENTIONS",
+    "choices": [
+      "VELCRO brand hook-and-loop fasteners were inspired by burrs sticking to fur.",
+      "VELCRO brand fasteners were inspired by fish scales locking together.",
+      "VELCRO brand fasteners were inspired by barnacles on a ship."
+    ],
+    "correct": 0,
+    "explanation": "George de Mestral studied tiny hooks on burrs that clung to his clothes and his dog, then developed hook-and-loop fasteners.",
+    "source": {
+      "label": "Lemelson-MIT",
+      "url": "https://lemelson.mit.edu/resources/george-de-mestral"
+    },
+    "image": {
+      "path": "/assets/questions/velcro-burrs.jpg",
+      "alt": "A burr with small hooks that catch on fur or fabric.",
+      "credit": "Zephyris / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Bur_Macro_BlackBg.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "play-doh-wallpaper-cleaner",
+    "topic": "TOYS",
+    "choices": [
+      "The compound that became Play-Doh was first sold for shoe polish.",
+      "The compound that became Play-Doh began as wallpaper cleaner.",
+      "The compound that became Play-Doh began as window sealant."
+    ],
+    "correct": 1,
+    "explanation": "The modeling compound was initially a wallpaper cleaner used to lift soot; later it was marketed as a children’s toy.",
+    "source": {
+      "label": "The Strong National Museum of Play",
+      "url": "https://www.museumofplay.org/toys/play-doh/"
+    },
+    "image": {
+      "path": "/assets/questions/play-doh-wallpaper-cleaner.jpg",
+      "alt": "Green Play-Doh and its container.",
+      "credit": "Larry D. Moore / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Playdoh.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     }
   }
 ];
