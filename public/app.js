@@ -162,7 +162,6 @@ async function startMusic(fromGesture = false) {
     };
     scheduleAhead();
     musicTimer = setInterval(scheduleAhead, 250);
-    updateMusicButton();
   } catch { /* The browser may wait for another interaction to allow audio. */ }
   finally { if (session === musicSession) musicStarting = false; }
 }
@@ -236,15 +235,7 @@ function welcome(message, avatar = selectedAvatar) {
 }
 
 function topbar(note = 'The real fact is the weirdest one.', isLanding = false) {
-  const musicWaiting = musicEnabled && !musicTimer;
-  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound effects ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button>${isLanding ? `<button type="button" class="theme-toggle music-button" data-action="music" aria-pressed="${musicEnabled}" aria-label="${musicWaiting ? 'Play background music' : `Turn background music ${musicEnabled ? 'off' : 'on'}`}">${musicWaiting ? '♪ Play music' : musicEnabled ? '♪ Music on' : '♪ Music off'}</button>` : ''}<button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
-}
-
-function updateMusicButton() {
-  const button = app.querySelector('[data-action="music"]');
-  if (!button) return;
-  button.textContent = '♪ Music on';
-  button.setAttribute('aria-label', 'Turn background music off');
+  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound effects ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button>${isLanding ? `<button type="button" class="theme-toggle music-button" data-action="music" aria-pressed="${musicEnabled}" aria-label="Turn background music ${musicEnabled ? 'off' : 'on'}">♪ Music ${musicEnabled ? 'on' : 'off'}</button>` : ''}<button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
 }
 
 function avatarArt(avatar, className = 'avatar-art') {
@@ -803,10 +794,6 @@ app.addEventListener('click', async event => {
     return;
   }
   if (kind === 'music') {
-    if (musicEnabled && !musicTimer) {
-      void startMusic(true);
-      return;
-    }
     musicEnabled = !musicEnabled;
     if (!musicEnabled) stopMusic();
     render();
