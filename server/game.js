@@ -308,14 +308,14 @@ export class GameStore {
   finish(code, token) {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
-    if (room.phase !== 'reveal' || (room.kind !== 'solo' && room.activeRoundMode !== 'host')) throw new GameError('Finish after a reveal in Solo or Host decides mode.');
+    if (room.phase !== 'reveal') throw new GameError('Finish after a reveal.');
     this.finishGame(room);
   }
 
-  extendSolo(code, token) {
+  extend(code, token) {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
-    if (room.kind !== 'solo' || room.phase !== 'finished') throw new GameError('Finish a Solo session before continuing.');
+    if (room.phase !== 'finished') throw new GameError('Finish the game before continuing.');
     const seen = new Set(room.rounds.slice(0, room.completedRounds).map(question => question.id));
     const available = QUESTIONS.filter(question => !seen.has(question.id));
     if (!available.length) throw new GameError('You have seen every fact in this session. Start a new game to play again.');
@@ -407,7 +407,7 @@ export class GameStore {
       } : null,
       awards: room.phase === 'finished' ? room.finalResult.awards : null,
       finalResult: room.phase === 'finished' ? room.finalResult : null,
-      soloFactsAvailable: room.kind === 'solo' && room.phase === 'finished'
+      factsAvailable: room.phase === 'finished'
         ? QUESTIONS.length - new Set(room.rounds.slice(0, room.completedRounds).map(q => q.id)).size : 0,
       lastReaction: room.lastReaction
     };
