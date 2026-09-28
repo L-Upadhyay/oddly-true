@@ -67,20 +67,20 @@ test('Solo custom and full lengths allow an early finish after a reveal, then re
   game.start(host.code, host.token);
   game.answer(host.code, host.token, { choice: game.room(host.code).rounds[0].correct });
   game.answer(host.code, guest.token, { choice: 0 });
-  assert.throws(() => game.finish(host.code, host.token), /Host decides mode/);
+  assert.throws(() => game.finish(host.code, host.token), /after a reveal/);
 });
 
 test('Solo continues from the score screen with five unseen facts and the same score', () => {
   const game = new GameStore({ scheduleTimers: false });
   const solo = game.create({ name: 'Solo Fox', kind: 'solo', roundCount: 1 });
   const room = game.room(solo.code);
-  assert.throws(() => game.extendSolo(solo.code, solo.token), /Finish a Solo session/);
+  assert.throws(() => game.extend(solo.code, solo.token), /Finish the game/);
   game.start(solo.code, solo.token);
   const firstId = room.rounds[0].id;
   game.answer(solo.code, solo.token, { choice: room.rounds[0].correct, wildCard: true });
   game.advance(solo.code, solo.token);
   assert.equal(game.snapshot(room, solo.playerId).finalResult.players[0].score, 20);
-  game.extendSolo(solo.code, solo.token);
+  game.extend(solo.code, solo.token);
   assert.equal(game.snapshot(room, solo.playerId).totalRounds, 6);
   assert.equal(room.players[0].score, 20);
   assert.equal(room.players[0].usedWildCard, true);
@@ -91,11 +91,11 @@ test('Solo continues from the score screen with five unseen facts and the same s
     game.advance(solo.code, solo.token);
   }
   assert.equal(game.snapshot(room, solo.playerId).finalResult.players[0].score, 70);
-  game.extendSolo(solo.code, solo.token);
+  game.extend(solo.code, solo.token);
   assert.equal(game.snapshot(room, solo.playerId).totalRounds, 11);
   assert.equal(new Set(room.rounds.map(q => q.id)).size, 11);
   const friends = game.create({ name: 'Host' });
-  assert.throws(() => game.extendSolo(friends.code, friends.token), /Finish a Solo session/);
+  assert.throws(() => game.extend(friends.code, friends.token), /Finish the game/);
 });
 
 test('Solo can leave mid-game without leaving an active room behind', () => {
@@ -270,7 +270,7 @@ test('rooms enforce player limit and reject joining after start', () => {
   game.clearTimer(game.room(host.code));
 });
 
-test('Host decides can finish after a reveal, and fixed games end at their chosen limit', () => {
+test('host can finish early in any mode and fixed games still end at their chosen limit', () => {
   const game = new GameStore({ roundMs: 1000, voteMs: 1000 });
   const host = game.create({ name: 'Host' });
   const guest = game.join(host.code, { name: 'Guest' });
@@ -296,10 +296,25 @@ test('Host decides can finish after a reveal, and fixed games end at their chose
     game.answer(host.code, host.token, { choice: room.rounds[index].correct });
     game.answer(host.code, guest.token, { choice: room.rounds[index].correct });
     game.reveal(room);
-    assert.throws(() => game.finish(host.code, host.token), /Host decides/);
     game.advance(host.code, host.token);
   }
   assert.equal(game.snapshot(room, guest.playerId).finalResult.roundsPlayed, 2);
+  game.start(host.code, host.token);
+  game.answer(host.code, host.token, { choice: room.rounds[0].correct });
+  game.answer(host.code, guest.token, { choice: room.rounds[0].correct });
+  game.reveal(room);
+  game.finish(host.code, host.token);
+  const before = game.snapshot(room, guest.playerId);
+  assert.equal(before.finalResult.roundsPlayed, 1);
+  assert.equal(before.players[0].score, 10);
+  assert.throws(() => game.extend(host.code, guest.token), /Only the host/);
+  game.extend(host.code, host.token);
+  const continued = game.snapshot(room, guest.playerId);
+  assert.equal(continued.phase, 'question');
+  assert.equal(continued.round, 2);
+  assert.equal(continued.totalRounds, 6);
+  assert.equal(continued.players[0].score, 10);
+  assert.equal(new Set(room.rounds.map(q => q.id)).size, 6);
 });
 
 test('teams stay balanced, score by average, and celebrate members even when personally wrong', () => {
