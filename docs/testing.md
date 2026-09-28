@@ -27,7 +27,7 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Correct and incorrect picks | +10 and 0 consistent across devices |
 | Round and final results | Personal messages match correct/wrong/timeout, ties, team outcomes and final winner; losing remains encouraging |
 | Sound on/off, refresh and replay | Button state persists; question, lock, correct/wrong and final cues play once after interaction; muted tab stays silent. Solo final cues match high (70%+), middle, or low (20% or less) score relative to 10 per played fact |
-| Landing music | Music starts off on every visit; Music on starts a very soft repeating tune after the click. Music and Sound controls work independently; the tune stops when Solo or Friends play starts, and Music off stops it immediately |
+| Landing music | Music is enabled on the landing page by default and begins when the browser permits audio, typically after the first click or key press. Music and Sound controls work independently and remember off choices; the tune stops when Solo or Friends play starts, and Music off stops it immediately |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
 | Host decides reveal | Finish game is available to host only |
