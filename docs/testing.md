@@ -17,6 +17,8 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Check | Expected result |
 | --- | --- |
 | Play Solo, answer and let a timer expire | Starts without a guest; no room votes or opponent leaderboard; chosen 1–10 facts, early finish, final score and replay |
+| Solo Auto next | Off on a first visit; when enabled, each reveal counts down 15 seconds, Next now works, Pause stops it, Resume continues from the remaining time, and opening a source in another tab pauses it. The chosen setting is remembered; Friends still waits for the host |
+| Solo final buttons | Keep playing, replay and choose another mode align with consistent spacing on laptop and mobile widths |
 | Solo invite attempt | Solo cannot be joined |
 | Landing and invite link | Solo/Friends choices are clear; invite link opens the Friends join path with code filled |
 | Open landing; create or join a room | A brief welcome appears over the character and fades; named welcome appears once on entry, not on every poll or refresh |
@@ -30,8 +32,8 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Landing music | Music is enabled on the landing page by default and begins when the browser permits audio, typically after the first click or key press. Music and Sound controls work independently and remember off choices; the tune stops when Solo or Friends play starts, and Music off stops it immediately |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
-| Host decides reveal | Finish game is available to host only |
-| Fixed game | No early Finish; final scores after final reveal |
+| Host decides reveal | Finish early is available to the host after a reveal |
+| Fixed Friends game | The host may finish early after a reveal; otherwise final scores follow the final reveal. At the score screen the host can continue with unseen facts or replay from zero |
 | Four-player teams | Balanced teams; average scores; consistent ties |
 | Refresh mid-game | Same seat returns; scores do not duplicate |
 | Host leaves after game | Host transfers; final board stays intact |
