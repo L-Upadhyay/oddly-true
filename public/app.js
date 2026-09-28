@@ -311,7 +311,7 @@ function roundSettings() {
     <label class="mode-option"><input type="radio" name="round-mode" value="custom" ${state.roundMode === 'custom' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Custom number</span></label>
     <label class="mode-option"><input type="radio" name="round-mode" value="host" ${state.roundMode === 'host' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Host decides</span></label>
   </div>${state.roundMode === 'custom' ? `<label class="field" for="round-count">Rounds (1–${state.maxRounds})</label><input id="round-count" class="text-input number-input" type="number" min="1" max="${state.maxRounds}" step="1" inputmode="numeric" value="${state.selectedRounds}" ${pending ? 'disabled' : ''}>` : ''}
-  <p class="muted small">${state.roundMode === 'host' ? 'After each reveal, the host can continue or finish. Up to 10 rounds.' : 'One fact per round. The game ends after the chosen number.'}</p></fieldset>`;
+  <p class="muted small">${state.roundMode === 'host' ? 'After each reveal, the host can continue or finish. Up to 10 rounds.' : 'One fact per round. The host can finish early after a reveal.'}</p></fieldset>`;
 }
 
 function teamSettings() {
@@ -434,7 +434,7 @@ function questionStage() {
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
       ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : state.round === state.totalRounds ? 'This one was sneaky. See how you did.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
-      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : `<p class="muted small next-status">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>`}</div>`}`;
+      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : `<p class="muted small next-status">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>`}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
     <div class="stage-question"><div class="eyebrow">Which claim is real?</div><h2>Only one of these is oddly true.</h2></div>
@@ -458,7 +458,7 @@ function finished() {
     const score = result.players.find(player => player.id === state.you)?.score ?? 0;
     return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'fact' : 'facts'}</div><h2>Your final score</h2>
       <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${soloScoreFeedback(result, state.you).message}</span></div></div>
-      <button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>
+      ${state.factsAvailable ? `<p class="muted small">Want to keep your score going? Continue with ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'fact' : 'facts'}.</p><div class="continue-actions"><button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button><button class="secondary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button></div>` : `<p class="muted small">You have seen every fact in this session. Start fresh to play again.</p><button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>`}
       <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button>`;
   }
   const teams = result.playMode === 'teams';
@@ -473,7 +473,7 @@ function finished() {
     <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? (teams ? 'Congratulations! Your team tied for first place!' : 'Congratulations! You tied for first place!') : (teams ? 'Congratulations! Your team won the game!' : 'Congratulations! You won the game!') : result.players.some(player => player.id === state.you) ? 'Well played! This one went to the winner above. Ready for a rematch?' : 'You joined for the next game.'}</p>
     <section class="leaderboard" aria-label="Final leaderboard"><h3>Final leaderboard</h3>${teams ? teamLeaderboard(result.teams) : ''}<h4>${teams ? 'Individual scores' : 'Scores'}</h4>${leaderboardRows(result.players)}</section>
     <div class="awards">${lone.map(player => `<span class="award">🧠 Lone Genius · ${escapeHtml(player.name)}</span>`).join('')}${result.players.filter(player => result.awards.wildCards.includes(player.id)).map(player => `<span class="award">✦ Daring Guesser · ${escapeHtml(player.name)}</span>`).join('')}</div>
-    ${state.hostId === state.you ? `${roundSettings()}${teamSettings()}<button class="primary" type="button" data-action="start" ${state.playMode === 'teams' && state.players.length < 4 || pending ? 'disabled' : ''}>Play again</button>` : '<p class="muted small">The host can start another game in this room.</p>'}
+    ${state.hostId === state.you ? `${state.factsAvailable ? `<p class="muted small">Keep the scores and play ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'round' : 'rounds'} with this group.</p><button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : '<p class="muted small">You have seen every fact in this session. Start a new game to play again.</p>'}${roundSettings()}${teamSettings()}<button class="secondary" type="button" data-action="start" ${state.playMode === 'teams' && state.players.length < 4 || pending ? 'disabled' : ''}>Play again from zero</button>` : '<p class="muted small">The host can continue with more rounds or start a new game.</p>'}
     <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Back to home</button>
     ${reactionButtons('Celebrate')}`;
 }
@@ -785,7 +785,7 @@ app.addEventListener('click', async event => {
   }
   if (kind === 'answer') { await action('answer', { choice: Number(button.dataset.choice), wildCard: wildCardSelected }); return; }
   if (kind === 'react') { await action('react', { emoji: button.dataset.emoji }); return; }
-  if (kind === 'start' || kind === 'advance' || kind === 'finish') await action(kind);
+  if (kind === 'start' || kind === 'advance' || kind === 'finish' || kind === 'extend') await action(kind);
 });
 
 async function initialize() {
