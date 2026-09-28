@@ -305,7 +305,7 @@ function landing() {
           <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>2 to 8 players, live on separate devices</small></button>
           <button class="${landingMode === 'solo' ? 'primary' : 'secondary'}" type="button" data-action="choose-solo" aria-pressed="${landingMode === 'solo'}">Play Solo <small>Just you, at your pace</small></button>
         </div>
-        <p class="entry-note">No login. Pick a name and character. Play right away.</p>
+        <p class="entry-note">Pick a name and character. No accounts. No downloads. Just play.</p>
         ${landingMode === 'solo' ? `<div class="solo-length" role="group" aria-label="Solo game length"><span class="field">How many Solo facts?</span><div class="solo-length-options">
           <button type="button" class="solo-length-choice" data-action="solo-length" data-length="five" aria-pressed="${soloLength === 'five'}">Quick · 5</button>
           <button type="button" class="solo-length-choice" data-action="solo-length" data-length="ten" aria-pressed="${soloLength === 'ten'}">Full · 10</button>
@@ -330,7 +330,7 @@ function landing() {
           <label class="field" for="room-input">Room code</label>
           <div class="join-row"><input id="room-input" class="text-input" maxlength="5" autocapitalize="characters" autocomplete="off" placeholder="ABCDE" value="${escapeHtml(draftCode)}"><button class="secondary" type="button" data-action="join" ${pending ? 'disabled' : ''}>Join room</button></div></div>` : ''}
       </section>
-    </div><footer class="site-footer"><span><strong>Oddly True</strong> · Strange facts, good company.</span><span><a href="#how-to-play">How to play</a> · Sources and image credits appear after each fact.</span></footer>`;
+    </div><footer class="site-footer"><span><strong>Oddly True</strong> · Strange facts, good company.<small>© 2026 Oddly True. Game design and code.</small></span><span>Sources and image credits appear after each fact.</span></footer>`;
 }
 
 function roomHeader() {
