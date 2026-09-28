@@ -21,7 +21,7 @@ test('Solo plays five facts without a guest or vote wait, then replays; friends 
   assert.equal(game.snapshot(room, solo.playerId).kind, 'solo');
   assert.equal(game.snapshot(room, solo.playerId).totalRounds, 5);
   assert.throws(() => game.join(solo.code, { name: 'Guest' }), /Solo game/);
-  assert.throws(() => game.setSettings(solo.code, solo.token, { playMode: 'teams' }), /individual scoring/);
+  assert.throws(() => game.setSettings(solo.code, solo.token, { playMode: 'teams' }), /Game mode cannot be changed/);
   game.start(solo.code, solo.token);
   for (let index = 0; index < 5; index++) {
     const correct = room.rounds[index].correct;
@@ -317,54 +317,31 @@ test('host can finish early in any mode and fixed games still end at their chose
   assert.equal(new Set(room.rounds.map(q => q.id)).size, 6);
 });
 
-test('teams stay balanced, score by average, and celebrate members even when personally wrong', () => {
+test('four friends join one room and compete by individual score', () => {
   const game = new GameStore({ roundMs: 1000, voteMs: 1000 });
-  const host = game.create({ name: 'A1' });
-  const b1 = game.join(host.code, { name: 'B1' });
-  const a2 = game.join(host.code, { name: 'A2' });
-  const b2 = game.join(host.code, { name: 'B2' });
-  game.setSettings(host.code, host.token, { playMode: 'teams', roundMode: 'custom', roundCount: 3 });
+  const host = game.create({ name: 'Host' });
+  const guest1 = game.join(host.code, { name: 'Guest 1' });
+  const guest2 = game.join(host.code, { name: 'Guest 2' });
+  const guest3 = game.join(host.code, { name: 'Guest 3' });
+  assert.throws(() => game.setSettings(host.code, host.token, { playMode: 'teams' }), /Game mode cannot be changed/);
+  game.setSettings(host.code, host.token, { roundMode: 'custom', roundCount: 1 });
   const room = game.room(host.code);
-  assert.deepEqual(room.players.map(player => player.teamId), ['A', 'B', 'A', 'B']);
-  game.swapTeams(host.code, host.token, host.playerId, b1.playerId);
-  assert.deepEqual(room.players.map(player => player.teamId), ['B', 'A', 'A', 'B']);
-  game.swapTeams(host.code, host.token, host.playerId, b1.playerId);
-  assert.throws(() => game.swapTeams(host.code, b1.token, host.playerId, b1.playerId), /Only the host/);
   game.start(host.code, host.token);
-  const first = room.rounds[0].correct;
-  game.answer(host.code, host.token, { choice: first, wildCard: true });
-  game.answer(host.code, a2.token, { choice: (first + 1) % 3, wildCard: true });
-  game.answer(host.code, b1.token, { choice: first });
-  game.answer(host.code, b2.token, { choice: (first + 1) % 3 });
+  const correct = room.rounds[0].correct;
+  game.answer(host.code, host.token, { choice: correct, wildCard: true });
+  game.answer(host.code, guest1.token, { choice: correct });
+  game.answer(host.code, guest2.token, { choice: (correct + 1) % 3 });
+  game.answer(host.code, guest3.token, { choice: correct });
   game.reveal(room);
-  const reveal = game.snapshot(room, a2.playerId);
-  assert.deepEqual(reveal.roundResult.teamWinnerIds, ['A']);
-  assert.equal(reveal.roundResult.teamRounds.find(team => team.id === 'A').score, 7.5);
-  assert.equal(reveal.roundResult.teamRounds.find(team => team.id === 'B').score, 5);
-  assert.equal(reveal.roundResult.leaderboard.find(player => player.id === a2.playerId).points, -5);
-  assert.equal(reveal.teams.find(team => team.id === 'A').score, 7.5);
+  const reveal = game.snapshot(room, guest2.playerId);
+  assert.deepEqual(reveal.roundResult.winners.map(player => player.id), [host.playerId]);
+  assert.equal(reveal.roundResult.leaderboard.find(player => player.id === guest2.playerId).points, 0);
   assert.equal(reveal.roundResult.leaderboard[0].id, host.playerId);
   game.advance(host.code, host.token);
-
-  const second = room.rounds[1].correct;
-  game.answer(host.code, host.token, { choice: (second + 1) % 3 });
-  game.answer(host.code, a2.token, { choice: second });
-  game.answer(host.code, b1.token, { choice: second });
-  game.answer(host.code, b2.token, { choice: (second + 1) % 3 });
-  game.reveal(room);
-  assert.deepEqual(new Set(game.snapshot(room, host.playerId).roundResult.teamWinnerIds), new Set(['A', 'B']));
-  game.advance(host.code, host.token);
-
-  const third = (room.rounds[2].correct + 1) % 3;
-  for (const seat of [host, b1, a2, b2]) game.answer(host.code, seat.token, { choice: third });
-  game.reveal(room);
-  assert.deepEqual(game.snapshot(room, host.playerId).roundResult.teamWinnerIds, []);
-  game.advance(host.code, host.token);
   const final = game.snapshot(room, host.playerId).finalResult;
-  assert.equal(final.teams[0].id, 'A');
-  assert.equal(final.teams[0].score, 12.5);
-  assert.equal(final.teams[1].score, 10);
-  assert.equal(final.players.find(player => player.id === a2.playerId).score, 5);
+  assert.equal(final.players[0].id, host.playerId);
+  assert.equal(final.players[0].score, 20);
+  assert.equal(final.players.find(player => player.id === guest2.playerId).score, 0);
 });
 
 test('leaving after a game preserves the final board and passes host control', () => {

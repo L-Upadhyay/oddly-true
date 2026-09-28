@@ -6,10 +6,6 @@ export const ROUND_SECONDS = 20;
 export const VOTE_REVEAL_MS = 4200;
 export const MAX_PLAYERS = 8;
 export const MAX_ROUNDS = 10;
-export const TEAMS = [
-  { id: 'A', name: 'Truth Troop' },
-  { id: 'B', name: 'Odd Squad' }
-];
 const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 function shuffle(items) {
@@ -28,19 +24,6 @@ function cleanPlayer(input) {
   return { name, avatar };
 }
 
-function teamScores(room, pointsFor) {
-  return TEAMS.map(team => {
-    const members = room.players.filter(player => player.teamId === team.id);
-    const total = members.reduce((sum, player) => sum + pointsFor(player), 0);
-    return { ...team, members: members.map(player => player.id), total, count: members.length,
-      score: members.length ? total / members.length : 0 };
-  });
-}
-
-// Compare averages without rounding displayed scores, including Wild Card fractions.
-function compareTeamScores(a, b) {
-  return a.total * b.count - b.total * a.count;
-}
 
 function playerStandings(players, points = new Map(), previous = null) {
   const sorted = [...players].sort((a, b) => b.score - a.score);
@@ -52,17 +35,10 @@ function playerStandings(players, points = new Map(), previous = null) {
     });
   }
   return sorted.map((player, index) => ({
-    id: player.id, name: player.name, avatar: player.avatar, teamId: player.teamId,
+    id: player.id, name: player.name, avatar: player.avatar,
     score: player.score, rank: sorted.findIndex(other => other.score === player.score) + 1,
     points: points.get(player.id) ?? 0,
     movement: previous ? previousRanks.get(player.id) - (sorted.findIndex(other => other.score === player.score) + 1) : 0
-  }));
-}
-
-function teamStandings(room, pointsFor = player => player.score) {
-  const teams = teamScores(room, pointsFor).sort((a, b) => compareTeamScores(b, a));
-  return teams.map(team => ({
-    ...team, rank: teams.findIndex(other => compareTeamScores(other, team) === 0) + 1
   }));
 }
 
@@ -100,7 +76,7 @@ export class GameStore {
     const room = {
       code, kind, hostId: player.id, players: [player], phase: 'lobby', rounds: [], roundCount: soloRoundCount,
       roundIndex: -1, answers: new Map(), voteCounts: null, deadline: null,
-      roundMode: soloRoundMode, activeRoundMode: 'ten', playMode: 'solo', activePlayMode: 'solo',
+      roundMode: soloRoundMode, activeRoundMode: 'ten',
       gameId: null, completedRounds: 0, timer: null, updatedAt: Date.now(),
       history: [], roundResult: null, finalResult: null, lastReaction: null
     };
@@ -109,7 +85,7 @@ export class GameStore {
   }
 
   newPlayer(name, avatar) {
-    return { id: randomUUID(), token: randomBytes(24).toString('hex'), name, avatar, teamId: null, score: 0, usedWildCard: false };
+    return { id: randomUUID(), token: randomBytes(24).toString('hex'), name, avatar, score: 0, usedWildCard: false };
   }
 
   join(code, input) {
@@ -119,10 +95,6 @@ export class GameStore {
     if (room.players.length >= MAX_PLAYERS) throw new GameError('This room is full.');
     const { name, avatar } = cleanPlayer(input);
     const player = this.newPlayer(name, avatar);
-    if (room.playMode === 'teams') {
-      const counts = TEAMS.map(team => room.players.filter(member => member.teamId === team.id).length);
-      player.teamId = counts[0] <= counts[1] ? 'A' : 'B';
-    }
     room.players.push(player);
     this.changed(room);
     return { code: room.code, playerId: player.id, token: player.token };
@@ -153,39 +125,14 @@ export class GameStore {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('Settings can only change between games.');
-    if (room.kind === 'solo' && playMode !== undefined) throw new GameError('Solo games use individual scoring.');
+    if (playMode !== undefined) throw new GameError('Game mode cannot be changed.');
     if (room.kind === 'solo' && roundMode === 'host') throw new GameError('Choose a Solo game length.');
     if (roundMode !== undefined && !['ten', 'custom', 'host'].includes(roundMode)) throw new GameError('Choose a game length.');
-    if (playMode !== undefined && !['solo', 'teams'].includes(playMode)) throw new GameError('Choose individuals or teams.');
     if (roundCount !== undefined && (!Number.isInteger(roundCount) || roundCount < 1 || roundCount > MAX_ROUNDS)) {
       throw new GameError(`Choose between 1 and ${MAX_ROUNDS} rounds.`);
     }
     if (roundCount !== undefined) room.roundCount = roundCount;
     if (roundMode !== undefined) room.roundMode = roundMode;
-    if (playMode !== undefined && room.playMode !== playMode) {
-      room.playMode = playMode;
-      if (playMode === 'teams') this.balanceTeams(room, true);
-    }
-    this.changed(room);
-  }
-
-  balanceTeams(room, reset = false) {
-    if (reset) room.players.forEach((player, index) => { player.teamId = TEAMS[index % 2].id; });
-    while (true) {
-      const [a, b] = TEAMS.map(team => room.players.filter(player => player.teamId === team.id));
-      if (Math.abs(a.length - b.length) <= 1) break;
-      (a.length > b.length ? a : b).at(-1).teamId = a.length > b.length ? 'B' : 'A';
-    }
-  }
-
-  swapTeams(code, token, firstId, secondId) {
-    const { room, player } = this.authenticate(code, token);
-    this.requireHost(room, player);
-    if (room.phase !== 'lobby' || room.playMode !== 'teams') throw new GameError('Teams can be swapped in the lobby.');
-    const first = room.players.find(member => member.id === firstId);
-    const second = room.players.find(member => member.id === secondId);
-    if (!first || !second || first.teamId === second.teamId) throw new GameError('Choose one player from each team.');
-    [first.teamId, second.teamId] = [second.teamId, first.teamId];
     this.changed(room);
   }
 
@@ -194,11 +141,8 @@ export class GameStore {
     this.requireHost(room, player);
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('The game is already running.');
     if (room.players.length < (room.kind === 'solo' ? 1 : 2)) throw new GameError('You need at least 2 players to start.');
-    if (room.playMode === 'teams' && room.players.length < 4) throw new GameError('Teams need at least 4 players.');
-    if (room.playMode === 'teams') this.balanceTeams(room);
     for (const p of room.players) { p.score = 0; p.usedWildCard = false; }
     room.activeRoundMode = room.roundMode;
-    room.activePlayMode = room.playMode;
     room.gameId = randomUUID();
     room.completedRounds = 0;
     const count = room.roundMode === 'custom' ? room.roundCount : MAX_ROUNDS;
@@ -286,11 +230,7 @@ export class GameStore {
     const winnerIds = winningPoints > 0
       ? room.players.filter(player => roundPoints.get(player.id) === winningPoints).map(player => player.id)
       : [];
-    const teamRounds = teamScores(room, player => roundPoints.get(player.id) ?? 0);
-    const bestTeam = teamRounds.reduce((best, team) => !best || compareTeamScores(team, best) > 0 ? team : best, null);
-    const teamWinnerIds = bestTeam?.total > 0
-      ? teamRounds.filter(team => compareTeamScores(team, bestTeam) === 0).map(team => team.id) : [];
-    room.roundResult = { winnerIds, winningPoints, teamWinnerIds, roundPoints, previousScores };
+    room.roundResult = { winnerIds, winningPoints, roundPoints, previousScores };
     room.history.push({ correctPlayers });
     room.completedRounds++;
     room.phase = 'reveal';
@@ -333,10 +273,8 @@ export class GameStore {
     this.clearTimer(room);
     room.finalResult = {
       players: playerStandings(room.players),
-      teams: room.activePlayMode === 'teams' ? teamStandings(room) : [],
       awards: this.awards(room),
       roundsPlayed: room.completedRounds,
-      playMode: room.activePlayMode,
       gameId: room.gameId
     };
     room.phase = 'finished';
@@ -355,7 +293,6 @@ export class GameStore {
       return;
     }
     if (room.hostId === player.id) room.hostId = room.players[0].id;
-    if (room.phase === 'lobby' && room.playMode === 'teams') this.balanceTeams(room);
     this.changed(room);
   }
 
@@ -374,12 +311,10 @@ export class GameStore {
     const revealed = room.phase === 'reveal';
     const votesVisible = room.phase === 'votes' || revealed;
     const scores = [...room.players].sort((a, b) => b.score - a.score).map(p => ({
-      id: p.id, name: p.name, avatar: p.avatar, score: p.score, teamId: p.teamId,
+      id: p.id, name: p.name, avatar: p.avatar, score: p.score,
       isHost: p.id === room.hostId
     }));
     const roundPoints = room.roundResult?.roundPoints ?? new Map();
-    const roundTeams = revealed && room.activePlayMode === 'teams'
-      ? teamStandings(room, member => roundPoints.get(member.id) ?? 0) : [];
     return {
       code: room.code, kind: room.kind ?? 'friends', phase: room.phase, hostId: room.hostId, you: playerId, gameId: room.gameId,
       players: scores, maxPlayers: MAX_PLAYERS, maxRounds: MAX_ROUNDS,
@@ -387,17 +322,12 @@ export class GameStore {
       totalRounds: room.phase === 'finished' ? room.completedRounds : room.phase === 'lobby'
         ? (room.roundMode === 'custom' ? room.roundCount : MAX_ROUNDS) : room.rounds.length,
       selectedRounds: room.roundCount, roundMode: room.roundMode, activeRoundMode: room.activeRoundMode,
-      playMode: room.playMode, activePlayMode: room.activePlayMode,
-      teams: room.playMode === 'teams' || (room.phase === 'finished' && room.activePlayMode === 'teams')
-        ? teamStandings(room) : [],
       deadline: room.deadline, usedWildCard: me.usedWildCard,
       myAnswer: room.answers.get(playerId) ?? null,
       answeredCount: room.answers.size,
       roundResult: revealed ? {
         winners: room.players.filter(p => room.roundResult.winnerIds.includes(p.id)).map(p => ({ id: p.id, name: p.name, avatar: p.avatar })),
         points: room.roundResult.winningPoints,
-        teamWinnerIds: room.roundResult.teamWinnerIds,
-        teamRounds: roundTeams,
         leaderboard: playerStandings(room.players, roundPoints, room.roundResult.previousScores)
       } : null,
       question: question && room.phase !== 'finished' ? {

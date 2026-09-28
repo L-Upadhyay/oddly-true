@@ -4,7 +4,7 @@ With Node.js 24, run `npm ci`, `npm run check`, `npm test`, and `npm run build`.
 
 ## Automated scope
 
-The test suite covers Solo round choices, early finish and replay; multiplayer rules, scores, Wild Cards, ties, timeouts, character/assets, capacity, team averages, host finish/transfer, real local HTTP/SSE, eight concurrent hosted players, persisted room reconstruction and exactly-once reveal scoring. Hosted API tests check seat authentication, foreign-origin mutations and expired rooms.
+The test suite covers Solo round choices, early finish and replay; multiplayer rules, individual scores, Wild Cards, ties, timeouts, character/assets, capacity, host finish/transfer, real local HTTP/SSE, eight concurrent hosted players, persisted room reconstruction and exactly-once reveal scoring. Hosted API tests check seat authentication, foreign-origin mutations and expired rooms.
 
 Hosted persistence tests adapt SQLite to the D1 prepared-statement interface. They verify our SQL/concurrency logic, not production load or network latency. CI uses Node 24 so hosted tests run rather than being skipped on an older runtime.
 
@@ -25,16 +25,16 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Two devices on different networks use public URL | Both load without signing in |
 | Create room; guest joins by code | Same roster and rules on both devices |
 | Join by invite link | Room code prefilled |
-| Custom two-round Individuals game | Picks lock; votes/truth reveal; host advances |
+| Custom two-round Friends game | Picks lock; votes/truth reveal; host advances |
 | Correct and incorrect picks | +10 and 0 consistent across devices |
-| Round and final results | Personal messages match correct/wrong/timeout, ties, team outcomes and final winner; losing remains encouraging |
+| Round and final results | Personal messages match correct/wrong/timeout, ties and final winner; losing remains encouraging |
 | Sound on/off, refresh and replay | Sound starts on with every new page load; the button mutes it for this visit. Question, lock, correct/wrong and final cues play once after interaction; a muted tab stays silent until refresh or re-enable. Solo final cues match high (70%+), middle, or low (20% or less) score relative to 10 per played fact |
 | Landing music | Light mode, Music and Sound start on with every new page load. Music begins immediately if the browser permits audio, or on the first landing pointer or key interaction. Clicking Music as the first interaction switches it off immediately; clicking again enables and starts it. Sound on and Music on use matching active styling. The jingle has no multi-second loop gap, stops when Solo or Friends play starts, and Music off stops it immediately. The three top controls align at desktop and mobile widths |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
 | Host decides reveal | Finish early is available to the host after a reveal |
 | Fixed Friends game | The host may finish early after a reveal; otherwise final scores follow the final reveal. At the score screen the host can continue with unseen facts or replay from zero |
-| Four-player teams | Balanced teams; average scores; consistent ties |
+| Four-player Friends room | All join by one code, each has an individual score; highest score wins |
 | Refresh mid-game | Same seat returns; scores do not duplicate |
 | Host leaves after game | Host transfers; final board stays intact |
 | Phone, light/dark, 200% zoom | Controls readable and reachable |

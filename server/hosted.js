@@ -46,7 +46,6 @@ export class HostedGame {
         case 'join': response = game.join(code, body); break;
         case 'state': break;
         case 'settings': game.setSettings(code, token, body); break;
-        case 'swap': game.swapTeams(code, token, body.firstId, body.secondId); break;
         case 'start': game.start(code, token); break;
         case 'answer': game.answer(code, token, body); break;
         case 'advance': game.advance(code, token); break;

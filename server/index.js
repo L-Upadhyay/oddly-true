@@ -112,7 +112,7 @@ async function route(req, res) {
     return json(res, 201, game.create(await readJson(req)));
   }
 
-  const match = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{5})\/(join|settings|swap|start|answer|advance|finish|extend|leave|react|state|events)$/i);
+  const match = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{5})\/(join|settings|start|answer|advance|finish|extend|leave|react|state|events)$/i);
   if (!match) return json(res, 404, { error: 'Page not found.' });
   const [, code, action] = match;
   if (req.method === 'POST' && action === 'join') return json(res, 201, game.join(code, await readJson(req)));
@@ -127,11 +127,6 @@ async function route(req, res) {
 
   switch (action) {
     case 'settings': game.setSettings(code, token, await readJson(req)); break;
-    case 'swap': {
-      const { firstId, secondId } = await readJson(req);
-      game.swapTeams(code, token, firstId, secondId);
-      break;
-    }
     case 'start': game.start(code, token); break;
     case 'answer': game.answer(code, token, await readJson(req)); break;
     case 'advance': game.advance(code, token); break;
