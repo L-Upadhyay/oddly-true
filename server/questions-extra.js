@@ -1,4 +1,4 @@
-// Reviewed animal and space question batches.
+// Reviewed animal, space and nature question batches.
 export const EXTRA_QUESTIONS = [
   {
     "id": "archerfish-water-shot",
@@ -923,6 +923,144 @@ export const EXTRA_QUESTIONS = [
       "creditUrl": "https://commons.wikimedia.org/wiki/File:Mercury_Sodium_tail_(PIA11076).jpg",
       "license": "Public domain",
       "licenseUrl": "https://commons.wikimedia.org/wiki/File:Mercury_Sodium_tail_(PIA11076).jpg"
+    }
+  },
+  {
+    "id": "hyperion-static-shock",
+    "topic": "MOON ANATOMY",
+    "choices": [
+      "Saturn's moon Hyperion acts as a giant magnet, pulling space debris into its orbit like a cosmic broom.",
+      "Saturn's moon Hyperion is so icy that its surface is completely frictionless, making landings impossible.",
+      "Cassini detected a beam of electrons coming from Saturn’s moon Hyperion."
+    ],
+    "correct": 2,
+    "explanation": "Cassini detected an electron beam from Hyperion, evidence that the moon was charged with static electricity.",
+    "source": {
+      "label": "NASA Jet Propulsion Laboratory (JPL)",
+      "url": "https://www.jpl.nasa.gov/news/cassini-caught-in-hyperions-particle-beam"
+    },
+    "image": {
+      "path": "/assets/questions/hyperion-static-shock.jpg",
+      "alt": "Saturn moon Hyperion in a Cassini image.",
+      "credit": "NASA/JPL-Caltech/Space Science Institute",
+      "creditUrl": "https://www.jpl.nasa.gov/news/cassini-caught-in-hyperions-particle-beam/",
+      "license": "NASA image",
+      "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+    }
+  },
+  {
+    "id": "cosmic-water-reservoir",
+    "topic": "DEEP SPACE DISCOVERIES",
+    "choices": [
+      "Astronomers found water vapor near a distant quasar equivalent to about 140 trillion Earth oceans.",
+      "A giant ocean of liquid water has been found floating freely between two galaxies in the Andromeda constellation.",
+      "A frozen ice cloud twice the size of our Solar System is orbiting a supermassive black hole."
+    ],
+    "correct": 0,
+    "explanation": "Astronomers observed an immense water vapor reservoir around a distant quasar, with about 140 trillion times the water in Earth’s oceans.",
+    "source": {
+      "label": "NASA Jet Propulsion Laboratory (JPL)",
+      "url": "https://www.jpl.nasa.gov/news/astronomers-find-largest-most-distant-reservoir-of-water"
+    },
+    "image": {
+      "path": "/assets/questions/cosmic-water-reservoir.jpg",
+      "alt": "Artist's concept of a water-rich quasar, representative of the discovery.",
+      "credit": "NASA/ESA",
+      "creditUrl": "https://science.nasa.gov/photojournal/quasar-drenched-in-water-vapor-artists-concept/",
+      "license": "NASA/ESA image",
+      "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+    }
+  },
+  {
+    "id": "triton-backward-orbit",
+    "topic": "RETROGRADE MOONS",
+    "choices": [
+      "Triton is Neptune's only moon that possesses active freshwater geysers.",
+      "Triton is the only large moon in our Solar System that orbits in the opposite direction of its planet's rotation.",
+      "Triton's orbit is so unstable that it swaps places with another Neptunian moon every few hundred years."
+    ],
+    "correct": 1,
+    "explanation": "Neptune's moon Triton has a retrograde orbit, meaning it moves in the opposite direction of Neptune's rotation. This unique path suggests Triton did not form around Neptune, but was instead a Kuiper Belt object gravitationally captured by the planet.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/neptune/moons/triton/"
+    },
+    "image": {
+      "path": "/assets/questions/triton-backward-orbit.jpg",
+      "alt": "Voyager 2 image of Neptune moon Triton.",
+      "credit": "NASA/JPL",
+      "creditUrl": "https://science.nasa.gov/neptune/moons/triton/",
+      "license": "NASA image",
+      "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+    }
+  },
+  {
+    "id": "sun-system-mass",
+    "topic": "SOLAR MASS",
+    "choices": [
+      "The Sun shares its gravitational mass equally with Jupiter, with each controlling 45% of the system.",
+      "The Sun makes up exactly 75% of the Solar System's mass, with gas giants holding the remainder.",
+      "The Sun contains about 99.8% of the mass in the Solar System."
+    ],
+    "correct": 2,
+    "explanation": "The Sun dwarfs all other objects in our neighborhood combined. It is so extraordinarily massive that all eight planets, their moons, the asteroid belt, and comets make up just a tiny 0.2 percent fraction of the Solar System's total mass.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/sun/facts/"
+    },
+    "image": {
+      "path": "/assets/questions/sun-system-mass.jpg",
+      "alt": "NASA illustration of the Sun with a solar flare.",
+      "credit": "NASA Science",
+      "creditUrl": "https://science.nasa.gov/sun/facts/",
+      "license": "NASA image",
+      "licenseUrl": "https://www.nasa.gov/nasa-brand-center/images-and-media/"
+    }
+  },
+  {
+    "id": "sagittarius-a-star-orbits",
+    "topic": "GALACTIC CENTER STARS",
+    "choices": [
+      "Astronomers tracked star S2 tracing a rosette-shaped orbit around the Milky Way’s central black hole.",
+      "Stars near the galactic center move in perfect circles because the black hole's gravity dominates all orbital perturbations.",
+      "No complete stellar orbits have been observed at the galactic center due to the 26,000 light-year distance."
+    ],
+    "correct": 0,
+    "explanation": "Decades of observations show S2’s orbit slowly shifting into a rosette shape, as Einstein’s general relativity predicts near Sagittarius A*.",
+    "source": {
+      "label": "European Southern Observatory",
+      "url": "https://www.eso.org/public/news/eso2006/"
+    },
+    "image": {
+      "path": "/assets/questions/sagittarius-a-star-orbits.jpg",
+      "alt": "Artist's illustration of the rosette shaped orbit of star S2 around Sagittarius A*.",
+      "credit": "ESO/L. Calçada",
+      "creditUrl": "https://www.eso.org/public/images/eso2006a/",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  {
+    "id": "death-valley-sailing-stones",
+    "topic": "DESERTS",
+    "choices": [
+      "Wind and thin ice can push heavy rocks across a Death Valley lakebed, leaving long tracks.",
+      "Death Valley sand dunes hum only during solar eclipses.",
+      "Death Valley stones grow a new mineral shell every summer."
+    ],
+    "correct": 0,
+    "explanation": "At Racetrack Playa, thin ice can form around rocks; when it breaks up and wind pushes it, the rocks can slowly move and leave tracks in the mud.",
+    "source": {
+      "label": "National Park Service",
+      "url": "https://www.nps.gov/deva/planyourvisit/the-racetrack.htm"
+    },
+    "image": {
+      "path": "/assets/questions/death-valley-sailing-stones.jpg",
+      "alt": "A sailing stone and its track on Racetrack Playa.",
+      "credit": "Daniel Mayer / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Death_Valley_NP_-_Racetrack_Playa_-_sailing_stone_-_closeup.JPG",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
     }
   }
 ];
