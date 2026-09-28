@@ -47,6 +47,7 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .panel { background: #1b2038; border: 1px solid #363d59; border-radius: 25px; box-shadow: 0 22px 65px #07091545; }
 .setup-panel { padding: clamp(22px, 3vw, 32px); }
 .setup-panel h2 { font-size: 1.6rem; margin: 0 0 22px; }
+.setup-panel .identity-title { font-size: 1.2rem; margin: 20px 0 15px; }
 .field { display: block; font-size: .88rem; font-weight: 700; color: #e5e8f4; margin-bottom: 9px; }
 .text-input { width: 100%; min-height: 51px; border: 1px solid #4a5270; background: #11162b; color: #fff; padding: 12px 15px; border-radius: 13px; outline: none; }
 .text-input:focus { border-color: #b9f57b; box-shadow: 0 0 0 3px #b9f57b30; }
