@@ -13,7 +13,7 @@ const letters = ['A', 'B', 'C'];
 const reactions = ['🤯', '😂', '👏', '😱', '👀', '🤔', '🫠'];
 let theme;
 try { theme = localStorage.getItem('oddly-true-theme'); } catch { /* private browsing can disable storage */ }
-theme = theme === 'light' || theme === 'dark' ? theme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+theme = theme === 'light' || theme === 'dark' ? theme : 'light';
 document.documentElement.dataset.theme = theme;
 document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#121b19' : '#f8f5f0';
 let seat = null;
@@ -37,7 +37,8 @@ let lastEffectKey = '';
 let welcomeTimer;
 let soundEnabled = true;
 try { soundEnabled = localStorage.getItem('oddly-true-sound') !== 'off'; } catch { /* use this visit's setting */ }
-let musicEnabled = false; // Every visit starts quiet until the player opts in.
+let musicEnabled = true;
+try { musicEnabled = localStorage.getItem('oddly-true-music') !== 'off'; } catch { /* use this visit's setting */ }
 let audioContext;
 let masterVolume;
 let musicVolume;
@@ -134,6 +135,12 @@ async function startMusic() {
 }
 
 window.addEventListener('pagehide', stopMusic);
+// A browser may suspend Web Audio until its first user gesture.
+for (const gesture of ['pointerdown', 'keydown']) {
+  document.addEventListener(gesture, event => {
+    if (musicEnabled && !state && !event.target.closest?.('[data-action="music"]')) void startMusic();
+  }, { capture: true });
+}
 
 function soloScoreFeedback(result, playerId) {
   const score = result.players.find(player => player.id === playerId)?.score ?? 0;
@@ -704,6 +711,7 @@ app.addEventListener('click', async event => {
   }
   if (kind === 'music') {
     musicEnabled = !musicEnabled;
+    try { localStorage.setItem('oddly-true-music', musicEnabled ? 'on' : 'off'); } catch { /* keep this visit's setting */ }
     if (!musicEnabled) stopMusic();
     render();
     return;
