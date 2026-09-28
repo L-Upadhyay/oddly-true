@@ -458,7 +458,7 @@ function finished() {
     const score = result.players.find(player => player.id === state.you)?.score ?? 0;
     return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'fact' : 'facts'}</div><h2>Your final score</h2>
       <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${soloScoreFeedback(result, state.you).message}</span></div></div>
-      <button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>
+      ${state.soloFactsAvailable ? `<p class="muted small">Want to keep your score going? Continue with ${Math.min(5, state.soloFactsAvailable)} new ${state.soloFactsAvailable === 1 ? 'fact' : 'facts'}.</p><div class="continue-actions"><button class="primary" type="button" data-action="extend-solo" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.soloFactsAvailable)} more</button><button class="secondary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button></div>` : `<p class="muted small">You have seen every fact in this session. Start fresh to play again.</p><button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>`}
       <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button>`;
   }
   const teams = result.playMode === 'teams';
@@ -785,7 +785,7 @@ app.addEventListener('click', async event => {
   }
   if (kind === 'answer') { await action('answer', { choice: Number(button.dataset.choice), wildCard: wildCardSelected }); return; }
   if (kind === 'react') { await action('react', { emoji: button.dataset.emoji }); return; }
-  if (kind === 'start' || kind === 'advance' || kind === 'finish') await action(kind);
+  if (kind === 'start' || kind === 'advance' || kind === 'finish' || kind === 'extend-solo') await action(kind);
 });
 
 async function initialize() {
