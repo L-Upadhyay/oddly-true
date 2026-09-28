@@ -11,9 +11,7 @@ const toast = document.querySelector('#toast');
 const reactionTray = document.querySelector('#reactions');
 const letters = ['A', 'B', 'C'];
 const reactions = ['🤯', '😂', '👏', '😱', '👀', '🤔', '🫠'];
-let theme;
-try { theme = localStorage.getItem('oddly-true-theme'); } catch { /* private browsing can disable storage */ }
-theme = theme === 'light' || theme === 'dark' ? theme : 'light';
+let theme = 'light';
 document.documentElement.dataset.theme = theme;
 document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#121b19' : '#f8f5f0';
 let seat = null;
@@ -43,17 +41,16 @@ let toastTimer;
 let lastEffectKey = '';
 let welcomeTimer;
 let soundEnabled = true;
-try { soundEnabled = localStorage.getItem('oddly-true-sound') !== 'off'; } catch { /* use this visit's setting */ }
 let musicEnabled = true;
-try { musicEnabled = localStorage.getItem('oddly-true-music') !== 'off'; } catch { /* use this visit's setting */ }
 let audioContext;
 let masterVolume;
 let musicVolume;
 let musicTimer;
 let musicSession = 0;
+let musicStarting = false;
 const musicVoices = new Set();
 
-async function audioReady() {
+function ensureAudioContext() {
   try {
     const Audio = window.AudioContext || window.webkitAudioContext;
     if (!Audio) return null;
@@ -63,6 +60,14 @@ async function audioReady() {
       masterVolume.gain.value = 0.45;
       masterVolume.connect(audioContext.destination);
     }
+    return audioContext;
+  } catch { return null; }
+}
+
+async function audioReady() {
+  try {
+    const context = ensureAudioContext();
+    if (!context) return null;
     if (audioContext.state === 'suspended') await audioContext.resume();
     return audioContext.state === 'running' ? audioContext : null;
   } catch { return null; }
@@ -100,6 +105,7 @@ async function playSound(cue) {
 
 function stopMusic() {
   musicSession++;
+  musicStarting = false;
   clearInterval(musicTimer);
   musicTimer = null;
   for (const voice of musicVoices) {
@@ -108,44 +114,63 @@ function stopMusic() {
   musicVoices.clear();
 }
 
-async function startMusic() {
-  if (!musicEnabled || state || musicTimer) return;
-  const session = ++musicSession;
-  const context = await audioReady();
-  if (!context || session !== musicSession || !musicEnabled || state) return;
-  if (!musicVolume) {
-    musicVolume = context.createGain();
-    musicVolume.gain.value = .09; // Much quieter than the answer cues.
-    musicVolume.connect(context.destination);
-  }
-  const playPhrase = () => {
-    if (!musicEnabled || state) { stopMusic(); return; }
-    const phrase = [[262, 0, 2.7], [523, .15, .72], [659, 1.25, .72], [392, 2.3, 2.6], [784, 2.5, .72], [659, 3.65, .85]];
-    for (const [frequency, offset, duration] of phrase) {
+async function startMusic(fromGesture = false) {
+  if (!musicEnabled || state || musicTimer || musicStarting) return;
+  const context = ensureAudioContext();
+  if (!context || (context.state !== 'running' && !fromGesture)) return;
+  const session = musicSession;
+  musicStarting = true;
+  try {
+    if (context.state === 'suspended') await context.resume();
+    if (context.state !== 'running' || session !== musicSession || !musicEnabled || state) return;
+    if (!musicVolume) {
+      musicVolume = context.createGain();
+      musicVolume.gain.value = .13; // Softer than the answer cues.
+      musicVolume.connect(context.destination);
+    }
+    const note = (frequency, start, duration, level, type = 'triangle') => {
       const voice = context.createOscillator();
       const envelope = context.createGain();
-      const start = context.currentTime + offset + .03;
-      voice.type = 'sine';
+      voice.type = type;
       voice.frequency.value = frequency;
       envelope.gain.setValueAtTime(.0001, start);
-      envelope.gain.exponentialRampToValueAtTime(.08, start + .08);
+      envelope.gain.linearRampToValueAtTime(level, start + Math.min(.06, duration / 3));
+      envelope.gain.setValueAtTime(level * .72, start + duration - .09);
       envelope.gain.exponentialRampToValueAtTime(.0001, start + duration);
       voice.connect(envelope).connect(musicVolume);
       musicVoices.add(voice);
       voice.onended = () => musicVoices.delete(voice);
       voice.start(start);
-      voice.stop(start + duration + .02);
-    }
-  };
-  playPhrase();
-  musicTimer = setInterval(playPhrase, 8000);
+      voice.stop(start + duration + .01);
+    };
+    // Original eight-second phrase. The bass crosses each bar boundary,
+    // while the plucked melody adds the playful, slightly odd bounce.
+    const melody = [523, 659, 784, 659, 587, 698, 523, 392, 523, 659, 880, 784, 698, 587, 659, 523];
+    const bass = [131, 165, 147, 196];
+    const scheduleBar = start => {
+      bass.forEach((frequency, step) => note(frequency, start + step * 2, 2.08, .10, 'sine'));
+      melody.forEach((frequency, step) => note(frequency, start + step * .5 + .08, step % 4 === 3 ? .39 : .27, .11));
+    };
+    let nextBar = context.currentTime + .06;
+    const scheduleAhead = () => {
+      if (session !== musicSession || !musicEnabled || state) return;
+      if (nextBar < context.currentTime - .2) nextBar = context.currentTime + .06;
+      while (nextBar < context.currentTime + 8.2) {
+        scheduleBar(nextBar);
+        nextBar += 8;
+      }
+    };
+    scheduleAhead();
+    musicTimer = setInterval(scheduleAhead, 250);
+  } catch { /* The browser may wait for another interaction to allow audio. */ }
+  finally { if (session === musicSession) musicStarting = false; }
 }
 
 window.addEventListener('pagehide', stopMusic);
 // A browser may suspend Web Audio until its first user gesture.
 for (const gesture of ['pointerdown', 'keydown']) {
   document.addEventListener(gesture, event => {
-    if (musicEnabled && !state && !event.target.closest?.('[data-action="music"]')) void startMusic();
+    if (musicEnabled && !state && !event.target.closest?.('[data-action="music"]')) void startMusic(true);
   }, { capture: true });
 }
 
@@ -763,7 +788,6 @@ app.addEventListener('click', async event => {
   const kind = button.dataset.action;
   if (kind === 'sound') {
     soundEnabled = !soundEnabled;
-    try { localStorage.setItem('oddly-true-sound', soundEnabled ? 'on' : 'off'); } catch { /* keep this visit's setting */ }
     if (masterVolume) masterVolume.gain.value = soundEnabled ? .45 : 0;
     if (soundEnabled) void playSound('welcome');
     render();
@@ -771,9 +795,9 @@ app.addEventListener('click', async event => {
   }
   if (kind === 'music') {
     musicEnabled = !musicEnabled;
-    try { localStorage.setItem('oddly-true-music', musicEnabled ? 'on' : 'off'); } catch { /* keep this visit's setting */ }
     if (!musicEnabled) stopMusic();
     render();
+    if (musicEnabled) void startMusic(true);
     return;
   }
   void audioReady();
@@ -805,7 +829,6 @@ app.addEventListener('click', async event => {
   }
   if (kind === 'theme') {
     theme = theme === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem('oddly-true-theme', theme); } catch { /* keep the choice for this visit */ }
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#121b19' : '#f8f5f0';
     render();

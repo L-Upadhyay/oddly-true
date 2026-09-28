@@ -7,16 +7,7 @@
     <meta name="description" content="Three bizarre claims. One is oddly true. Play Solo or with friends on separate devices.">
     <title>Oddly True — a bizarre fact party game</title>
     <script>
-      try {
-        const saved = localStorage.getItem('oddly-true-theme');
-        const mode = saved === 'light' || saved === 'dark' ? saved : 'light';
-        document.documentElement.dataset.theme = mode;
-        document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#121b19' : '#f8f5f0';
-      } catch {
-        const mode = 'light';
-        document.documentElement.dataset.theme = mode;
-        document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#121b19' : '#f8f5f0';
-      }
+      document.documentElement.dataset.theme = 'light';
     </script>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/theme.css">

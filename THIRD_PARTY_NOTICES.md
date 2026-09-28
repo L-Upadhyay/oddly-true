@@ -95,6 +95,31 @@ The following credits and usage links are recorded in `server/questions.js` and 
 | `questions/exploding-sandbox-tree.jpg` | [Hans Hillewaert / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hura_crepitans_(fruit).jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `questions/miracle-fruit-taste.jpg` | [Hamale Lyman / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:MiracleBerry.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
 
+| `questions/hyperion-static-shock.jpg` | [NASA/JPL-Caltech/Space Science Institute](https://www.jpl.nasa.gov/news/cassini-caught-in-hyperions-particle-beam/) | [NASA image](https://www.nasa.gov/nasa-brand-center/images-and-media/) |
+| `questions/cosmic-water-reservoir.jpg` | [NASA/ESA](https://science.nasa.gov/photojournal/quasar-drenched-in-water-vapor-artists-concept/) | [NASA/ESA image](https://www.nasa.gov/nasa-brand-center/images-and-media/) |
+| `questions/triton-backward-orbit.jpg` | [NASA/JPL](https://science.nasa.gov/neptune/moons/triton/) | [NASA image](https://www.nasa.gov/nasa-brand-center/images-and-media/) |
+| `questions/sun-system-mass.jpg` | [NASA Science](https://science.nasa.gov/sun/facts/) | [NASA image](https://www.nasa.gov/nasa-brand-center/images-and-media/) |
+| `questions/sagittarius-a-star-orbits.jpg` | [ESO/L. Calçada](https://www.eso.org/public/images/eso2006a/) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `questions/death-valley-sailing-stones.jpg` | [Daniel Mayer / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Death_Valley_NP_-_Racetrack_Playa_-_sailing_stone_-_closeup.JPG) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/corpse-flower-smell.jpg` | [United States Botanic Garden / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Titan-arum1web.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/welwitschia-two-leaves.jpg` | [Hans Hillewaert / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Welwitschia_mirabilis.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/strangler-fig-host.jpg` | [Tinny Jnr / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Strangler_fig_tree.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/dodder-parasite-plant.jpg` | [Khalid Mahmood / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cuscuta_parasite_plant.JPG) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/resurrection-plant-revives.jpg` | [James St. John / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Selaginella_lepidophylla_(resurrection_plant)_(Mexico)_1_(49748122767).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/mangrove-salt-leaves.jpg` | [Ulf Mehlig / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Avicennia_germinans-salt_excretion.jpg) | [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/) |
+| `questions/antikythera-gears.jpg` | [Therese Clutario / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fragments_of_the_Antikythera_Mechanism.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/rosetta-three-scripts.jpg` | [Hans Hillewaert / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Rosetta_Stone.JPG) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/mechanical-turk-operator.jpg` | [Joseph Friedrich zu Racknitz (1789) / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chess_Turk.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/tyrian-purple-snails.jpg` | [James St. John / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hexaplex_trunculus_(trunculus_murex_snail)_(24436251519).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/quipu-knotted-records.jpg` | [Brooklyn Museum (unknown maker) / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Inca._Quipu.jpg) | [No known copyright restrictions](https://commons.wikimedia.org/wiki/File:Inca._Quipu.jpg) |
+| `questions/glass-armonica-bowls.jpg` | [Vince Flango / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Glassarmonica.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/velcro-burrs.jpg` | [Zephyris / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bur_Macro_BlackBg.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/play-doh-wallpaper-cleaner.jpg` | [Larry D. Moore / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Playdoh.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+
+## Audio
+
+The jingle and feedback cues are generated in `public/app.js` with original Web Audio oscillator patterns. No third-party audio samples are bundled. See [audio design and provenance](docs/audio.md).
+
 ## Fonts and dependencies
 
 DM Sans and Space Grotesk are loaded through Google Fonts; font files are not bundled. The page falls back to system fonts if the font request is unavailable. Development dependencies are declared in `package.json` and pinned by `package-lock.json`; their own licences continue to apply.
