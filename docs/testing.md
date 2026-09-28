@@ -28,8 +28,8 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Custom two-round Individuals game | Picks lock; votes/truth reveal; host advances |
 | Correct and incorrect picks | +10 and 0 consistent across devices |
 | Round and final results | Personal messages match correct/wrong/timeout, ties, team outcomes and final winner; losing remains encouraging |
-| Sound on/off, refresh and replay | Button state persists; question, lock, correct/wrong and final cues play once after interaction; muted tab stays silent. Solo final cues match high (70%+), middle, or low (20% or less) score relative to 10 per played fact |
-| Landing music | Music is enabled on the landing page by default and begins when the browser permits audio, typically after the first click or key press. Music and Sound controls work independently and remember off choices; the tune stops when Solo or Friends play starts, and Music off stops it immediately |
+| Sound on/off, refresh and replay | Sound starts on with every new page load; the button mutes it for this visit. Question, lock, correct/wrong and final cues play once after interaction; a muted tab stays silent until refresh or re-enable. Solo final cues match high (70%+), middle, or low (20% or less) score relative to 10 per played fact |
+| Landing music | Light mode, Music and Sound start on with every new page load. Music begins immediately if the browser permits audio, otherwise on the first pointer or key interaction without a toggle cycle. The jingle has no multi-second loop gap, stops when Solo or Friends play starts, and Music off stops it immediately. The three top controls align at desktop and mobile widths |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
 | Host decides reveal | Finish early is available to the host after a reveal |

@@ -67,7 +67,9 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
 - Bundled illustrated avatars, a custom pigeon, brief welcome overlays and credited fact photographs.
-- Original short sound cues for questions, locked answers, reveals and final scores, with a persistent Sound on/off button. A separate, very soft original background music loop is enabled by default on the landing page and stops during gameplay. Music and sound effects have independent, saved controls. Browsers may wait for the first interaction before playing music. Solo completion uses celebratory (70%+), gentle (20% or less), or steady (between) feedback based on points relative to 10 per fact played; a Wild Card can exceed that baseline.
+- Original short sound cues for questions, locked answers, reveals and final scores. An original, continuous background jingle plays on the landing page and stops during gameplay. Music and Sound have independent controls; both and the light theme start on for every new page load. Browsers may wait for the first interaction before allowing music, which then starts without toggling Music off and on. Solo completion uses celebratory (70%+), gentle (20% or less), or steady (between) feedback based on points relative to 10 per fact played; a Wild Card can exceed that baseline.
+
+The [audio design and provenance](docs/audio.md) records how the original jingle and cues are made.
 - Light/dark themes, labelled controls, text feedback and reduced-motion support.
 - Same-tab reconnection, replay, and host transfer when leaving between games.
 
@@ -123,7 +125,7 @@ GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflar
 
 ## Data and limitations
 
-Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. Theme, audio and Solo Auto next choices are stored in this browser. See [security/privacy](SECURITY.md).
+Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. Solo Auto next is stored in this browser; theme and audio switches apply to the current visit. See [security/privacy](SECURITY.md).
 
 This is a playable project, not a load-tested commercial service. Solo selects up to ten facts; multiplayer selects up to ten rounds from 100 vetted questions. Each new question has a source and a credited representative image. Unused drafts are held privately outside the public repository. Hosted updates use roughly 900 ms polling. A disconnected multiplayer host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
 

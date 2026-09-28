@@ -2,6 +2,9 @@
 .topbar-right { display: flex; align-items: center; gap: 17px; }
 .theme-toggle { border: 1px solid currentColor; color: inherit; background: transparent; border-radius: 999px; padding: 8px 13px; font-weight: 800; font-size: .85rem; white-space: nowrap; }
 .theme-toggle:hover { transform: translateY(-1px); }
+.landing-topbar .topbar-right { display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, 112px); width: min(100%, 600px); gap: 10px; }
+.landing-topbar .top-note { justify-self: end; white-space: nowrap; }
+.landing-topbar .theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 38px; }
 .landing-topbar .brand { font-size: clamp(2.7rem, 4.2vw, 3.7rem); }
 .landing-topbar .brand-mark { width: 76px; height: 76px; border-radius: 19px; font-size: 2.8rem; }
 .landing { gap: clamp(18px, 2.5vw, 42px); margin-inline: clamp(8px, 1.5vw, 24px); padding-top: clamp(8px, 2vh, 24px); }
@@ -136,6 +139,7 @@
 [data-theme="light"] .brand { color: #183328; }
 [data-theme="light"] .top-note { color: #526b59; }
 [data-theme="light"] .theme-toggle { color: #264b37; border-color: #abc8a9; background: #fff; }
+[data-theme="light"] .music-button[aria-pressed="true"] { color: #173123; border-color: #b9f57b; background: #b9f57b; }
 [data-theme="light"] .eyebrow { color: #345e35; }
 [data-theme="light"] .landing-copy { background: #e1f2c9; border: 1px solid #bedfa4; box-shadow: 0 20px 55px #5e7b4c1c; }
 [data-theme="light"] .landing-copy h1 em { color: #225e3f; }
@@ -262,8 +266,13 @@
 @media (max-width: 850px) {
   .landing { margin-inline: 0; }
   .landing-topbar .top-note { display: none; }
+  .landing-topbar .topbar-right { width: auto; grid-template-columns: repeat(3, 112px); }
   .landing-copy { min-height: 0; }
   .landing-copy .rule-line { margin-top: 15px; padding-top: 0; }
+}
+@media (max-width: 740px) {
+  .landing-topbar { flex-wrap: wrap; }
+  .landing-topbar .topbar-right { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 571px) and (max-width: 1200px) {
   .reveal-box { grid-template-columns: 1fr; }
