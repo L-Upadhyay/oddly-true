@@ -14,6 +14,28 @@ import {
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+test('the final fact batch marks the sourced claim as correct', () => {
+  const truths = new Map([
+    ['pineapple-many-flowers', 'A pineapple forms from many flowers fused together.'],
+    ['cacao-pods-trunk', 'Cacao pods can grow directly from the tree trunk.'],
+    ['earwax-gene-type', 'A gene variant helps determine whether earwax is wet or dry.'],
+    ['undersea-lakes-waves', 'Some ocean floors hold distinct pools of extra-salty water.'],
+    ['sahara-amazon-fertilizer', 'Saharan dust crosses the Atlantic and delivers nutrients to the Amazon.'],
+    ['singing-sand-dunes', 'Some sand dunes make a low booming sound during sand avalanches.'],
+    ['bloop-icequake-sound', 'NOAA found Bloop consistent with cracking iceberg sounds.'],
+    ['peles-hair-volcanic-glass', 'Eruptions can draw molten lava into thin glass strands called Pele’s hair.'],
+    ['milky-seas-glow', 'Some large stretches of ocean glow steadily and can be detected from space.'],
+    ['exploding-sandbox-tree', 'The sandbox tree disperses seeds by bursting its fruit capsule.'],
+    ['miracle-fruit-taste', 'Miracle fruit temporarily makes sour foods taste sweet.']
+  ]);
+  assert.equal(QUESTIONS.length, 100);
+  for (const [id, truth] of truths) {
+    const question = QUESTIONS.find(item => item.id === id);
+    assert.ok(question, `Missing fact: ${id}`);
+    assert.equal(question.choices[question.correct], truth, `Incorrect answer key: ${id}`);
+  }
+});
+
 test('Solo plays five facts without a guest or vote wait, then replays; friends still require two', () => {
   const game = new GameStore({ scheduleTimers: false });
   const solo = game.create({ name: 'Solo Fox', avatar: '🦊', kind: 'solo' });

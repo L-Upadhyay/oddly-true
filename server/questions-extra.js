@@ -1830,7 +1830,7 @@ export const EXTRA_QUESTIONS = [
       "A pineapple is one enormous single berry from one flower.",
       "A pineapple grows as a root swelling below the soil."
     ],
-    "correct": 2,
+    "correct": 0,
     "explanation": "The familiar pineapple is a multiple fruit formed from the joined fruits of many individual flowers.",
     "source": {
       "label": "University of Florida IFAS",
@@ -1853,7 +1853,7 @@ export const EXTRA_QUESTIONS = [
       "Cacao pods can grow directly from the tree trunk.",
       "Cacao pods grow on the tips of palm fronds."
     ],
-    "correct": 0,
+    "correct": 1,
     "explanation": "Cacao flowers can arise directly on the trunk and older branches, where their pods develop.",
     "source": {
       "label": "Royal Botanic Gardens, Kew",
@@ -1876,7 +1876,7 @@ export const EXTRA_QUESTIONS = [
       "Earwax type changes to match the local climate each year.",
       "Earwax type depends entirely on the food eaten that day."
     ],
-    "correct": 2,
+    "correct": 0,
     "explanation": "A variant in the ABCC11 gene strongly determines the wet or dry earwax trait.",
     "source": {
       "label": "Human Molecular Genetics research",
@@ -1922,7 +1922,7 @@ export const EXTRA_QUESTIONS = [
       "Saharan sand becomes rainforest only after a volcanic eruption.",
       "Saharan dust crosses the Atlantic and delivers nutrients to the Amazon."
     ],
-    "correct": 0,
+    "correct": 2,
     "explanation": "NASA satellite measurements show Saharan dust carrying phosphorus across the Atlantic to Amazon soils.",
     "source": {
       "label": "NASA",
@@ -1945,7 +1945,7 @@ export const EXTRA_QUESTIONS = [
       "Some dunes emit songs from buried ice crystals.",
       "Every dune whistles only when lightning strikes it."
     ],
-    "correct": 1,
+    "correct": 0,
     "explanation": "Flowing sand grains can synchronize and produce a sustained audible hum or boom on certain dunes.",
     "source": {
       "label": "Physical Review Letters",
@@ -1968,7 +1968,7 @@ export const EXTRA_QUESTIONS = [
       "NOAA found Bloop consistent with cracking iceberg sounds.",
       "Bloop was the sound of a submarine broadcasting music."
     ],
-    "correct": 2,
+    "correct": 1,
     "explanation": "NOAA found that the 1997 Bloop recording matched icequakes from large cracking icebergs; the precise iceberg was not identified.",
     "source": {
       "label": "NOAA Pacific Marine Environmental Laboratory",
@@ -1991,7 +1991,7 @@ export const EXTRA_QUESTIONS = [
       "Pele’s hair is a tropical moss that grows inside lava tubes.",
       "Pele’s hair is a plume of ash that turns into actual wool."
     ],
-    "correct": 1,
+    "correct": 0,
     "explanation": "Lava stretched by escaping gas and wind cools into long, fragile strands of volcanic glass.",
     "source": {
       "label": "National Park Service",
@@ -2014,7 +2014,7 @@ export const EXTRA_QUESTIONS = [
       "Milky seas are caused by underwater neon minerals.",
       "Some large stretches of ocean glow steadily and can be detected from space."
     ],
-    "correct": 0,
+    "correct": 2,
     "explanation": "Satellite night sensors have detected broad, long-lasting milky sea glows associated with luminous bacteria.",
     "source": {
       "label": "NASA Earth Observatory",
@@ -2037,7 +2037,7 @@ export const EXTRA_QUESTIONS = [
       "The sandbox tree releases seeds only when birds sing nearby.",
       "The sandbox tree sends seeds upward on columns of steam."
     ],
-    "correct": 1,
+    "correct": 0,
     "explanation": "As its fruit dries, tension builds until the capsule splits suddenly and ejects seeds.",
     "source": {
       "label": "Annals of Botany research",
@@ -2060,7 +2060,7 @@ export const EXTRA_QUESTIONS = [
       "Miracle fruit temporarily makes sour foods taste sweet.",
       "Miracle fruit changes every taste to bitterness."
     ],
-    "correct": 2,
+    "correct": 1,
     "explanation": "A protein called miraculin changes how sweet receptors respond to acidic foods, making sour tastes seem sweet for a while.",
     "source": {
       "label": "Research in Chemical Senses",

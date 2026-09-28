@@ -26,3 +26,5 @@ Twenty drafts were promoted after claim, source, answer, and image review. Each 
 | `miracle-fruit-taste` | [Research in Chemical Senses](https://pubmed.ncbi.nlm.nih.gov/3403544/) | [Hamale Lyman / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:MiracleBerry.jpg), [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
 
 The playable bank now contains 100 questions.
+
+Live Solo testing later exposed an answer-key indexing error in this batch: the Saharan dust claim was marked wrong even though its explanation and NASA source supported it. A complete read-through of all 100 claim/explanation pairs found ten incorrect `correct` indices in this final batch. Their indices were corrected without changing the claims, explanations, sources, or image credits; a regression check now asserts the intended true claim for each of the eleven final-batch entries.
