@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 
-test('HTTP and live events connect separate players through a team game', async t => {
+test('HTTP and live events connect separate players in one room', async t => {
   const server = spawn(process.execPath, ['server/index.js'], {
     cwd: new URL('../', import.meta.url),
     env: { ...process.env, PORT: '0', HOST: '127.0.0.1' },
@@ -41,8 +41,8 @@ test('HTTP and live events connect separate players through a team game', async 
   const guests = await Promise.all(['Guest One', 'Guest Two', 'Guest Three'].map(name =>
     post(`/api/rooms/${host.code}/join`, { name })
   ));
-  await post(`/api/rooms/${host.code}/settings`, { roundMode: 'host', playMode: 'teams' }, host);
-  assert.deepEqual((await getState(guests[0])).teams.map(team => team.count), [2, 2]);
+  await post(`/api/rooms/${host.code}/settings`, { roundMode: 'host' }, host);
+  assert.equal((await getState(guests[0])).players.length, 4);
   await post(`/api/rooms/${host.code}/start`, {}, host);
 
   const controller = new AbortController();
@@ -74,7 +74,7 @@ test('HTTP and live events connect separate players through a team game', async 
   await post(`/api/rooms/${host.code}/finish`, {}, host);
   const final = await getState(guests[0]);
   assert.equal(final.finalResult.roundsPlayed, 1);
-  assert.equal(final.finalResult.teams.length, 2);
+  assert.equal(final.finalResult.players.length, 4);
   await post(`/api/rooms/${host.code}/leave`, {}, host);
   const transferred = await getState(guests[0]);
   assert.equal(transferred.hostId, guests[0].playerId);

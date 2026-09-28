@@ -195,10 +195,7 @@ function soundForTransition(previous, next) {
     else void playSound(cue);
   } else if (next.phase === 'finished' && previous.phase !== 'finished') {
     if (next.kind === 'solo') { void playSound(soloScoreFeedback(next.finalResult, next.you).cue); return; }
-    const result = next.finalResult;
-    const won = result.playMode === 'teams'
-      ? result.teams.some(team => team.rank === 1 && team.members.includes(next.you))
-      : result.players.some(player => player.rank === 1 && player.id === next.you);
+    const won = next.finalResult.players.some(player => player.rank === 1 && player.id === next.you);
     if (won) void playSound('celebrate');
   }
 }
@@ -293,7 +290,7 @@ function landing() {
       <section class="panel setup-panel" aria-label="Choose a game and identity">
         <h2>How do you want to play?</h2>
         <div class="play-paths" role="group" aria-label="Choose how to play">
-          <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>2 to 8 players, live on separate devices</small></button>
+          <button class="${landingMode === 'friends' ? 'primary' : 'secondary'}" type="button" data-action="choose-friends" aria-pressed="${landingMode === 'friends'}">Play with Friends <small>Create or join one room · 2 to 8 players</small></button>
           <button class="${landingMode === 'solo' ? 'primary' : 'secondary'}" type="button" data-action="choose-solo" aria-pressed="${landingMode === 'solo'}">Play Solo <small>Just you, at your pace</small></button>
         </div>
         <p class="entry-note">Pick a name and character. No accounts. No downloads. Just play.</p>
@@ -340,16 +337,10 @@ function points(value) {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
-function teamName(id) {
-  return state.teams.find(team => team.id === id)?.name ?? (id === 'A' ? 'Truth Troop' : 'Odd Squad');
-}
-
 function sidebar() {
-  const teams = state.phase === 'finished' ? state.activePlayMode === 'teams' : state.playMode === 'teams';
-  const teamRows = state.phase === 'finished' ? state.finalResult.teams : state.teams;
-  return `<aside class="panel score-side" aria-label="Scores">${teams && state.phase !== 'lobby' ? `<h3>Teams <span class="muted small">average</span></h3><div class="score-list">${teamRows.map(team => `<div class="player-row team-${team.id.toLowerCase()}"><span class="team-dot" aria-hidden="true"></span><span class="player-name">${escapeHtml(team.name)}</span><span class="player-points">${points(team.score)}</span></div>`).join('')}</div>` : ''}
+  return `<aside class="panel score-side" aria-label="Scores">
     <h3>Players <span class="muted small">${state.players.length}/8</span></h3>
-    <div class="score-list">${state.players.map(player => `<div class="player-row"><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span><span class="player-name">${playerName(player)}${player.id === state.you ? ' <span class="you-tag">(You)</span>' : ''}${teams && player.teamId ? `<span class="team-tag team-${player.teamId.toLowerCase()}">${escapeHtml(teamName(player.teamId))}</span>` : ''}</span><span class="player-points">${state.phase === 'lobby' ? '—' : player.score}</span></div>`).join('')}</div>
+    <div class="score-list">${state.players.map(player => `<div class="player-row"><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span><span class="player-name">${playerName(player)}${player.id === state.you ? ' <span class="you-tag">(You)</span>' : ''}</span><span class="player-points">${state.phase === 'lobby' ? '—' : player.score}</span></div>`).join('')}</div>
     ${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}
   </aside>`;
 }
@@ -363,24 +354,9 @@ function roundSettings() {
   <p class="muted small">${state.roundMode === 'host' ? 'After each reveal, the host can continue or finish. Up to 10 rounds.' : 'One fact per round. The host can finish early after a reveal.'}</p></fieldset>`;
 }
 
-function teamSettings() {
-  return `<fieldset class="settings-group"><legend>Play style</legend><div class="option-row">
-    <label class="mode-option"><input type="radio" name="play-mode" value="solo" ${state.playMode === 'solo' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Individuals</span></label>
-    <label class="mode-option"><input type="radio" name="play-mode" value="teams" ${state.playMode === 'teams' ? 'checked' : ''} ${pending ? 'disabled' : ''}><span>Teams · 4–8</span></label>
-  </div><p class="muted small">${state.playMode === 'teams' ? 'Everyone answers independently. Team score is the average of its members’ points. Each person has their own Wild Card.' : 'The highest personal score wins.'}</p></fieldset>`;
-}
-
-function teamLobby() {
-  if (state.playMode !== 'teams') return `<div class="lobby-players">${state.players.map(player => `<span class="lobby-player"><span class="lobby-avatar" aria-hidden="true">${avatarArt(player.avatar, 'lobby-avatar-art')}</span>${escapeHtml(player.name)}</span>`).join('')}</div>`;
-  const [a, b] = ['A', 'B'].map(id => state.players.filter(player => player.teamId === id));
-  return `<div class="team-lobby">${[a, b].map((members, index) => `<div class="team-card team-${index ? 'b' : 'a'}"><h3><span class="team-dot" aria-hidden="true"></span>${index ? 'Odd Squad' : 'Truth Troop'}</h3><div class="team-members">${members.map(player => identityInline(player)).join('') || '<span class="muted">Waiting for players</span>'}</div></div>`).join('')}</div>
-    ${state.hostId === state.you && a.length && b.length ? `<div class="swap-controls"><span class="field">Swap teammates</span><div><select id="team-a-swap" class="text-input" aria-label="Truth Troop player">${a.map(player => `<option value="${player.id}">${escapeHtml(player.name)}</option>`).join('')}</select><select id="team-b-swap" class="text-input" aria-label="Odd Squad player">${b.map(player => `<option value="${player.id}">${escapeHtml(player.name)}</option>`).join('')}</select><button class="secondary" type="button" data-action="swap" ${pending ? 'disabled' : ''}>Swap</button></div></div>` : ''}`;
-}
-
 function lobby() {
   const isHost = state.hostId === state.you;
-  const requiredPlayers = state.playMode === 'teams' ? 4 : 2;
-  const ready = state.players.length >= requiredPlayers;
+  const ready = state.players.length >= 2;
   const lobbyStatus = !ready ? 'Waiting for players' : isHost ? 'Ready to start' : 'Waiting for host';
   return `<div class="stage-head"><span class="eyebrow">The lobby</span><span class="pill">${lobbyStatus}</span></div>
     <div class="lobby-intro"><h2>Gather your fellow fact detectives.</h2>
@@ -391,9 +367,9 @@ function lobby() {
         <li><span class="guide-icon" aria-hidden="true">✦</span><div><strong>See the reveal</strong><span>Votes appear first, then the truth and leaderboard. The host starts the next round.</span></div></li>
       </ul>
     </div>
-    ${teamLobby()}
-    ${isHost ? `${roundSettings()}${teamSettings()}` : `<p class="muted">${state.roundMode === 'host' ? 'Host decides when to finish, up to 10 rounds' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'}`} · ${state.playMode === 'teams' ? 'Teams by average score' : 'Individuals by total points'}. The host sets the rules.</p>`}
-    <div class="lobby-footer">${isHost ? `<button class="primary" type="button" data-action="start" ${!ready || pending ? 'disabled' : ''}>Start the game</button><p class="muted small">${!ready ? `Waiting for ${requiredPlayers} players.` : state.roundMode === 'host' ? 'Finish after any reveal, at most 10 rounds.' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'} · plan for ${Math.ceil(state.totalRounds / 2)}+ ${state.totalRounds <= 2 ? 'minute' : 'minutes'}; host sets the pace.`}</p>` : `<p class="muted">${ready ? 'Waiting for the host to start…' : 'Waiting for more players…'}</p>`}</div>`;
+    <div class="lobby-players">${state.players.map(player => `<span class="lobby-player"><span class="lobby-avatar" aria-hidden="true">${avatarArt(player.avatar, 'lobby-avatar-art')}</span>${escapeHtml(player.name)}</span>`).join('')}</div>
+    ${isHost ? roundSettings() : `<p class="muted">${state.roundMode === 'host' ? 'Host decides when to finish, up to 10 rounds' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'}`} · Highest personal score wins. The host sets the rules.</p>`}
+    <div class="lobby-footer">${isHost ? `<button class="primary" type="button" data-action="start" ${!ready || pending ? 'disabled' : ''}>Start the game</button><p class="muted small">${!ready ? 'Waiting for 2 players.' : state.roundMode === 'host' ? 'Finish after any reveal, at most 10 rounds.' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'} · plan for ${Math.ceil(state.totalRounds / 2)}+ ${state.totalRounds <= 2 ? 'minute' : 'minutes'}; host sets the pace.`}</p>` : `<p class="muted">${ready ? 'Waiting for the host to start…' : 'Waiting for more players…'}</p>`}</div>`;
 }
 
 function choiceList() {
@@ -415,13 +391,7 @@ function choiceList() {
 }
 
 function roundWinner() {
-  const { winners, points: winningPoints, teamWinnerIds, teamRounds } = state.roundResult;
-  if (state.activePlayMode === 'teams') {
-    if (!teamWinnerIds.length) return '<div class="round-winner"><span>Round result</span><strong>No team won this round.</strong><small>Neither team earned a positive average.</small></div>';
-    const names = teamWinnerIds.map(id => escapeHtml(teamName(id))).join(' & ');
-    const best = teamRounds.find(team => teamWinnerIds.includes(team.id));
-    return `<div class="round-winner"><span>${teamWinnerIds.length === 1 ? 'Team round winner' : 'Team round winners · tied'}</span><strong>${names}</strong><small>+${points(best.score)} average points this round</small></div>`;
-  }
+  const { winners, points: winningPoints } = state.roundResult;
   if (!winners.length) return '<div class="round-winner"><span>Round result</span><strong>Nobody got this one!</strong><small>The fact wins this round.</small></div>';
   const names = winners.map(identityInline).join(' <span aria-hidden="true">·</span> ');
   return `<div class="round-winner"><span>${winners.length === 1 ? 'Round winner' : 'Round winners · tied'}</span><strong>${names}</strong><small>+${winningPoints} points this round</small></div>`;
@@ -430,19 +400,14 @@ function roundWinner() {
 function leaderboardRows(rows, showRound = false) {
   return `<div class="leaderboard-list">${rows.map(player => `<div class="leaderboard-row ${player.id === state.you ? 'is-you' : ''}">
     <span class="rank">${player.rank}.</span><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span>
-    <span class="leaderboard-name">${escapeHtml(player.name)}${player.id === state.you ? ' <small>(You)</small>' : ''}${state.activePlayMode === 'teams' && player.teamId ? `<small>${escapeHtml(teamName(player.teamId))}</small>` : ''}</span>
+    <span class="leaderboard-name">${escapeHtml(player.name)}${player.id === state.you ? ' <small>(You)</small>' : ''}</span>
     ${showRound ? `<span class="round-delta ${player.points < 0 ? 'negative' : ''}">${player.points > 0 ? '+' : ''}${player.points} this round${player.movement > 0 ? ` · ↑${player.movement}` : player.movement < 0 ? ` · ↓${-player.movement}` : ''}</span>` : ''}
     <strong>${points(player.score)}</strong></div>`).join('')}</div>`;
 }
 
-function teamLeaderboard(teams, showRound = false) {
-  return `<div class="team-board">${teams.map(team => `<div class="team-board-row team-${team.id.toLowerCase()}"><span class="rank">${team.rank}.</span><span class="team-dot" aria-hidden="true"></span><strong>${escapeHtml(team.name)}</strong><span>${showRound ? `${team.score > 0 ? '+' : ''}${points(team.score)} this round · ` : ''}${points(showRound ? state.teams.find(item => item.id === team.id).score : team.score)} average</span></div>`).join('')}</div>`;
-}
-
 function roundLeaderboard() {
   return `<section class="leaderboard" aria-label="Leaderboard after round ${state.round}"><h3>Leaderboard · Round ${state.round}</h3>
-    ${state.activePlayMode === 'teams' ? teamLeaderboard(state.roundResult.teamRounds, true) : ''}
-    <h4>${state.activePlayMode === 'teams' ? 'Individual scores' : 'Scores'}</h4>${leaderboardRows(state.roundResult.leaderboard, true)}</section>`;
+    <h4>Scores</h4>${leaderboardRows(state.roundResult.leaderboard, true)}</section>`;
 }
 
 function reactionButtons(label) {
@@ -453,13 +418,6 @@ function outcomeText() {
   const me = state.myAnswer;
   const gotIt = me?.choice === state.question.correct;
   const nextChance = state.round === state.totalRounds ? 'Final scores are next.' : 'The next fact is a fresh chance.';
-  if (state.activePlayMode === 'teams') {
-    const winners = state.roundResult.teamWinnerIds;
-    if (!winners.length) return gotIt ? 'You found the truth. Neither team earned a positive average this round.' : `Neither team took this round. ${nextChance}`;
-    return winners.includes(state.players.find(player => player.id === state.you)?.teamId)
-      ? (winners.length > 1 ? 'Your team tied for the round! Your points are shown above.' : 'Your team took the round! Your points are shown above.')
-      : gotIt ? 'You found the truth, even though the other team took the round.' : `The other team took this one. ${nextChance}`;
-  }
   if (!state.roundResult.winners.length) return state.round === state.totalRounds ? 'That fact fooled everyone. Final scores are next.' : 'That fact fooled everyone. Ready for the next one?';
   return state.roundResult.winners.some(player => player.id === state.you)
     ? state.roundResult.winners.length > 1 ? 'You tied for the round! Nicely spotted.' : 'You took the round! Nicely spotted.'
@@ -487,7 +445,7 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
+      ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss'}" role="status">${outcomeText()}</p></div>
       ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : `<p class="muted small next-status">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>`}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
@@ -515,19 +473,17 @@ function finished() {
       <p class="muted small">${state.factsAvailable ? `Want to keep your score going? Continue with ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'fact' : 'facts'}.` : 'You have seen every fact in this session. Start fresh to play again.'}</p>
       <div class="solo-result-actions ${state.factsAvailable ? '' : 'solo-result-actions-two'}">${state.factsAvailable ? `<button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : ''}<button class="${state.factsAvailable ? 'secondary' : 'primary'}" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button><button class="secondary" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button></div>`;
   }
-  const teams = result.playMode === 'teams';
-  const best = teams ? result.teams[0].score : result.players[0].score;
-  const winners = (teams ? result.teams : result.players).filter(entry => entry.score === best);
-  const winnerText = teams ? winners.map(team => escapeHtml(team.name)).join(' & ')
-    : winners.map(identityInline).join(' <span aria-hidden="true">&amp;</span> ');
+  const best = result.players[0].score;
+  const winners = result.players.filter(player => player.score === best);
+  const winnerText = winners.map(identityInline).join(' <span aria-hidden="true">&amp;</span> ');
   const lone = result.players.filter(player => result.awards.loneGeniuses.includes(player.id));
-  const isWinner = teams ? winners.some(team => team.members.includes(state.you)) : winners.some(player => player.id === state.you);
-  return `<div class="eyebrow">Game over · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'round' : 'rounds'}</div><h2>${teams ? 'Overall team' : 'Overall'} ${winners.length === 1 ? 'winner' : 'winners · tied'}</h2>
-    <div class="winner"><span class="winner-icon" aria-hidden="true">🏆</span><div><strong>${winnerText}</strong><span>${points(best)} ${teams ? 'average points' : 'points'}</span></div></div>
-    <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? (teams ? 'Congratulations! Your team tied for first place!' : 'Congratulations! You tied for first place!') : (teams ? 'Congratulations! Your team won the game!' : 'Congratulations! You won the game!') : result.players.some(player => player.id === state.you) ? 'Well played! This one went to the winner above. Ready for a rematch?' : 'You joined for the next game.'}</p>
-    <section class="leaderboard" aria-label="Final leaderboard"><h3>Final leaderboard</h3>${teams ? teamLeaderboard(result.teams) : ''}<h4>${teams ? 'Individual scores' : 'Scores'}</h4>${leaderboardRows(result.players)}</section>
+  const isWinner = winners.some(player => player.id === state.you);
+  return `<div class="eyebrow">Game over · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'round' : 'rounds'}</div><h2>Overall ${winners.length === 1 ? 'winner' : 'winners · tied'}</h2>
+    <div class="winner"><span class="winner-icon" aria-hidden="true">🏆</span><div><strong>${winnerText}</strong><span>${points(best)} points</span></div></div>
+    <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? 'Congratulations! You tied for first place!' : 'Congratulations! You won the game!' : result.players.some(player => player.id === state.you) ? 'Well played! This one went to the winner above. Ready for a rematch?' : 'You joined for the next game.'}</p>
+    <section class="leaderboard" aria-label="Final leaderboard"><h3>Final leaderboard</h3><h4>Scores</h4>${leaderboardRows(result.players)}</section>
     <div class="awards">${lone.map(player => `<span class="award">🧠 Lone Genius · ${escapeHtml(player.name)}</span>`).join('')}${result.players.filter(player => result.awards.wildCards.includes(player.id)).map(player => `<span class="award">✦ Daring Guesser · ${escapeHtml(player.name)}</span>`).join('')}</div>
-    ${state.hostId === state.you ? `${state.factsAvailable ? `<p class="muted small">Keep the scores and play ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'round' : 'rounds'} with this group.</p><button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : '<p class="muted small">You have seen every fact in this session. Start a new game to play again.</p>'}${roundSettings()}${teamSettings()}<button class="secondary" type="button" data-action="start" ${state.playMode === 'teams' && state.players.length < 4 || pending ? 'disabled' : ''}>Play again from zero</button>` : '<p class="muted small">The host can continue with more rounds or start a new game.</p>'}
+    ${state.hostId === state.you ? `${state.factsAvailable ? `<p class="muted small">Keep the scores and play ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'round' : 'rounds'} with this group.</p><button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : '<p class="muted small">You have seen every fact in this session. Start a new game to play again.</p>'}${roundSettings()}<button class="secondary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play again from zero</button>` : '<p class="muted small">The host can continue with more rounds or start a new game.</p>'}
     <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Back to home</button>
     ${reactionButtons('Celebrate')}`;
 }
@@ -612,14 +568,9 @@ function showOutcomeEffect(next) {
   if (key === lastEffectKey) return;
   lastEffectKey = key;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const teamMode = next.activePlayMode === 'teams';
   const won = next.phase === 'reveal'
-    ? teamMode
-      ? next.roundResult.teamWinnerIds.includes(next.players.find(player => player.id === next.you)?.teamId)
-      : next.roundResult.winners.some(player => player.id === next.you)
-    : teamMode
-      ? next.finalResult.teams[0].members.includes(next.you) || next.finalResult.teams.filter(team => team.rank === 1).some(team => team.members.includes(next.you))
-      : next.finalResult.players.some(player => player.rank === 1 && player.id === next.you);
+    ? next.roundResult.winners.some(player => player.id === next.you)
+    : next.finalResult.players.some(player => player.rank === 1 && player.id === next.you);
   if (!won) {
     document.querySelector('.outcome-note')?.classList.add('settle');
     return;
@@ -769,7 +720,6 @@ app.addEventListener('input', event => {
 
 app.addEventListener('change', async event => {
   if (event.target.name === 'round-mode') await action('settings', { roundMode: event.target.value });
-  if (event.target.name === 'play-mode') await action('settings', { playMode: event.target.value });
   if (event.target.id === 'round-count') {
     const count = Number(event.target.value);
     if (!Number.isInteger(count) || count < 1 || count > state.maxRounds) {
@@ -885,10 +835,6 @@ app.addEventListener('click', async event => {
     return;
   }
   if (kind === 'wild') { wildCardSelected = !wildCardSelected; render(); return; }
-  if (kind === 'swap') {
-    await action('swap', { firstId: document.querySelector('#team-a-swap')?.value, secondId: document.querySelector('#team-b-swap')?.value });
-    return;
-  }
   if (kind === 'answer') { await action('answer', { choice: Number(button.dataset.choice), wildCard: wildCardSelected }); return; }
   if (kind === 'react') { await action('react', { emoji: button.dataset.emoji }); return; }
   if (kind === 'start' || kind === 'advance' || kind === 'finish' || kind === 'extend') await action(kind);
