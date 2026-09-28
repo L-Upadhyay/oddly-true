@@ -8,7 +8,7 @@ Rules, scores and host permissions are server-authoritative. Random opaque token
 
 Hosted room records contain chosen names/characters, seat tokens, rules, answers, scores and progress. There are no player accounts, email collection, marketing trackers or app-level analytics. Hosting providers may keep operational logs. Google Fonts and external fact/credit links can receive normal request metadata.
 
-Browser session storage keeps the current seat; local storage keeps the theme, music and sound effects choices. Seat tokens permit actions as a player. Do not post URLs containing `token=` publicly.
+Browser session storage keeps the current seat; local storage keeps the theme, music, sound effects and Solo Auto next choices. Seat tokens permit actions as a player. Do not post URLs containing `token=` publicly.
 
 Rooms expire after four hours without a state-changing action and become inaccessible through the API. Physical deletion happens opportunistically when another room is created, not necessarily at the exact expiry time. Local rooms disappear when that server stops.
 

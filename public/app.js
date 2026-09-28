@@ -31,6 +31,13 @@ let draftCode = new URLSearchParams(location.search).get('room')?.toUpperCase() 
 let landingMode = draftCode ? 'friends' : null;
 let soloLength = 'five';
 let soloCustomRounds = 5;
+let soloAutoNext = false;
+try { soloAutoNext = localStorage.getItem('oddly-true-solo-auto-next') === 'on'; } catch { /* use this visit's setting */ }
+const SOLO_REVEAL_MS = 15000;
+let soloAutoKey = null;
+let soloAutoRemaining = SOLO_REVEAL_MS;
+let soloAutoDeadline = 0;
+let soloAutoPaused = false;
 let connectionStatus = '';
 let toastTimer;
 let lastEffectKey = '';
@@ -261,6 +268,7 @@ function landing() {
           <button type="button" class="solo-length-choice" data-action="solo-length" data-length="ten" aria-pressed="${soloLength === 'ten'}">Full · 10</button>
           <button type="button" class="solo-length-choice" data-action="solo-length" data-length="custom" aria-pressed="${soloLength === 'custom'}">Custom</button></div>
           ${soloLength === 'custom' ? `<label class="field" for="solo-round-count">Choose 1–10 facts</label><input id="solo-round-count" class="text-input number-input" type="number" min="1" max="10" step="1" inputmode="numeric" value="${soloCustomRounds}">` : ''}
+          <button class="solo-auto-choice" type="button" data-action="solo-auto-choice" aria-pressed="${soloAutoNext}"><strong>Auto next ${soloAutoNext ? 'on' : 'off'}</strong><span>Optional · 15 seconds to read each reveal, with Pause and Next now.</span></button>
           <p class="muted small">You can finish early after any fact is revealed.</p></div>` : ''}
         <h3 class="identity-title">Pick your identity</h3>
         <label class="field" for="player-name">Your name</label>
@@ -424,6 +432,11 @@ function outcomeText() {
     : gotIt ? 'You got it right! A Wild Card took the round.' : `This one got you. ${nextChance}`;
 }
 
+function soloRevealActions(points) {
+  const auto = soloAutoNext ? `<div class="solo-auto-status"><span id="solo-auto-countdown">${soloAutoPaused ? 'Paused' : 'Next in 15s'}</span><button class="text-button" type="button" data-action="solo-auto-pause" ${pending ? 'disabled' : ''}>${soloAutoPaused ? 'Resume' : 'Pause'}</button></div>` : '';
+  return `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : state.round === state.totalRounds ? 'This one was sneaky. See how you did.' : 'This one was sneaky. The next fact is a fresh chance.'}</p>${auto}<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? (soloAutoNext ? 'See score now' : 'See your score') : (soloAutoNext ? 'Next now' : 'Next fact')}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>`;
+}
+
 function questionStage() {
   const phase = state.phase;
   const me = state.myAnswer;
@@ -440,7 +453,7 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : state.round === state.totalRounds ? 'This one was sneaky. See how you did.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
+      ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
       ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : `<p class="muted small next-status">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>`}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
@@ -465,8 +478,8 @@ function finished() {
     const score = result.players.find(player => player.id === state.you)?.score ?? 0;
     return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'fact' : 'facts'}</div><h2>Your final score</h2>
       <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${soloScoreFeedback(result, state.you).message}</span></div></div>
-      ${state.factsAvailable ? `<p class="muted small">Want to keep your score going? Continue with ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'fact' : 'facts'}.</p><div class="continue-actions"><button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button><button class="secondary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button></div>` : `<p class="muted small">You have seen every fact in this session. Start fresh to play again.</p><button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>`}
-      <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button>`;
+      <p class="muted small">${state.factsAvailable ? `Want to keep your score going? Continue with ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'fact' : 'facts'}.` : 'You have seen every fact in this session. Start fresh to play again.'}</p>
+      <div class="solo-result-actions ${state.factsAvailable ? '' : 'solo-result-actions-two'}">${state.factsAvailable ? `<button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : ''}<button class="${state.factsAvailable ? 'secondary' : 'primary'}" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button><button class="secondary" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button></div>`;
   }
   const teams = result.playMode === 'teams';
   const best = teams ? result.teams[0].score : result.players[0].score;
@@ -485,7 +498,34 @@ function finished() {
     ${reactionButtons('Celebrate')}`;
 }
 
+function syncSoloAutoTimer() {
+  if (!soloAutoNext || state?.kind !== 'solo' || state.phase !== 'reveal') {
+    soloAutoKey = null;
+    return;
+  }
+  const key = `${state.gameId}:${state.round}`;
+  if (soloAutoKey === key) return;
+  soloAutoKey = key;
+  soloAutoRemaining = SOLO_REVEAL_MS;
+  soloAutoPaused = document.hidden;
+  soloAutoDeadline = Date.now() + soloAutoRemaining;
+}
+
+function pauseSoloAutoTimer() {
+  if (!soloAutoKey || soloAutoPaused) return;
+  soloAutoRemaining = Math.max(0, soloAutoDeadline - Date.now());
+  soloAutoPaused = true;
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && soloAutoKey && !soloAutoPaused) {
+    pauseSoloAutoTimer();
+    render();
+  }
+});
+
 function render() {
+  syncSoloAutoTimer();
   app.classList.toggle('room-shell', Boolean(state));
   if (!state) { app.innerHTML = landing(); if (musicEnabled) void startMusic(); return; }
   stopMusic();
@@ -498,6 +538,17 @@ function render() {
 }
 
 function updateTimer() {
+  if (state?.kind === 'solo' && state.phase === 'reveal' && soloAutoNext) {
+    const remaining = soloAutoPaused ? soloAutoRemaining : Math.max(0, soloAutoDeadline - Date.now());
+    const countdown = document.querySelector('#solo-auto-countdown');
+    if (countdown) countdown.textContent = `${soloAutoPaused ? 'Paused · ' : state.round === state.totalRounds ? 'Score in ' : 'Next fact in '}${Math.ceil(remaining / 1000)}s`;
+    if (!soloAutoPaused && remaining <= 0 && !pending && !document.hidden) {
+      soloAutoRemaining = 0;
+      soloAutoPaused = true;
+      void action('advance');
+    }
+    return;
+  }
   if (state?.phase === 'votes') {
     const countdown = document.querySelector('#reveal-countdown');
     if (countdown) countdown.textContent = String(Math.max(0, Math.ceil((state.deadline - Date.now()) / 1000)));
@@ -723,6 +774,20 @@ app.addEventListener('click', async event => {
     return;
   }
   if (kind === 'solo-length') { soloLength = button.dataset.length; render(); return; }
+  if (kind === 'solo-auto-choice') {
+    soloAutoNext = !soloAutoNext;
+    try { localStorage.setItem('oddly-true-solo-auto-next', soloAutoNext ? 'on' : 'off'); } catch { /* keep this visit's setting */ }
+    render();
+    return;
+  }
+  if (kind === 'solo-auto-pause') {
+    if (soloAutoPaused) {
+      soloAutoPaused = false;
+      soloAutoDeadline = Date.now() + soloAutoRemaining;
+    } else pauseSoloAutoTimer();
+    render();
+    return;
+  }
   if (kind === 'home') {
     event.preventDefault();
     if (state.kind === 'solo' || state.phase === 'lobby' || state.phase === 'finished') await leaveRoom();

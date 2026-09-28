@@ -59,6 +59,7 @@ stateDiagram-v2
 
 The host can finish Friends games after a reveal in any mode. From the score screen, the host can continue with five unseen facts while preserving scores. Joining/settings are allowed between games. Leaving between games transfers host ownership when needed.
 Solo sessions use the same server-owned timer and scoring, support 1–10 initial facts, early finish and five-fact extensions, but skip the multiplayer vote delay and cannot be joined. Existing rooms without a `kind` field are treated as friends rooms.
+Optional Solo Auto next is a browser preference and a client-side reveal countdown. It advances through the authenticated server action only while the tab is visible, and pauses when the tab is hidden. The 20-second answer deadline and Friends host pacing remain server-controlled.
 
 ## Durable concurrency
 
