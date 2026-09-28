@@ -122,7 +122,7 @@ GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflar
 
 Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. See [security/privacy](SECURITY.md).
 
-This is a playable project, not a load-tested commercial service. Games select up to ten rounds from 30 questions: the original ten and the first reviewed batch of 20. Each new question has a source and a credited representative image. Further drafts are held out of play while their answers, links and images are reviewed in batches. Hosted updates use roughly 900 ms polling. A disconnected host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
+This is a playable project, not a load-tested commercial service. Games select up to ten rounds from 50 questions: the original ten and two reviewed batches of 20. Each new question has a source and a credited representative image. Further drafts are held out of play while their answers, links and images are reviewed in batches. Hosted updates use roughly 900 ms polling. A disconnected host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
 
 ## Credits and reuse
 

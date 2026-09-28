@@ -96,6 +96,7 @@
 .fact-art-symbol { font-size: clamp(4.5rem, 7vw, 7rem); line-height: 1; text-shadow: 0 7px 20px #12243855; }
 .fact-art-topic { font-weight: 800; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; line-height: 1.35; }
 .fact-image img { width: 100%; height: clamp(210px, 18vw, 320px); object-fit: cover; display: block; border-radius: 12px; background: #dce4df; }
+.fact-image img.fact-image-contain { object-fit: contain; background: #17243d; }
 .fact-image figcaption { margin-top: 8px; font-size: .72rem; line-height: 1.4; }
 .fact-copy { min-width: 0; }
 .fact-copy p { margin-top: 7px; font-size: 1.05rem; }
