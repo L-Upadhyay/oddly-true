@@ -633,7 +633,7 @@ app.addEventListener('click', async event => {
   }
   if (kind === 'home') {
     event.preventDefault();
-    if (state.phase === 'lobby' || state.phase === 'finished') await leaveRoom();
+    if (state.kind === 'solo' || state.phase === 'lobby' || state.phase === 'finished') await leaveRoom();
     else notify('Finish the current game before leaving the room.');
     return;
   }
