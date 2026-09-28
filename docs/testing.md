@@ -26,6 +26,7 @@ These are steps to perform, **not a claim that every combination has passed**. R
 | Custom two-round Individuals game | Picks lock; votes/truth reveal; host advances |
 | Correct and incorrect picks | +10 and 0 consistent across devices |
 | Round and final results | Personal messages match correct/wrong/timeout, ties, team outcomes and final winner; losing remains encouraging |
+| Sound on/off, refresh and replay | Button state persists; question, lock, correct/wrong and final win cues play once after interaction; muted tab stays silent |
 | Wild Cards in separate games | +20/−5; cannot reuse within one game |
 | Let timer expire | Unanswered player gets 0; round proceeds |
 | Host decides reveal | Finish game is available to host only |

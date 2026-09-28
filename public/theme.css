@@ -247,8 +247,10 @@
   .lobby-guide { grid-template-columns: 1fr; }
 }
 @media (max-width: 570px) {
-  .topbar-right { gap: 0; }
-  .theme-toggle { padding: 7px 10px; font-size: .8rem; }
+  .topbar-right { gap: 6px; }
+  .brand { font-size: 1.45rem; gap: 7px; }
+  .brand-mark { width: 39px; height: 39px; font-size: 1.5rem; }
+  .theme-toggle { padding: 7px 8px; font-size: .76rem; }
   .landing-copy { padding: 27px 22px; border-radius: 21px; }
   .landing-copy h1 { font-size: clamp(2.85rem, 11vw, 4rem); }
   .reveal-box { grid-template-columns: 1fr; }
@@ -264,6 +266,10 @@
   .round-delta { grid-column: 3; grid-row: 2; }
   .team-board-row { grid-template-columns: 20px 12px minmax(0, 1fr); }
   .team-board-row > span:last-child { grid-column: 3; text-align: left; }
+}
+@media (max-width: 400px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar-right { margin-left: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
