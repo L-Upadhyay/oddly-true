@@ -1,0 +1,18 @@
+# Question review, batch 6: ten facts
+
+Ten drafts were promoted after checking the claims against primary museum, heritage, science, and accessibility sources. The three claims in each question have one clearly true answer. Each image is bundled locally and its creator and license are shown in the reveal.
+
+| Question | Fact source | Image creator and license |
+| --- | --- | --- |
+| `microwave-radar-candy` | [Lemelson-MIT](https://lemelson.mit.edu/resources/percy-spencer) | [TaurusEmerald / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Amana_Radarange_Microwave_Oven.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `treadmill-prison-punishment` | [Historic England](https://historicengland.org.uk/listing/the-list/list-entry/1245474) | [British Library / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Treadmill_at_Brixton_Prison_in_London.jpg), [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `terracotta-army-burial` | [UNESCO World Heritage Centre](https://whc.unesco.org/en/list/441/) | [Maros / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Terracotta_Army_Pit_1_1.jpg), [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/) |
+| `nazca-lines-geoglyphs` | [UNESCO World Heritage Centre](https://whc.unesco.org/en/list/700/) | [Diego Delso / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:L%C3%ADneas_de_Nazca,_Nazca,_Per%C3%BA,_2015-07-29,_DD_52.JPG), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `roman-hypocaust-heat` | [English Heritage](https://www.english-heritage.org.uk/visit/places/north-leigh-roman-villa/history/) | [Chris 73 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hypocaust_floor_heating_ostia_antica_rome_01.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `archimedes-screw-water` | [Smithsonian Institution](https://www.si.edu/object/nmah_1184203) | [Eunostos / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Archimedes%27_screw,_replica_in_the_Museum_of_ancient_Greek_technology.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `aeolipile-steam` | [ASME](https://www.asme.org/topics-resources/content/5-steam-powered-firsts) | [Gts-tg / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hero%27s_Aeolipile,_1st_century_AD,_Alexandria_(reconstruction).jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `braille-night-writing` | [American Foundation for the Blind](https://afb.org/blindness-and-low-vision/braille/what-braille) | [Lrcg2012 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Braille_closeup.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `lycurgus-cup-color` | [The British Museum](https://www.britishmuseum.org/collection/object/H_1958-1202-1) | [Chappsnet / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Top_view_of_the_famed_Lycurgus_Cup_in_the_British_Museum,_showing_the_glass_both_green_and_ruby_red.jpg), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `bayeux-tapestry-embroidery` | [Bayeux Museum](https://www.bayeuxmuseum.com/en/the-bayeux-tapestry/discover-the-bayeux-tapestry/tapestry-or-embroidery/) | [Unknown medieval embroiderers / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Tapestry_by_unknown_weaver_-_The_Bayeux_Tapestry_(detail)_-_WGA24167.jpg), [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+
+The live bank is now 80 questions, 20 short of the agreed 100-question target. Other drafts, including the execution-device item skipped for tone, remain outside gameplay.

@@ -1384,5 +1384,235 @@ export const EXTRA_QUESTIONS = [
       "license": "CC BY 4.0",
       "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
     }
+  },
+  {
+    "id": "microwave-radar-candy",
+    "topic": "INVENTIONS",
+    "choices": [
+      "A microwave oven was invented after a clock melted in sunlight.",
+      "Microwave cooking began as a way to dry newspaper ink.",
+      "A melting chocolate bar near radar equipment sparked the microwave oven."
+    ],
+    "correct": 2,
+    "explanation": "Spencer saw a chocolate bar melt in his pocket while working with radar equipment.",
+    "source": {
+      "label": "Lemelson-MIT",
+      "url": "https://lemelson.mit.edu/resources/percy-spencer"
+    },
+    "image": {
+      "path": "/assets/questions/microwave-radar-candy.jpg",
+      "alt": "An early Amana Radarange microwave oven.",
+      "credit": "TaurusEmerald / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Amana_Radarange_Microwave_Oven.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "treadmill-prison-punishment",
+    "topic": "MACHINES",
+    "choices": [
+      "Some early treadmills were used for prison hard labor.",
+      "Early treadmills were used to polish cathedral bells.",
+      "Treadmills began as underwater baths for horses."
+    ],
+    "correct": 0,
+    "explanation": "A prison treadwheel made prisoners step on a rotating wheel as hard labor.",
+    "source": {
+      "label": "Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1245474"
+    },
+    "image": {
+      "path": "/assets/questions/treadmill-prison-punishment.jpg",
+      "alt": "A historical illustration of a prison treadwheel at Brixton.",
+      "credit": "British Library / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Treadmill_at_Brixton_Prison_in_London.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "terracotta-army-burial",
+    "topic": "ANCIENT CHINA",
+    "choices": [
+      "The Terracotta Army was carved from blocks of salt.",
+      "The Terracotta Army guarded a palace built on rafts.",
+      "The Terracotta Army was buried near China’s first emperor."
+    ],
+    "correct": 2,
+    "explanation": "The terracotta warriors and horses were buried near the tomb of Qin Shi Huang, China’s first emperor.",
+    "source": {
+      "label": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/441/"
+    },
+    "image": {
+      "path": "/assets/questions/terracotta-army-burial.jpg",
+      "alt": "Terracotta warriors at the Qin emperor’s mausoleum site.",
+      "credit": "Maros / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Terracotta_Army_Pit_1_1.jpg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/"
+    }
+  },
+  {
+    "id": "nazca-lines-geoglyphs",
+    "topic": "ANCIENT OBJECTS",
+    "choices": [
+      "The Nazca Lines are giant designs made on the desert ground.",
+      "The Nazca Lines are buried ropes for measuring earthquakes.",
+      "The Nazca Lines are paintings on cave ceilings below the dunes."
+    ],
+    "correct": 0,
+    "explanation": "The Nazca Lines are enormous geoglyphs on the desert surface of Peru, including lines and animal shapes.",
+    "source": {
+      "label": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/700/"
+    },
+    "image": {
+      "path": "/assets/questions/nazca-lines-geoglyphs.jpg",
+      "alt": "An aerial view of a hummingbird geoglyph in Peru.",
+      "credit": "Diego Delso / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:L%C3%ADneas_de_Nazca,_Nazca,_Per%C3%BA,_2015-07-29,_DD_52.JPG",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "roman-hypocaust-heat",
+    "topic": "ANCIENT ENGINEERING",
+    "choices": [
+      "A hypocaust was a Roman device for freezing wine cellars.",
+      "A hypocaust heated rooms by sending hot air under floors.",
+      "A hypocaust was a Roman mirror for signaling ships."
+    ],
+    "correct": 1,
+    "explanation": "Roman hypocausts circulated hot air in spaces below floors and sometimes within walls to warm buildings and baths.",
+    "source": {
+      "label": "English Heritage",
+      "url": "https://www.english-heritage.org.uk/visit/places/north-leigh-roman-villa/history/"
+    },
+    "image": {
+      "path": "/assets/questions/roman-hypocaust-heat.jpg",
+      "alt": "Raised floor supports of a Roman hypocaust at Ostia Antica.",
+      "credit": "Chris 73 / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Hypocaust_floor_heating_ostia_antica_rome_01.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "archimedes-screw-water",
+    "topic": "INVENTIONS",
+    "choices": [
+      "The Archimedes screw was used to lift water.",
+      "The Archimedes screw was a spiral helmet for divers.",
+      "The Archimedes screw was a lock that opened with steam."
+    ],
+    "correct": 0,
+    "explanation": "Turning an Archimedes screw lifts water along a spiral inside a tube or trough.",
+    "source": {
+      "label": "Smithsonian Institution",
+      "url": "https://www.si.edu/object/nmah_1184203"
+    },
+    "image": {
+      "path": "/assets/questions/archimedes-screw-water.jpg",
+      "alt": "An Archimedes screw model.",
+      "credit": "Eunostos / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Archimedes%27_screw,_replica_in_the_Museum_of_ancient_Greek_technology.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "aeolipile-steam",
+    "topic": "ANCIENT DEVICES",
+    "choices": [
+      "The aeolipile measured rainfall with floating beads.",
+      "The aeolipile was a steam-driven spinning device.",
+      "The aeolipile was a clock powered by burning feathers."
+    ],
+    "correct": 1,
+    "explanation": "Steam escaping through bent jets makes the aeolipile’s sphere rotate.",
+    "source": {
+      "label": "ASME",
+      "url": "https://www.asme.org/topics-resources/content/5-steam-powered-firsts"
+    },
+    "image": {
+      "path": "/assets/questions/aeolipile-steam.jpg",
+      "alt": "A reconstruction of Hero’s aeolipile.",
+      "credit": "Gts-tg / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Hero%27s_Aeolipile,_1st_century_AD,_Alexandria_(reconstruction).jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "braille-night-writing",
+    "topic": "WRITING SYSTEMS",
+    "choices": [
+      "Braille was adapted from a raised-dot military night-writing system.",
+      "Braille was invented from knots used on ship ropes.",
+      "Braille was copied from holes punched by woodpeckers."
+    ],
+    "correct": 0,
+    "explanation": "Louis Braille adapted the idea of raised dots after learning of Charles Barbier’s military night-writing system.",
+    "source": {
+      "label": "American Foundation for the Blind",
+      "url": "https://afb.org/blindness-and-low-vision/braille/what-braille"
+    },
+    "image": {
+      "path": "/assets/questions/braille-night-writing.jpg",
+      "alt": "A sheet of embossed Braille writing.",
+      "credit": "Lrcg2012 / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Braille_closeup.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "lycurgus-cup-color",
+    "topic": "UNUSUAL OBJECTS",
+    "choices": [
+      "The Lycurgus Cup whistles when filled with warm water.",
+      "The Lycurgus Cup changes color depending on how it is lit.",
+      "The Lycurgus Cup floats because it is made of volcanic foam."
+    ],
+    "correct": 1,
+    "explanation": "The Roman glass looks green in reflected light and red when light shines through it.",
+    "source": {
+      "label": "The British Museum",
+      "url": "https://www.britishmuseum.org/collection/object/H_1958-1202-1"
+    },
+    "image": {
+      "path": "/assets/questions/lycurgus-cup-color.jpg",
+      "alt": "The Lycurgus Cup showing contrasting colors under different lighting.",
+      "credit": "Chappsnet / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Top_view_of_the_famed_Lycurgus_Cup_in_the_British_Museum,_showing_the_glass_both_green_and_ruby_red.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  {
+    "id": "bayeux-tapestry-embroidery",
+    "topic": "MEDIEVAL OBJECTS",
+    "choices": [
+      "The Bayeux Tapestry was carved into a whale bone.",
+      "The Bayeux Tapestry is a painted leather battle map.",
+      "The Bayeux Tapestry is embroidery, despite its name."
+    ],
+    "correct": 2,
+    "explanation": "The Bayeux Tapestry is wool thread embroidered on linen, rather than a woven tapestry.",
+    "source": {
+      "label": "Bayeux Museum",
+      "url": "https://www.bayeuxmuseum.com/en/the-bayeux-tapestry/discover-the-bayeux-tapestry/tapestry-or-embroidery/"
+    },
+    "image": {
+      "path": "/assets/questions/bayeux-tapestry-embroidery.jpg",
+      "alt": "Embroidered scenes from the Bayeux Tapestry.",
+      "credit": "Unknown medieval embroiderers / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Tapestry_by_unknown_weaver_-_The_Bayeux_Tapestry_(detail)_-_WGA24167.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
   }
 ];
