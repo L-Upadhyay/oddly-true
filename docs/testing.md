@@ -4,7 +4,7 @@ With Node.js 24, run `npm ci`, `npm run check`, `npm test`, and `npm run build`.
 
 ## Automated scope
 
-The 13-test suite covers Solo's five-fact flow and replay; multiplayer rules, scores, Wild Cards, ties, timeouts, character/assets, capacity, team averages, host finish/transfer, real local HTTP/SSE, eight concurrent hosted players, persisted room reconstruction and exactly-once reveal scoring. Hosted API tests check seat authentication, foreign-origin mutations and expired rooms.
+The test suite covers Solo round choices, early finish and replay; multiplayer rules, scores, Wild Cards, ties, timeouts, character/assets, capacity, team averages, host finish/transfer, real local HTTP/SSE, eight concurrent hosted players, persisted room reconstruction and exactly-once reveal scoring. Hosted API tests check seat authentication, foreign-origin mutations and expired rooms.
 
 Hosted persistence tests adapt SQLite to the D1 prepared-statement interface. They verify our SQL/concurrency logic, not production load or network latency. CI uses Node 24 so hosted tests run rather than being skipped on an older runtime.
 
@@ -16,7 +16,7 @@ These are steps to perform, **not a claim that every combination has passed**. R
 
 | Check | Expected result |
 | --- | --- |
-| Play Solo, answer and let a timer expire | Starts without a guest; no room votes or opponent leaderboard; five facts, final score and replay |
+| Play Solo, answer and let a timer expire | Starts without a guest; no room votes or opponent leaderboard; chosen 1–10 facts, early finish, final score and replay |
 | Solo invite attempt | Solo cannot be joined |
 | Landing and invite link | Solo/Friends choices are clear; invite link opens the Friends join path with code filled |
 | Open landing; create or join a room | A brief welcome appears over the character and fades; named welcome appears once on entry, not on every poll or refresh |

@@ -85,6 +85,12 @@ export class GameStore {
   create(input) {
     const { name, avatar } = cleanPlayer(input);
     const kind = input?.kind === 'solo' ? 'solo' : 'friends';
+    const soloRoundMode = kind === 'solo' ? input?.roundMode ?? 'custom' : 'ten';
+    const soloRoundCount = kind === 'solo' ? input?.roundCount ?? 5 : MAX_ROUNDS;
+    if (kind === 'solo' && !['ten', 'custom'].includes(soloRoundMode)) throw new GameError('Choose a Solo game length.');
+    if (kind === 'solo' && (!Number.isInteger(soloRoundCount) || soloRoundCount < 1 || soloRoundCount > MAX_ROUNDS)) {
+      throw new GameError(`Choose between 1 and ${MAX_ROUNDS} Solo rounds.`);
+    }
     let code;
     do {
       const bytes = randomBytes(5);
@@ -92,9 +98,9 @@ export class GameStore {
     } while (this.rooms.has(code));
     const player = this.newPlayer(name, avatar);
     const room = {
-      code, kind, hostId: player.id, players: [player], phase: 'lobby', rounds: [], roundCount: kind === 'solo' ? 5 : MAX_ROUNDS,
+      code, kind, hostId: player.id, players: [player], phase: 'lobby', rounds: [], roundCount: soloRoundCount,
       roundIndex: -1, answers: new Map(), voteCounts: null, deadline: null,
-      roundMode: kind === 'solo' ? 'custom' : 'ten', activeRoundMode: 'ten', playMode: 'solo', activePlayMode: 'solo',
+      roundMode: soloRoundMode, activeRoundMode: 'ten', playMode: 'solo', activePlayMode: 'solo',
       gameId: null, completedRounds: 0, timer: null, updatedAt: Date.now(),
       history: [], roundResult: null, finalResult: null, lastReaction: null
     };
@@ -147,7 +153,8 @@ export class GameStore {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('Settings can only change between games.');
-    if (room.kind === 'solo') throw new GameError('Solo games have five rounds.');
+    if (room.kind === 'solo' && playMode !== undefined) throw new GameError('Solo games use individual scoring.');
+    if (room.kind === 'solo' && roundMode === 'host') throw new GameError('Choose a Solo game length.');
     if (roundMode !== undefined && !['ten', 'custom', 'host'].includes(roundMode)) throw new GameError('Choose a game length.');
     if (playMode !== undefined && !['solo', 'teams'].includes(playMode)) throw new GameError('Choose individuals or teams.');
     if (roundCount !== undefined && (!Number.isInteger(roundCount) || roundCount < 1 || roundCount > MAX_ROUNDS)) {
@@ -301,7 +308,7 @@ export class GameStore {
   finish(code, token) {
     const { room, player } = this.authenticate(code, token);
     this.requireHost(room, player);
-    if (room.phase !== 'reveal' || room.activeRoundMode !== 'host') throw new GameError('Finish after a reveal in Host decides mode.');
+    if (room.phase !== 'reveal' || (room.kind !== 'solo' && room.activeRoundMode !== 'host')) throw new GameError('Finish after a reveal in Solo or Host decides mode.');
     this.finishGame(room);
   }
 

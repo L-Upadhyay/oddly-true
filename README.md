@@ -4,13 +4,13 @@ A bizarre-fact trivia game to play alone or with **2–8 friends** across device
 
 **[Play the live game](https://oddly-true.oddlytrue-play.workers.dev)** · [Architecture](docs/architecture.md) · [Testing](docs/testing.md) · [API](docs/api.md)
 
-No account is needed. Play five quick Solo facts, or create a room, share its five-character code or invite link, and play with friends on separate devices.
+No account is needed. Choose a quick five-fact Solo game, ten facts, or a custom length from 1–10; or create a room, share its five-character code or invite link, and play with friends on separate devices.
 
 ## How it works
 
 ```mermaid
 flowchart TD
-  A{"How to play?"} -->|Solo| S["Five quick facts"]
+  A{"How to play?"} -->|Solo| S["Choose 5, 10, or custom facts"]
   A -->|Friends| B["Create or join a room"]
   B --> C["2–8 players on devices"]
   S --> D["Pick the true claim"]
@@ -50,19 +50,19 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 
 ## How to play
 
-1. **Choose:** select Play Solo for five facts, or Play with Friends. For friends, the host creates a room and 1–7 friends join by code or link. Choose a preset identity or type a custom name.
-2. **Set the friends game:** choose 10 rounds, a custom number from 1–10, or Host decides, up to 10 rounds. Choose Individuals or Teams for scoring. Solo starts immediately with five facts.
+1. **Choose:** select Play Solo or Play with Friends. For friends, the host creates a room and 1–7 friends join by code or link. Choose a preset identity or type a custom name.
+2. **Set the length:** Solo offers a quick five facts, a full ten, or a custom 1–10. For friends, choose 10 rounds, a custom number from 1–10, or Host decides, up to 10 rounds; then choose Individuals or Teams.
 3. **Answer:** choose one claim within 20 seconds. A pick locks immediately. If everyone answers early, the round proceeds early.
 4. **Score:** correct earns **+10**; incorrect or timeout earns **0**. Each player has one optional Wild Card per game: **+20** if correct, **−5** if wrong.
 5. **Reveal:** Solo shows the truth, explanation, credited image and points immediately after an answer or timeout. Friends see votes first, then the truth, round winner and leaderboard; the host advances.
-6. **Finish:** Solo shows your five-fact score and replay. In Friends, the host selects See final scores after the last reveal, or may finish after any reveal in Host decides mode. The highest cumulative score wins; tied players share the win.
+6. **Finish:** Solo can finish early after any reveal, or show your score after the chosen number, then replay. In Friends, the host selects See final scores after the last reveal, or may finish after any reveal in Host decides mode. The highest cumulative score wins; tied players share the win.
 
 **Teams:** available for 4–8 players. Two teams are balanced automatically, with host-controlled swaps in the lobby. Everyone answers independently. Team scores average members' personal scores. The best positive average earned in a round wins that round; the highest cumulative average wins the game. Ties share the win. When nobody earns a positive round score, there is no round winner.
 
 ## Implemented features
 
 - Room codes, invite links and token-protected player seats.
-- Five-fact Solo practice; 2–8-player Individuals/Teams; fixed, custom and host-controlled multiplayer lengths.
+- Solo practice with a chosen 1–10 facts and early finish; 2–8-player Individuals/Teams; fixed, custom and host-controlled multiplayer lengths.
 - Locked answers, server-enforced deadlines and once-per-game Wild Cards.
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
@@ -126,7 +126,7 @@ GitHub CI installs from the lockfile, checks syntax, tests and builds. Cloudflar
 
 Local rooms reset when the local server stops. Hosted rooms use a shared database and survive compatible deployments. They expire after four hours without a state-changing action; expired records are removed during room-creation cleanup. There are no accounts or app-level analytics. The theme and sound choice are stored in this browser. See [security/privacy](SECURITY.md).
 
-This is a playable project, not a load-tested commercial service. Solo selects five facts; multiplayer selects up to ten rounds from 56 questions: the original ten, two reviewed batches of 20, and six from the third review. Each new question has a source and a credited representative image. Further drafts are held out of play while their answers, links and images are reviewed in batches. Hosted updates use roughly 900 ms polling. A disconnected multiplayer host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
+This is a playable project, not a load-tested commercial service. Solo selects up to ten facts; multiplayer selects up to ten rounds from 56 questions: the original ten, two reviewed batches of 20, and six from the third review. Each new question has a source and a credited representative image. Further drafts are held out of play while their answers, links and images are reviewed in batches. Hosted updates use roughly 900 ms polling. A disconnected multiplayer host cannot be replaced during an active game; reconnect with the same tab or create another room. Accessibility support is implemented but has not undergone a full assistive-technology audit. Manual device/browser checks are documented separately from automated results.
 
 ## Credits and reuse
 
