@@ -267,4 +267,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .welcome-overlay { animation: none !important; opacity: 1; }
 }

@@ -32,6 +32,7 @@ let landingMode = draftCode ? 'friends' : null;
 let connectionStatus = '';
 let toastTimer;
 let lastEffectKey = '';
+let welcomeTimer;
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -42,6 +43,17 @@ function notify(message) {
   toast.classList.add('visible');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('visible'), 3500);
+}
+
+function welcome(message, avatar = selectedAvatar) {
+  document.querySelector('.welcome-overlay')?.remove();
+  clearTimeout(welcomeTimer);
+  const card = document.createElement('div');
+  card.className = 'welcome-overlay';
+  card.setAttribute('role', 'status');
+  card.innerHTML = `<span class="welcome-figure" aria-hidden="true">${avatarArt(avatar, 'welcome-avatar')}</span><span class="welcome-bubble">${escapeHtml(message)}</span>`;
+  document.body.append(card);
+  welcomeTimer = setTimeout(() => card.remove(), 3300);
 }
 
 function topbar(note = 'The real fact is the weirdest one.') {
@@ -243,17 +255,19 @@ function reactionButtons(label) {
 }
 
 function outcomeText() {
+  const me = state.myAnswer;
+  const gotIt = me?.choice === state.question.correct;
   if (state.activePlayMode === 'teams') {
     const winners = state.roundResult.teamWinnerIds;
-    if (!winners.length) return 'No team winner this round. The next fact is still up for grabs.';
+    if (!winners.length) return gotIt ? 'You found the truth. Neither team earned a positive average this round.' : 'Neither team took this round. The next fact is a fresh chance.';
     return winners.includes(state.players.find(player => player.id === state.you)?.teamId)
-      ? 'Your team took the round! Your own points are shown above.'
-      : 'The other team took this round. The next fact is still up for grabs.';
+      ? (winners.length > 1 ? 'Your team tied for the round! Your points are shown above.' : 'Your team took the round! Your points are shown above.')
+      : gotIt ? 'You found the truth, even though the other team took the round.' : 'The other team took this one. Your next fact awaits.';
   }
-  if (!state.roundResult.winners.length) return 'Nobody won this round. The next fact is still up for grabs.';
+  if (!state.roundResult.winners.length) return 'That fact fooled everyone. Ready for the next one?';
   return state.roundResult.winners.some(player => player.id === state.you)
-    ? 'You took the round!'
-    : 'The next fact is still up for grabs.';
+    ? state.roundResult.winners.length > 1 ? 'You tied for the round! Nicely spotted.' : 'You took the round! Nicely spotted.'
+    : gotIt ? 'You got it right! A Wild Card took the round.' : 'This one got you. The next fact is a fresh chance.';
 }
 
 function questionStage() {
@@ -272,7 +286,7 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note" role="status">${points > 0 ? 'You spotted the truth!' : 'The next fact is your fresh chance.'}</p><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
+      ${state.kind === 'solo' ? `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : 'This one was sneaky. The next fact is a fresh chance.'}</p><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See your score' : 'Next fact'}</button></div>` : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.activePlayMode === 'teams' ? (state.roundResult.teamWinnerIds.includes(state.players.find(player => player.id === state.you)?.teamId) ? 'won' : 'gentle-miss') : (state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss')}" role="status">${outcomeText()}</p></div>
       ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.activeRoundMode === 'host' && state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish game</button>` : ''}</div>` : '<p class="muted small next-status">Waiting for the host to start the next round…</p>'}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
@@ -296,7 +310,7 @@ function finished() {
   if (state.kind === 'solo') {
     const score = result.players.find(player => player.id === state.you)?.score ?? 0;
     return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} facts</div><h2>Your final score</h2>
-      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${score > 0 ? 'Nicely spotted. How many can you get next time?' : 'The facts were tricky. Give it another try!'}</span></div></div>
+      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${score >= 40 ? 'Brilliant run! You spotted almost every truth.' : score > 0 ? 'Nice work! How many can you get next time?' : 'Those facts were tricky. Give it another try!'}</span></div></div>
       <button class="primary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button>
       <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Choose another mode</button>`;
   }
@@ -309,7 +323,7 @@ function finished() {
   const isWinner = teams ? winners.some(team => team.members.includes(state.you)) : winners.some(player => player.id === state.you);
   return `<div class="eyebrow">Game over · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'round' : 'rounds'}</div><h2>${teams ? 'Overall team' : 'Overall'} ${winners.length === 1 ? 'winner' : 'winners · tied'}</h2>
     <div class="winner"><span class="winner-icon" aria-hidden="true">🏆</span><div><strong>${winnerText}</strong><span>${points(best)} ${teams ? 'average points' : 'points'}</span></div></div>
-    <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? (teams ? 'Your team won the game!' : 'You won the game!') : result.players.some(player => player.id === state.you) ? 'Thanks for playing. A new game is one click away.' : 'You joined for the next game.'}</p>
+    <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? (teams ? 'Congratulations! Your team tied for first place!' : 'Congratulations! You tied for first place!') : (teams ? 'Congratulations! Your team won the game!' : 'Congratulations! You won the game!') : result.players.some(player => player.id === state.you) ? 'Well played! This one went to the winner above. Ready for a rematch?' : 'You joined for the next game.'}</p>
     <section class="leaderboard" aria-label="Final leaderboard"><h3>Final leaderboard</h3>${teams ? teamLeaderboard(result.teams) : ''}<h4>${teams ? 'Individual scores' : 'Scores'}</h4>${leaderboardRows(result.players)}</section>
     <div class="awards">${lone.map(player => `<span class="award">🧠 Lone Genius · ${escapeHtml(player.name)}</span>`).join('')}${result.players.filter(player => result.awards.wildCards.includes(player.id)).map(player => `<span class="award">✦ Daring Guesser · ${escapeHtml(player.name)}</span>`).join('')}</div>
     ${state.hostId === state.you ? `${roundSettings()}${teamSettings()}<button class="primary" type="button" data-action="start" ${state.playMode === 'teams' && state.players.length < 4 || pending ? 'disabled' : ''}>Play again</button>` : '<p class="muted small">The host can start another game in this room.</p>'}
@@ -579,6 +593,8 @@ app.addEventListener('click', async event => {
     try {
       const path = kind === 'join' ? `/api/rooms/${draftCode.trim()}/join` : '/api/rooms';
       await enterRoom(await request(path, { name: draftName, avatar: selectedAvatar, ...(kind === 'create-solo' ? { kind: 'solo' } : {}) }), kind === 'create-solo');
+      const me = state.players.find(player => player.id === state.you);
+      welcome(`Welcome, ${me.name}!`, me.avatar);
     } catch (error) { notify(error.message); }
     finally { pending = false; render(); }
     return;
@@ -609,5 +625,6 @@ async function initialize() {
     catch { sessionStorage.removeItem('oddly-true-seat'); seat = null; }
   }
   render();
+  welcome('Welcome to Oddly True!');
 }
 initialize();
