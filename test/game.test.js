@@ -14,6 +14,37 @@ import {
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+test('Solo plays five facts without a guest or vote wait, then replays; friends still require two', () => {
+  const game = new GameStore({ scheduleTimers: false });
+  const solo = game.create({ name: 'Solo Fox', avatar: '🦊', kind: 'solo' });
+  const room = game.room(solo.code);
+  assert.equal(game.snapshot(room, solo.playerId).kind, 'solo');
+  assert.equal(game.snapshot(room, solo.playerId).totalRounds, 5);
+  assert.throws(() => game.join(solo.code, { name: 'Guest' }), /Solo game/);
+  assert.throws(() => game.setSettings(solo.code, solo.token, { playMode: 'teams' }), /five rounds/);
+  game.start(solo.code, solo.token);
+  for (let index = 0; index < 5; index++) {
+    const correct = room.rounds[index].correct;
+    const pick = index === 0 ? (correct + 1) % 3 : correct;
+    game.answer(solo.code, solo.token, { choice: pick });
+    const result = game.snapshot(room, solo.playerId);
+    assert.equal(result.phase, 'reveal');
+    assert.equal(result.question.correct, correct);
+    assert.equal(result.round, index + 1);
+    game.advance(solo.code, solo.token);
+  }
+  const final = game.snapshot(room, solo.playerId);
+  assert.equal(final.phase, 'finished');
+  assert.equal(final.finalResult.players[0].score, 40);
+  assert.equal(final.finalResult.roundsPlayed, 5);
+  game.start(solo.code, solo.token);
+  assert.equal(game.snapshot(room, solo.playerId).phase, 'question');
+
+  const friends = game.create({ name: 'Host' });
+  assert.equal(game.snapshot(game.room(friends.code), friends.playerId).kind, 'friends');
+  assert.throws(() => game.start(friends.code, friends.token), /at least 2 players/);
+});
+
 test('two players join, answer, see votes before truth, and score a Wild Card', async () => {
   const game = new GameStore({ roundMs: 1000, voteMs: 10 });
   const host = game.create({ name: 'Professor Pigeon', avatar: '🐧' });

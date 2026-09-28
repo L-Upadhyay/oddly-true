@@ -38,7 +38,7 @@ export class HostedGame {
       if (room.phase === 'question' && room.deadline <= Date.now()) {
         const questionDeadline = room.deadline;
         game.showVotes(room);
-        room.deadline = questionDeadline + game.voteMs;
+        if (room.phase === 'votes') room.deadline = questionDeadline + game.voteMs;
       }
       if (room.phase === 'votes' && room.deadline <= Date.now()) game.reveal(room);
       let response;
