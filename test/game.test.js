@@ -131,17 +131,15 @@ test('host can choose the length, round winners can tie, and nobody can win a mi
   game.clearTimer(room);
 });
 
-test('the question bank has sourced facts and optional credited images', () => {
+test('every live question has a source and bundled credited image', () => {
   assert.ok(QUESTIONS.length > MAX_ROUNDS);
   assert.equal(new Set(QUESTIONS.map(question => question.id)).size, QUESTIONS.length);
   for (const question of QUESTIONS) {
     assert.ok(question.source.url.startsWith('https://'), `${question.id}: source`);
     assert.equal(question.choices.length, 3, `${question.id}: choices`);
     assert.ok([0, 1, 2].includes(question.correct), `${question.id}: answer`);
-    if (question.image) {
-      assert.ok(question.image.credit && question.image.creditUrl && question.image.license, `${question.id}: image credit`);
-      assert.ok(existsSync(new URL(`../public${question.image.path}`, import.meta.url)), `${question.id}: image file`);
-    }
+    assert.ok(question.image?.credit && question.image.creditUrl && question.image.license && question.image.licenseUrl, `${question.id}: image credit`);
+    assert.ok(existsSync(new URL(`../public${question.image.path}`, import.meta.url)), `${question.id}: image file`);
   }
 });
 
