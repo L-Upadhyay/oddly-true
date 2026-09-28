@@ -6,7 +6,7 @@ Most character SVGs derive from [Microsoft Fluent Emoji](https://github.com/micr
 
 ## Fact photographs
 
-The following credits and usage links are recorded in `server/questions.js` and `server/questions-extra.js` and displayed during the reveal. Fact sources and image sources are separate: an article supporting a claim does not itself grant rights to an image. The images in `public/assets/questions/` were resized and converted to JPEG for display. Preserve each image's attribution and applicable terms when redistributing or replacing it.
+The following credits and usage links are recorded in `server/questions.js` and `server/questions-extra.js` and displayed during the reveal. Fact sources and image sources are separate: an article supporting a claim does not itself grant rights to an image. The images in `public/assets/questions/` are bundled as JPEGs for display. Preserve each image's attribution and applicable terms when redistributing or replacing it.
 
 | Bundled file | Creator/source | Recorded licence or usage terms |
 | --- | --- | --- |
@@ -73,6 +73,27 @@ The following credits and usage links are recorded in `server/questions.js` and 
 | `questions/braille-night-writing.jpg` | [Lrcg2012 / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Braille_closeup.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `questions/lycurgus-cup-color.jpg` | [Chappsnet / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Top_view_of_the_famed_Lycurgus_Cup_in_the_British_Museum,_showing_the_glass_both_green_and_ruby_red.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `questions/bayeux-tapestry-embroidery.jpg` | [Unknown medieval embroiderers / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Tapestry_by_unknown_weaver_-_The_Bayeux_Tapestry_(detail)_-_WGA24167.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+
+| `questions/moon-drift-apart.jpg` | [Bill Anders / NASA / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Earth-moon.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/pumice-floating-rock.jpg` | [Outlookxp / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pumice_Floating_in_Water.JPG) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/red-tide-not-red.jpg` | [National Park Service / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Marine_Harmful_Algal_Bloom_-_Florida_Red_Tide_(5ca9a03b-b34e-4f19-9862-4f4207d621e5).JPG) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/deep-sea-vent-life.jpg` | [NOAA / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nur04512.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/lightning-hotter-than-sun.jpg` | [The Modern Polymath / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cloud-to-ground_lightning_strike.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `questions/green-flash-sunset.jpg` | [Brocken Inaglory / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Green_flashes_11-21-08.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/bioluminescent-waves.jpg` | [Saltytog / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bioluminescence_in_San_Diego.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `questions/sensitive-plant-folds.jpg` | [Bluemoose / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mimosa_pudica_closed.JPG) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/cashew-apple-outside-nut.jpg` | [Ben Tavener / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cashew_apple_with_nut_-_Caju.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/pineapple-many-flowers.jpg` | [Alexmar983’s friend / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pineapple_Inflorescence_Hawaii_April_2011.jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `questions/cacao-pods-trunk.jpg` | [Yuet Man Lee / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cocoa_pods_on_the_cocoa_tree_(Theobroma_cacao)_inside_the_Shinjuku_Gyoen_Greenhouse.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/earwax-gene-type.jpg` | [Kelvinc / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Dry_earwax.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `questions/undersea-lakes-waves.jpg` | [NOAA Office of Ocean Exploration and Research / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2018_Gulf_of_Mexico_Brine_Pool.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/sahara-amazon-fertilizer.jpg` | [Jeff Schmaltz / NASA / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Saharan_Dust_Crosses_the_Atlantic.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/singing-sand-dunes.jpg` | [Joshua Tree National Park / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kelso_Dunes_in_the_Mojave_Preserve_(49531609003).jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/bloop-icequake-sound.jpg` | [NOAA / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bloop.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/peles-hair-volcanic-glass.jpg` | [James St. John / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pele's_hair_(Kilauea_Volcano,_Hawaii)_3.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `questions/milky-seas-glow.jpg` | [U.S. Department of Defense / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Milky_sea.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
+| `questions/exploding-sandbox-tree.jpg` | [Hans Hillewaert / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hura_crepitans_(fruit).jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `questions/miracle-fruit-taste.jpg` | [Hamale Lyman / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:MiracleBerry.jpg) | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) |
 
 ## Fonts and dependencies
 

@@ -1614,5 +1614,465 @@ export const EXTRA_QUESTIONS = [
       "license": "Public domain",
       "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
     }
+  },
+  {
+    "id": "moon-drift-apart",
+    "topic": "LUNAR ORBIT",
+    "choices": [
+      "The Moon drifts about 3.8 centimeters farther from Earth each year.",
+      "The Moon moves the same distance closer to Earth every year.",
+      "The Moon has stayed at precisely the same distance since Apollo."
+    ],
+    "correct": 0,
+    "explanation": "Earth and the Moon exchange energy through tides, and lunar laser ranging measures a recession of about 3.8 centimeters per year.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/solar-system/moon/10-things-what-we-learn-about-earth-by-studying-the-moon/"
+    },
+    "image": {
+      "path": "/assets/questions/moon-drift-apart.jpg",
+      "alt": "A view of Earth rising above the Moon from Apollo 8.",
+      "credit": "Bill Anders / NASA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Earth-moon.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "pumice-floating-rock",
+    "topic": "VOLCANOES",
+    "choices": [
+      "Pumice sinks because it is almost solid iron.",
+      "Some pumice floats because bubbles lower its density.",
+      "Pumice floats only after absorbing seawater."
+    ],
+    "correct": 1,
+    "explanation": "Gas bubbles trapped as lava cools leave cavities that can make pumice buoyant, at least until water fills them.",
+    "source": {
+      "label": "U.S. Geological Survey",
+      "url": "https://pubs.usgs.gov/gip/volc/nature.html"
+    },
+    "image": {
+      "path": "/assets/questions/pumice-floating-rock.jpg",
+      "alt": "Porous pumice stones floating in water.",
+      "credit": "Outlookxp / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Pumice_Floating_in_Water.JPG",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "red-tide-not-red",
+    "topic": "OCEANS",
+    "choices": [
+      "A red tide always makes seawater bright red.",
+      "A red tide occurs only at high tide.",
+      "A bloom called red tide need not turn the water red."
+    ],
+    "correct": 2,
+    "explanation": "“Red tide” is a common name used for some harmful algal blooms; many such blooms do not color the water red.",
+    "source": {
+      "label": "NOAA",
+      "url": "https://oceanservice.noaa.gov/facts/redtide.html"
+    },
+    "image": {
+      "path": "/assets/questions/red-tide-not-red.jpg",
+      "alt": "A harmful algal bloom in coastal water.",
+      "credit": "National Park Service / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Marine_Harmful_Algal_Bloom_-_Florida_Red_Tide_(5ca9a03b-b34e-4f19-9862-4f4207d621e5).JPG",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "deep-sea-vent-life",
+    "topic": "DEEP SEA",
+    "choices": [
+      "Some vent communities rely on chemical energy rather than sunlight.",
+      "Vent animals collect sunlight using reflective shells.",
+      "Vents receive food only from trees washed out to sea."
+    ],
+    "correct": 0,
+    "explanation": "Microbes turn chemicals from hydrothermal vent fluids into food, forming the base of ecosystems far below sunlight.",
+    "source": {
+      "label": "NOAA Ocean Exploration",
+      "url": "https://oceanexplorer.noaa.gov/education/hydrothermal-vents-volcanoes/"
+    },
+    "image": {
+      "path": "/assets/questions/deep-sea-vent-life.jpg",
+      "alt": "Tube worms near a deep-sea hydrothermal vent.",
+      "credit": "NOAA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Nur04512.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "lightning-hotter-than-sun",
+    "topic": "LIGHTNING",
+    "choices": [
+      "Lightning cools air below freezing for a split second.",
+      "Lightning turns atmospheric oxygen into liquid.",
+      "Lightning can heat air above the Sun’s surface temperature."
+    ],
+    "correct": 2,
+    "explanation": "A lightning channel briefly heats surrounding air to about 50,000°F, hotter than the Sun’s visible surface.",
+    "source": {
+      "label": "NOAA National Severe Storms Laboratory",
+      "url": "https://www.nssl.noaa.gov/education/svrwx101/lightning/"
+    },
+    "image": {
+      "path": "/assets/questions/lightning-hotter-than-sun.jpg",
+      "alt": "A lightning strike illuminating the sky.",
+      "credit": "The Modern Polymath / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Cloud-to-ground_lightning_strike.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  {
+    "id": "green-flash-sunset",
+    "topic": "ATMOSPHERE",
+    "choices": [
+      "A brief green flash can appear at sunset.",
+      "Green flashes are reflections from ocean plants.",
+      "A green flash appears only during a solar eclipse."
+    ],
+    "correct": 0,
+    "explanation": "Atmospheric refraction can separate colors at the edge of the setting Sun, briefly exposing a green glint.",
+    "source": {
+      "label": "NASA Science",
+      "url": "https://science.nasa.gov/image-article/apod-2004-march-21-a-green-flash-from-the-sun/"
+    },
+    "image": {
+      "path": "/assets/questions/green-flash-sunset.jpg",
+      "alt": "A sequence showing a green flash at sunset.",
+      "credit": "Brocken Inaglory / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Green_flashes_11-21-08.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "bioluminescent-waves",
+    "topic": "OCEANS",
+    "choices": [
+      "Moonlight makes salt water glow blue on windy nights.",
+      "Some tiny organisms make breaking waves glow at night.",
+      "Electric eels power blue flashes across entire beaches."
+    ],
+    "correct": 1,
+    "explanation": "Bioluminescent marine organisms can release light when moving water disturbs them.",
+    "source": {
+      "label": "NOAA Ocean Service",
+      "url": "https://oceanservice.noaa.gov/facts/biolum.html"
+    },
+    "image": {
+      "path": "/assets/questions/bioluminescent-waves.jpg",
+      "alt": "Blue bioluminescence lighting ocean surf at night.",
+      "credit": "Saltytog / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Bioluminescence_in_San_Diego.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  {
+    "id": "sensitive-plant-folds",
+    "topic": "PLANTS",
+    "choices": [
+      "A sensitive plant can fold its leaflets when touched.",
+      "A sensitive plant changes its leaflets into thorns in seconds.",
+      "A sensitive plant hides its flowers underground after touch."
+    ],
+    "correct": 0,
+    "explanation": "Mimosa pudica responds to touch by folding its leaflets and sometimes drooping its stalk.",
+    "source": {
+      "label": "Royal Botanic Gardens, Kew",
+      "url": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:313242-2/general-information"
+    },
+    "image": {
+      "path": "/assets/questions/sensitive-plant-folds.jpg",
+      "alt": "Leaves of a sensitive plant folded closed.",
+      "credit": "Bluemoose / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Mimosa_pudica_closed.JPG",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "cashew-apple-outside-nut",
+    "topic": "FOOD",
+    "choices": [
+      "Cashews grow buried inside the roots of their tree.",
+      "Cashews form in the center of a pear-shaped fruit.",
+      "A cashew nut hangs outside, below its fleshy cashew apple."
+    ],
+    "correct": 2,
+    "explanation": "The cashew nut develops in a shell attached to the bottom of the fleshy cashew apple.",
+    "source": {
+      "label": "Aarhus University Science Museums",
+      "url": "https://sciencemuseerne.dk/en/botanisk-have/plantehistorier/show/artikel/cashew-anacardium-occidentale"
+    },
+    "image": {
+      "path": "/assets/questions/cashew-apple-outside-nut.jpg",
+      "alt": "A cashew apple with the nut attached below it.",
+      "credit": "Ben Tavener / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Cashew_apple_with_nut_-_Caju.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  },
+  {
+    "id": "pineapple-many-flowers",
+    "topic": "FOOD",
+    "choices": [
+      "A pineapple forms from many flowers fused together.",
+      "A pineapple is one enormous single berry from one flower.",
+      "A pineapple grows as a root swelling below the soil."
+    ],
+    "correct": 2,
+    "explanation": "The familiar pineapple is a multiple fruit formed from the joined fruits of many individual flowers.",
+    "source": {
+      "label": "University of Florida IFAS",
+      "url": "https://gardeningsolutions.ifas.ufl.edu/plants/edibles/fruits/pineapple/"
+    },
+    "image": {
+      "path": "/assets/questions/pineapple-many-flowers.jpg",
+      "alt": "A young pineapple inflorescence showing its many flowers.",
+      "credit": "Alexmar983’s friend / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Pineapple_Inflorescence_Hawaii_April_2011.jpg",
+      "license": "CC0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  },
+  {
+    "id": "cacao-pods-trunk",
+    "topic": "FOOD",
+    "choices": [
+      "Cacao pods grow only from underground roots.",
+      "Cacao pods can grow directly from the tree trunk.",
+      "Cacao pods grow on the tips of palm fronds."
+    ],
+    "correct": 0,
+    "explanation": "Cacao flowers can arise directly on the trunk and older branches, where their pods develop.",
+    "source": {
+      "label": "Royal Botanic Gardens, Kew",
+      "url": "https://www.kew.org/plants/cacao-tree"
+    },
+    "image": {
+      "path": "/assets/questions/cacao-pods-trunk.jpg",
+      "alt": "Cacao pods growing directly from a tree trunk.",
+      "credit": "Yuet Man Lee / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Cocoa_pods_on_the_cocoa_tree_(Theobroma_cacao)_inside_the_Shinjuku_Gyoen_Greenhouse.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "earwax-gene-type",
+    "topic": "HUMAN BODY",
+    "choices": [
+      "A gene variant helps determine whether earwax is wet or dry.",
+      "Earwax type changes to match the local climate each year.",
+      "Earwax type depends entirely on the food eaten that day."
+    ],
+    "correct": 2,
+    "explanation": "A variant in the ABCC11 gene strongly determines the wet or dry earwax trait.",
+    "source": {
+      "label": "Human Molecular Genetics research",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16444273/"
+    },
+    "image": {
+      "path": "/assets/questions/earwax-gene-type.jpg",
+      "alt": "A small sample of dry earwax beside a swab for scale.",
+      "credit": "Kelvinc / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Dry_earwax.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "undersea-lakes-waves",
+    "topic": "OCEANOGRAPHY",
+    "choices": [
+      "Some ocean floors hold distinct pools of extra-salty water.",
+      "Undersea lakes are pockets of freshwater floating above saltwater.",
+      "Undersea lakes appear only inside sunken shipwrecks."
+    ],
+    "correct": 0,
+    "explanation": "Very dense brine can collect on the seafloor, forming pools with visible boundaries against the surrounding seawater.",
+    "source": {
+      "label": "NOAA Ocean Exploration",
+      "url": "https://oceanexplorer.noaa.gov/multimedia/daily-image-media-20200720/"
+    },
+    "image": {
+      "path": "/assets/questions/undersea-lakes-waves.jpg",
+      "alt": "A distinct brine pool on the floor of the Gulf of Mexico.",
+      "credit": "NOAA Office of Ocean Exploration and Research / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:2018_Gulf_of_Mexico_Brine_Pool.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "sahara-amazon-fertilizer",
+    "topic": "EARTH SYSTEMS",
+    "choices": [
+      "Amazon winds carry soil to fertilize the Sahara.",
+      "Saharan sand becomes rainforest only after a volcanic eruption.",
+      "Saharan dust crosses the Atlantic and delivers nutrients to the Amazon."
+    ],
+    "correct": 0,
+    "explanation": "NASA satellite measurements show Saharan dust carrying phosphorus across the Atlantic to Amazon soils.",
+    "source": {
+      "label": "NASA",
+      "url": "https://www.nasa.gov/missions/calipso/nasa-satellite-reveals-how-much-saharan-dust-feeds-amazons-plants/"
+    },
+    "image": {
+      "path": "/assets/questions/sahara-amazon-fertilizer.jpg",
+      "alt": "Satellite view of Saharan dust crossing the Atlantic.",
+      "credit": "Jeff Schmaltz / NASA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Saharan_Dust_Crosses_the_Atlantic.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "singing-sand-dunes",
+    "topic": "GEOPHYSICAL PHENOMENA",
+    "choices": [
+      "Some sand dunes make a low booming sound during sand avalanches.",
+      "Some dunes emit songs from buried ice crystals.",
+      "Every dune whistles only when lightning strikes it."
+    ],
+    "correct": 1,
+    "explanation": "Flowing sand grains can synchronize and produce a sustained audible hum or boom on certain dunes.",
+    "source": {
+      "label": "Physical Review Letters",
+      "url": "https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.97.018002"
+    },
+    "image": {
+      "path": "/assets/questions/singing-sand-dunes.jpg",
+      "alt": "Kelso Dunes in the Mojave Desert.",
+      "credit": "Joshua Tree National Park / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Kelso_Dunes_in_the_Mojave_Preserve_(49531609003).jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "bloop-icequake-sound",
+    "topic": "OCEANOGRAPHY",
+    "choices": [
+      "The ocean sound called Bloop was definitely a giant animal.",
+      "NOAA found Bloop consistent with cracking iceberg sounds.",
+      "Bloop was the sound of a submarine broadcasting music."
+    ],
+    "correct": 2,
+    "explanation": "NOAA found that the 1997 Bloop recording matched icequakes from large cracking icebergs; the precise iceberg was not identified.",
+    "source": {
+      "label": "NOAA Pacific Marine Environmental Laboratory",
+      "url": "https://pmel.noaa.gov/acoustics/sounds/bloop.html"
+    },
+    "image": {
+      "path": "/assets/questions/bloop-icequake-sound.jpg",
+      "alt": "A spectrogram of the ocean sound nicknamed Bloop.",
+      "credit": "NOAA / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Bloop.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "peles-hair-volcanic-glass",
+    "topic": "GEOPHYSICAL PHENOMENA",
+    "choices": [
+      "Eruptions can draw molten lava into thin glass strands called Pele’s hair.",
+      "Pele’s hair is a tropical moss that grows inside lava tubes.",
+      "Pele’s hair is a plume of ash that turns into actual wool."
+    ],
+    "correct": 1,
+    "explanation": "Lava stretched by escaping gas and wind cools into long, fragile strands of volcanic glass.",
+    "source": {
+      "label": "National Park Service",
+      "url": "https://home.nps.gov/havo/learn/nature/peles-hair.htm"
+    },
+    "image": {
+      "path": "/assets/questions/peles-hair-volcanic-glass.jpg",
+      "alt": "Long, fine strands of volcanic glass known as Pele’s hair.",
+      "credit": "James St. John / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Pele's_hair_(Kilauea_Volcano,_Hawaii)_3.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  },
+  {
+    "id": "milky-seas-glow",
+    "topic": "OCEANOGRAPHY",
+    "choices": [
+      "Milky seas are glowing clouds reflected on calm water.",
+      "Milky seas are caused by underwater neon minerals.",
+      "Some large stretches of ocean glow steadily and can be detected from space."
+    ],
+    "correct": 0,
+    "explanation": "Satellite night sensors have detected broad, long-lasting milky sea glows associated with luminous bacteria.",
+    "source": {
+      "label": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/hunting-milky-seas-by-satellite-149017/"
+    },
+    "image": {
+      "path": "/assets/questions/milky-seas-glow.jpg",
+      "alt": "A satellite image highlighting a milky sea event.",
+      "credit": "U.S. Department of Defense / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Milky_sea.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
+  },
+  {
+    "id": "exploding-sandbox-tree",
+    "topic": "BOTANY",
+    "choices": [
+      "The sandbox tree disperses seeds by bursting its fruit capsule.",
+      "The sandbox tree releases seeds only when birds sing nearby.",
+      "The sandbox tree sends seeds upward on columns of steam."
+    ],
+    "correct": 1,
+    "explanation": "As its fruit dries, tension builds until the capsule splits suddenly and ejects seeds.",
+    "source": {
+      "label": "Annals of Botany research",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32805037/"
+    },
+    "image": {
+      "path": "/assets/questions/exploding-sandbox-tree.jpg",
+      "alt": "A rounded fruit capsule growing on a sandbox tree.",
+      "credit": "Hans Hillewaert / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Hura_crepitans_(fruit).jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "miracle-fruit-taste",
+    "topic": "BOTANY",
+    "choices": [
+      "Miracle fruit makes sweet foods taste salty for a full year.",
+      "Miracle fruit temporarily makes sour foods taste sweet.",
+      "Miracle fruit changes every taste to bitterness."
+    ],
+    "correct": 2,
+    "explanation": "A protein called miraculin changes how sweet receptors respond to acidic foods, making sour tastes seem sweet for a while.",
+    "source": {
+      "label": "Research in Chemical Senses",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3403544/"
+    },
+    "image": {
+      "path": "/assets/questions/miracle-fruit-taste.jpg",
+      "alt": "Red miracle berries growing on a shrub.",
+      "credit": "Hamale Lyman / Wikimedia Commons",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:MiracleBerry.jpg",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/"
+    }
   }
 ];
