@@ -112,7 +112,7 @@ async function route(req, res) {
     return json(res, 201, game.create(await readJson(req)));
   }
 
-  const match = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{5})\/(join|settings|swap|start|answer|advance|finish|leave|react|state|events)$/i);
+  const match = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]{5})\/(join|settings|swap|start|answer|advance|finish|extend-solo|leave|react|state|events)$/i);
   if (!match) return json(res, 404, { error: 'Page not found.' });
   const [, code, action] = match;
   if (req.method === 'POST' && action === 'join') return json(res, 201, game.join(code, await readJson(req)));
@@ -136,6 +136,7 @@ async function route(req, res) {
     case 'answer': game.answer(code, token, await readJson(req)); break;
     case 'advance': game.advance(code, token); break;
     case 'finish': game.finish(code, token); break;
+    case 'extend-solo': game.extendSolo(code, token); break;
     case 'leave': game.leave(code, token); return json(res, 200, { left: true });
     case 'react': game.react(code, token, (await readJson(req)).emoji); break;
     default: return json(res, 405, { error: 'Method not allowed.' });
