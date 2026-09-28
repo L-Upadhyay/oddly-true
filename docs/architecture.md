@@ -50,6 +50,7 @@ stateDiagram-v2
   [*] --> Lobby
   Lobby --> Question: Host starts
   Question --> Votes: All answers or deadline
+  Question --> Reveal: Solo answer or deadline
   Votes --> Reveal: Reveal delay ends
   Reveal --> Question: Host advances
   Reveal --> Finished: Last round or host finishes
@@ -57,6 +58,7 @@ stateDiagram-v2
 ```
 
 Early finish requires Host decides mode. Joining/settings are allowed between games. Leaving between games transfers host ownership when needed.
+Solo sessions use the same server-owned timer and scoring, but skip the multiplayer vote delay and cannot be joined. Existing rooms without a `kind` field are treated as friends rooms.
 
 ## Durable concurrency
 
