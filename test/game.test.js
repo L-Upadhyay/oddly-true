@@ -381,7 +381,8 @@ test('leaving after a game preserves the final board and passes host control', (
   game.react(host.code, guest.token, '🤔');
   assert.equal(game.snapshot(room, host.playerId).lastReaction.emoji, '🤔');
   game.advance(host.code, host.token);
-  game.react(host.code, host.token, '🫠');
+  game.react(host.code, host.token, '🤯');
+  assert.throws(() => game.react(host.code, host.token, '🫠'), /Choose a reaction/);
   assert.throws(() => game.react(host.code, host.token, '🔥'), /Choose a reaction/);
   game.leave(host.code, host.token);
   const remaining = game.snapshot(room, guest.playerId);

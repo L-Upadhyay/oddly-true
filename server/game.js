@@ -362,7 +362,7 @@ export class GameStore {
   react(code, token, emoji) {
     const { room, player } = this.authenticate(code, token);
     if (room.phase !== 'reveal' && room.phase !== 'finished') throw new GameError('Reactions are for the reveal.');
-    if (!['🤯', '😂', '👏', '😱', '👀', '🤔', '🫠'].includes(emoji)) throw new GameError('Choose a reaction.');
+    if (!['🤯', '😂', '👏', '😱', '🤔'].includes(emoji)) throw new GameError('Choose a reaction.');
     room.lastReaction = { id: randomUUID(), avatar: player.avatar, name: player.name, emoji };
     this.changed(room);
   }

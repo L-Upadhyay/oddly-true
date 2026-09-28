@@ -10,7 +10,7 @@ const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
 const reactionTray = document.querySelector('#reactions');
 const letters = ['A', 'B', 'C'];
-const reactions = ['🤯', '😂', '👏', '😱', '👀', '🤔', '🫠'];
+const reactions = ['🤯', '😂', '👏', '😱', '🤔'];
 let theme = 'light';
 document.documentElement.dataset.theme = theme;
 document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#121b19' : '#f8f5f0';

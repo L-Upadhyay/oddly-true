@@ -70,7 +70,7 @@ test('HTTP and live events connect separate players through a team game', async 
   const reveal = await getState(guests[1]);
   assert.equal(reveal.phase, 'reveal');
   assert.equal(reveal.roundResult.leaderboard.length, 4);
-  await post(`/api/rooms/${host.code}/react`, { emoji: '🫠' }, guests[1]);
+  await post(`/api/rooms/${host.code}/react`, { emoji: '🤯' }, guests[1]);
   await post(`/api/rooms/${host.code}/finish`, {}, host);
   const final = await getState(guests[0]);
   assert.equal(final.finalResult.roundsPlayed, 1);
