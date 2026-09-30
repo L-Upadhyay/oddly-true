@@ -65,9 +65,9 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
 - Fourteen preset characters, custom names, creature/theme matching and rerolling.
 - Bundled illustrated avatars, a custom pigeon, brief welcome overlays and credited fact photographs.
-- Original short sound cues for questions, locked answers, reveals and final scores. An original, continuous background jingle plays across the landing page, Solo, and Friends screens. Music and Sound have independent controls; both and the light theme start on for every new page load. Browsers may wait for the first interaction before allowing music; clicking Music immediately switches it off, while another page interaction starts it if still enabled. Solo completion uses celebratory (70%+), gentle (20% or less), or steady (between) feedback based on points relative to 10 per fact played; a Wild Card can exceed that baseline.
+- Original short sound cues for questions, locked answers, reveals and final scores. Tozan’s CC0 “Intro Start Game Loop” plays across the landing page, Solo, and Friends screens. Music and Sound have independent controls; both and the light theme start on for every new page load. Browsers may wait for the first interaction before allowing music; clicking Music immediately switches it off, while another page interaction starts it if still enabled. Solo completion uses celebratory (70%+), gentle (20% or less), or steady (between) feedback based on points relative to 10 per fact played; a Wild Card can exceed that baseline.
 
-The [audio design and provenance](docs/audio.md) records how the original jingle and cues are made.
+The [audio design and provenance](docs/audio.md) records the music source, license, loop edits, and original cue patterns.
 - Light/dark themes, labelled controls, text feedback and reduced-motion support.
 - Same-tab reconnection, replay, and host transfer when leaving between games.
 

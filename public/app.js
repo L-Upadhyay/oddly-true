@@ -1,3 +1,4 @@
+import { makeMusicLoop } from '/assets/music-loop.js';
 import {
   PERSONAS as personas,
   characterForAvatar,
@@ -45,10 +46,11 @@ let musicEnabled = true;
 let audioContext;
 let masterVolume;
 let musicVolume;
-let musicTimer;
+let musicSource;
+let musicBufferPromise;
 let musicSession = 0;
 let musicStarting = false;
-const musicVoices = new Set();
+
 
 function ensureAudioContext() {
   try {
@@ -106,16 +108,27 @@ async function playSound(cue) {
 function stopMusic() {
   musicSession++;
   musicStarting = false;
-  clearInterval(musicTimer);
-  musicTimer = null;
-  for (const voice of musicVoices) {
-    try { voice.stop(); } catch { /* the note may have ended already */ }
+  if (musicSource) {
+    musicSource.stop();
+    musicSource.disconnect();
+    musicSource = null;
   }
-  musicVoices.clear();
+}
+
+async function loadMusic(context) {
+  if (!musicBufferPromise) {
+    musicBufferPromise = (async () => {
+      const response = await fetch('/assets/audio/intro-start-game-loop.mp3');
+      if (!response.ok) throw new Error('Music recording unavailable.');
+      const decoded = await context.decodeAudioData(await response.arrayBuffer());
+      return makeMusicLoop(context, decoded);
+    })().catch(error => { musicBufferPromise = null; throw error; });
+  }
+  return musicBufferPromise;
 }
 
 async function startMusic(fromGesture = false) {
-  if (!musicEnabled || musicTimer || musicStarting) return;
+  if (!musicEnabled || musicSource || musicStarting) return;
   const context = ensureAudioContext();
   if (!context || (context.state !== 'running' && !fromGesture)) return;
   const session = musicSession;
@@ -123,47 +136,23 @@ async function startMusic(fromGesture = false) {
   try {
     if (context.state === 'suspended') await context.resume();
     if (context.state !== 'running' || session !== musicSession || !musicEnabled) return;
+    const buffer = await loadMusic(context);
+    // Turning Music off while the recording downloads must cancel playback.
+    if (session !== musicSession || !musicEnabled) return;
     if (!musicVolume) {
       musicVolume = context.createGain();
-      musicVolume.gain.value = .13; // Softer than the answer cues.
+      musicVolume.gain.value = .13;
       musicVolume.connect(context.destination);
     }
-    const note = (frequency, start, duration, level, type = 'triangle') => {
-      const voice = context.createOscillator();
-      const envelope = context.createGain();
-      voice.type = type;
-      voice.frequency.value = frequency;
-      envelope.gain.setValueAtTime(.0001, start);
-      envelope.gain.linearRampToValueAtTime(level, start + Math.min(.06, duration / 3));
-      envelope.gain.setValueAtTime(level * .72, start + duration - .09);
-      envelope.gain.exponentialRampToValueAtTime(.0001, start + duration);
-      voice.connect(envelope).connect(musicVolume);
-      musicVoices.add(voice);
-      voice.onended = () => musicVoices.delete(voice);
-      voice.start(start);
-      voice.stop(start + duration + .01);
-    };
-    // Original eight-second phrase. The bass crosses each bar boundary,
-    // while the plucked melody adds the playful, slightly odd bounce.
-    const melody = [523, 659, 784, 659, 587, 698, 523, 392, 523, 659, 880, 784, 698, 587, 659, 523];
-    const bass = [131, 165, 147, 196];
-    const scheduleBar = start => {
-      bass.forEach((frequency, step) => note(frequency, start + step * 2, 2.08, .10, 'sine'));
-      melody.forEach((frequency, step) => note(frequency, start + step * .5 + .08, step % 4 === 3 ? .39 : .27, .11));
-    };
-    let nextBar = context.currentTime + .06;
-    const scheduleAhead = () => {
-      if (session !== musicSession || !musicEnabled) return;
-      if (nextBar < context.currentTime - .2) nextBar = context.currentTime + .06;
-      while (nextBar < context.currentTime + 8.2) {
-        scheduleBar(nextBar);
-        nextBar += 8;
-      }
-    };
-    scheduleAhead();
-    musicTimer = setInterval(scheduleAhead, 250);
-  } catch { /* The browser may wait for another interaction to allow audio. */ }
-  finally { if (session === musicSession) musicStarting = false; }
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    source.connect(musicVolume);
+    musicSource = source;
+    source.start();
+  } catch {
+    if (session === musicSession && musicEnabled) notify('Music couldn’t load. Turn Music off and on to retry.');
+  } finally { if (session === musicSession) musicStarting = false; }
 }
 
 window.addEventListener('pagehide', stopMusic);

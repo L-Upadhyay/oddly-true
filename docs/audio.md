@@ -1,19 +1,24 @@
 # Audio design and provenance
 
-The landing jingle and gameplay cues are original patterns generated in `public/app.js` with Web Audio oscillators and gain envelopes. The composition and implementation are documented below.
+## Background music
 
-## Landing jingle
+- **Track:** Intro Start Game Loop
+- **Creator:** Tozan
+- **Source:** https://opengameart.org/content/intro-start-game-loop
+- **Download:** https://opengameart.org/sites/default/files/jungled.mp3
+- **Listed license:** CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/
+- **Verified:** 2026-09-30. Creator credit is retained here and in THIRD_PARTY_NOTICES.md.
+- **Bundled file:** public/assets/audio/intro-start-game-loop.mp3, unchanged source recording, 600,188 bytes.
+- **SHA-256:** 84774478ac46afecd3a3fbed5fd3a74e2f24872331eec44fb944f6d337f77967
 
-- **Composition:** original eight-second repeating phrase, built for this game.
-- **Tempo:** 120 beats per minute, with sixteen beat-length melody steps per phrase.
-- **Melody:** triangle-wave plucks using these frequencies (Hz), in order: 523, 659, 784, 659, 587, 698, 523, 392, 523, 659, 880, 784, 698, 587, 659, 523. Each begins 0.5 seconds after the previous note, with an 0.08-second offset for a bouncy feel.
-- **Bed:** four sine-wave bass notes at 131, 165, 147, and 196 Hz. A note begins every two seconds and lasts 2.08 seconds, crossing the next note and the eight-second loop boundary. The melody has deliberate short rhythmic spaces, but the track has no multi-second silent break.
-- **Playback:** the Web Audio clock schedules overlapping bars ahead of time; a short interval fills its queue. Music continues across the landing page, Solo, and Friends screens until the Music control is switched off. The music bus is quieter than the answer effects.
+The source MP3 lasts about 37.49 seconds. Decoded audio analysis found opening silence through 0.211587 seconds and a quiet tail starting at 34.9118 seconds. `shared/music-loop.js` keeps that interval and overlaps the final 80 milliseconds with its opening using a linear crossfade. This produces approximately 34.62 seconds of continuously repeating audio without the original multi-second tail. The MP3 is not re-encoded; the loop edits happen after decoding, once per page visit.
 
-Music and Sound both start enabled, and the theme starts light on each page load. Browser autoplay rules can leave audio suspended until the first pointer or key interaction. The Music control always reads “Music on” while enabled; clicking it immediately switches music off, even if it is the first interaction. Any other pointer or key interaction on any game page starts enabled music. Clicking Music again switches it on and starts playback. The controls change the current visit only.
+A Web Audio BufferSource repeats the prepared buffer using the audio clock, avoiding JavaScript timer gaps and repeated downloads. A separate music gain of 0.13 keeps it quiet beneath answer cues. Turning Music off cancels a pending download/start and stops active playback. The decoded buffer is cached for that visit; loading errors can be retried by turning Music off and on.
+
+Music continues across the landing page, Solo, and Friends screens. Music and Sound both start enabled, and the theme starts light on each page load. Browser autoplay rules can leave audio suspended until the first pointer or key interaction. Clicking Music immediately switches it off, even as the first interaction; another interaction starts it if still enabled. The controls apply to the current visit.
 
 ## Gameplay cues
 
-Short oscillator patterns signal welcome, question, answer lock, correct and wrong answers, and final score feedback. The final Solo cue changes for scores of 70% or more, 20% or less, and the middle range. These patterns are also generated in `public/app.js`.
+Short original oscillator patterns in `public/app.js` signal welcome, question, answer lock, correct and wrong answers, and final score feedback. These remain separate from the recorded background music. Final Solo cues differ for scores of 70% or more, 20% or less, and the middle range.
 
-If a recorded sound is added later, document its creator, source URL, exact license, required attribution, and any edits here and in `THIRD_PARTY_NOTICES.md` before bundling it.
+The earlier original eight-second oscillator jingle has been replaced by the selected recording. Its implementation remains recorded in Git history.

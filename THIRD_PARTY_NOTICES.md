@@ -118,7 +118,9 @@ The following credits and usage links are recorded in `server/questions.js` and 
 
 ## Audio
 
-The jingle and feedback cues are generated in `public/app.js` with original Web Audio oscillator patterns. See [audio design and provenance](docs/audio.md).
+Background music: **Intro Start Game Loop** by **Tozan**, from [OpenGameArt](https://opengameart.org/content/intro-start-game-loop), listed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). The original `jungled.mp3` is bundled as `public/assets/audio/intro-start-game-loop.mp3`. Playback trims silence and crossfades the loop boundary.
+
+Gameplay feedback cues remain original Web Audio oscillator patterns. See [audio design and provenance](docs/audio.md).
 
 ## Fonts and dependencies
 

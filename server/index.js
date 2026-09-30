@@ -16,6 +16,8 @@ const assets = new Map([
   ['/assets/styles.css', ['styles.css', 'text/css; charset=utf-8']],
   ['/assets/theme.css', ['theme.css', 'text/css; charset=utf-8']],
   ['/assets/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+  ['/assets/music-loop.js', ['music-loop.js', 'text/javascript; charset=utf-8', sharedDir]],
+  ['/assets/audio/intro-start-game-loop.mp3', ['assets/audio/intro-start-game-loop.mp3', 'audio/mpeg']],
   ['/assets/personas.js', ['personas.js', 'text/javascript; charset=utf-8', sharedDir]],
   ['/assets/sea-otter.jpg', ['assets/sea-otter.jpg', 'image/jpeg']],
   ['/assets/octopus.jpg', ['assets/octopus.jpg', 'image/jpeg']],
