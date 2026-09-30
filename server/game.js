@@ -358,7 +358,7 @@ export class GameStore {
     const loneGeniuses = highestSolo > 0
       ? room.players.filter(p => soloCounts.get(p.id) === highestSolo).map(p => p.id) : [];
     const wildCards = room.players.filter(p => p.usedWildCard).map(p => p.id);
-    return { loneGeniuses, wildCards };
+    return { loneGeniuses, loneGeniusCounts: Object.fromEntries(loneGeniuses.map(id => [id, soloCounts.get(id)])), wildCards };
   }
 
   clearTimer(room) {
