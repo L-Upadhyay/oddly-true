@@ -94,6 +94,9 @@ export class GameStore {
     if (room.phase !== 'lobby' && room.phase !== 'finished') throw new GameError('This game has already started.');
     if (room.players.length >= MAX_PLAYERS) throw new GameError('This room is full.');
     const { name, avatar } = cleanPlayer(input);
+    if (room.players.some(player => player.name.toLowerCase() === name.toLowerCase())) {
+      throw new GameError('That name is already in this room. Pick another name.', 409);
+    }
     const player = this.newPlayer(name, avatar);
     room.players.push(player);
     this.changed(room);

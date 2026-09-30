@@ -394,3 +394,18 @@ test('leaving after a game preserves the final board and passes host control', (
   game.start(host.code, guest.token);
   game.clearTimer(room);
 });
+
+test('room names are unique after case and whitespace normalization; avatars can repeat', () => {
+  const game = new GameStore({ scheduleTimers: false });
+  const host = game.create({ name: 'Doctor Pigeon', avatar: '👽' });
+  for (const name of ['Doctor Pigeon', ' doctor pigeon ', 'DOCTOR   PIGEON']) {
+    assert.throws(() => game.join(host.code, { name, avatar: '👽' }), error => error instanceof GameError && error.status === 409);
+  }
+  assert.equal(game.room(host.code).players.length, 1);
+  const guest = game.join(host.code, { name: 'Doctor Pigeon 2', avatar: '👽' });
+  assert.equal(game.room(host.code).players.length, 2);
+  assert.equal(game.room(host.code).players[1].avatar, '👽');
+  game.leave(host.code, guest.token);
+  assert.doesNotThrow(() => game.join(host.code, { name: 'doctor pigeon 2' }));
+  assert.doesNotThrow(() => game.create({ name: 'Doctor Pigeon', kind: 'solo' }));
+});
