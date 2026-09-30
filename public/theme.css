@@ -304,3 +304,28 @@
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .welcome-overlay { animation: none !important; opacity: 1; }
 }
+
+/* Shared controls and compact room views on every game screen. */
+.topbar-right { gap: 10px; }
+.topbar-right .theme-toggle { min-width: 106px; text-align: center; }
+.lobby-rules { margin-top: 20px; }
+.lobby-rules summary { cursor: pointer; font-weight: 700; padding: 10px 0; }
+.lobby-rules[open] summary { margin-bottom: 8px; }
+.round-winner .identity-inline, .winner .identity-inline { flex-wrap: wrap; overflow-wrap: anywhere; }
+.room-header-compact { justify-content: flex-start; gap: 10px; margin-bottom: 14px; }
+.room-header-compact .room-code { font-size: 1rem; padding: 8px 12px; }
+.room-header-compact .room-actions button { padding: 8px 12px; font-size: .85rem; }
+.reaction-buttons, .reaction-panel .reaction-buttons { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.reaction-buttons button { min-width: 0; min-height: 44px; padding-inline: 4px; }
+@media (max-width: 850px) {
+  .lobby-grid .score-side { grid-row: 1; }
+  .topbar { flex-wrap: wrap; gap: 12px; }
+  .topbar-right, .landing-topbar .topbar-right { display: grid; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .topbar-right .top-note { display: none; }
+  .topbar-right .theme-toggle { min-width: 0; }
+  .stage-question h2 { margin-bottom: 16px; }
+  .round-finish { margin-top: 18px; }
+  .lobby-guide li { padding: 10px; }
+}
+
+.winner-person { display: block; }
