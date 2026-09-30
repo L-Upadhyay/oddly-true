@@ -409,3 +409,17 @@ test('room names are unique after case and whitespace normalization; avatars can
   assert.doesNotThrow(() => game.join(host.code, { name: 'doctor pigeon 2' }));
   assert.doesNotThrow(() => game.create({ name: 'Doctor Pigeon', kind: 'solo' }));
 });
+
+test('Lone Genius awards explain shared winners and omit players with no solo correct rounds', () => {
+  const game = new GameStore({ scheduleTimers: false });
+  const host = game.create({ name: 'Host' });
+  const guest = game.join(host.code, { name: 'Guest' });
+  const room = game.room(host.code);
+  room.history = [{ correctPlayers: [host.playerId] }, { correctPlayers: [guest.playerId] }, { correctPlayers: [host.playerId, guest.playerId] }, { correctPlayers: [] }];
+  assert.deepEqual(game.awards(room).loneGeniusCounts, { [host.playerId]: 1, [guest.playerId]: 1 });
+  assert.deepEqual(game.awards(room).loneGeniuses, [host.playerId, guest.playerId]);
+  room.history.push({ correctPlayers: [host.playerId] });
+  assert.deepEqual(game.awards(room).loneGeniusCounts, { [host.playerId]: 2 });
+  room.history = [{ correctPlayers: [host.playerId, guest.playerId] }];
+  assert.deepEqual(game.awards(room).loneGeniuses, []);
+});
