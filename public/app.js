@@ -115,14 +115,14 @@ function stopMusic() {
 }
 
 async function startMusic(fromGesture = false) {
-  if (!musicEnabled || state || musicTimer || musicStarting) return;
+  if (!musicEnabled || musicTimer || musicStarting) return;
   const context = ensureAudioContext();
   if (!context || (context.state !== 'running' && !fromGesture)) return;
   const session = musicSession;
   musicStarting = true;
   try {
     if (context.state === 'suspended') await context.resume();
-    if (context.state !== 'running' || session !== musicSession || !musicEnabled || state) return;
+    if (context.state !== 'running' || session !== musicSession || !musicEnabled) return;
     if (!musicVolume) {
       musicVolume = context.createGain();
       musicVolume.gain.value = .13; // Softer than the answer cues.
@@ -153,7 +153,7 @@ async function startMusic(fromGesture = false) {
     };
     let nextBar = context.currentTime + .06;
     const scheduleAhead = () => {
-      if (session !== musicSession || !musicEnabled || state) return;
+      if (session !== musicSession || !musicEnabled) return;
       if (nextBar < context.currentTime - .2) nextBar = context.currentTime + .06;
       while (nextBar < context.currentTime + 8.2) {
         scheduleBar(nextBar);
@@ -170,7 +170,7 @@ window.addEventListener('pagehide', stopMusic);
 // A browser may suspend Web Audio until its first user gesture.
 for (const gesture of ['pointerdown', 'keydown']) {
   document.addEventListener(gesture, event => {
-    if (musicEnabled && !state && !event.target.closest?.('[data-action="music"]')) void startMusic(true);
+    if (musicEnabled && !event.target.closest?.('[data-action="music"]')) void startMusic(true);
   }, { capture: true });
 }
 
@@ -232,7 +232,7 @@ function welcome(message, avatar = selectedAvatar) {
 }
 
 function topbar(note = 'The real fact is the weirdest one.', isLanding = false) {
-  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound effects ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button>${isLanding ? `<button type="button" class="theme-toggle music-button" data-action="music" aria-pressed="${musicEnabled}" aria-label="Turn background music ${musicEnabled ? 'off' : 'on'}">♪ Music ${musicEnabled ? 'on' : 'off'}</button>` : ''}<button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
+  return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound effects ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle music-button" data-action="music" aria-pressed="${musicEnabled}" aria-label="Turn background music ${musicEnabled ? 'off' : 'on'}">♪ Music ${musicEnabled ? 'on' : 'off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
 }
 
 function avatarArt(avatar, className = 'avatar-art') {
@@ -241,7 +241,7 @@ function avatarArt(avatar, className = 'avatar-art') {
 }
 
 function identityInline(player) {
-  return `<span class="identity-inline">${avatarArt(player.avatar, 'inline-avatar')}${escapeHtml(player.name)}</span>`;
+  return `<span class="identity-inline">${avatarArt(player.avatar, 'inline-avatar')}${playerName(player)}</span>`;
 }
 
 function characterArt(character) {
@@ -323,14 +323,14 @@ function landing() {
 
 function roomHeader() {
   if (state.kind === 'solo') return '';
-  return `<div class="room-header">
+  return `<div class="room-header ${state.phase === 'lobby' ? '' : 'room-header-compact'}">
     <button class="room-code" type="button" data-action="copy-code" title="Copy room code" aria-label="Copy room code ${escapeHtml(state.code)}"><small>Room</small>${escapeHtml(state.code)} <span aria-hidden="true">⧉</span></button>
     <div class="room-actions"><button class="secondary" type="button" data-action="copy-link">Copy invite link</button></div>
   </div>`;
 }
 
 function playerName(player) {
-  return `${escapeHtml(player.name)}${player.isHost ? ' <span class="host-tag">(Host)</span>' : ''}`;
+  return `${escapeHtml(player.name)}${player.id === state?.hostId ? ' <span class="host-tag">(Host)</span>' : ''}${player.id === state?.you ? ' <span class="you-tag">(You)</span>' : ''}`;
 }
 
 function points(value) {
@@ -340,7 +340,7 @@ function points(value) {
 function sidebar() {
   return `<aside class="panel score-side" aria-label="Scores">
     <h3>Players <span class="muted small">${state.players.length}/8</span></h3>
-    <div class="score-list">${state.players.map(player => `<div class="player-row"><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span><span class="player-name">${playerName(player)}${player.id === state.you ? ' <span class="you-tag">(You)</span>' : ''}</span><span class="player-points">${state.phase === 'lobby' ? '—' : player.score}</span></div>`).join('')}</div>
+    <div class="score-list">${state.players.map(player => `<div class="player-row"><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span><span class="player-name">${playerName(player)}</span><span class="player-points">${state.phase === 'lobby' ? '—' : player.score}</span></div>`).join('')}</div>
     ${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}
   </aside>`;
 }
@@ -359,17 +359,18 @@ function lobby() {
   const ready = state.players.length >= 2;
   const lobbyStatus = !ready ? 'Waiting for players' : isHost ? 'Ready to start' : 'Waiting for host';
   return `<div class="stage-head"><span class="eyebrow">The lobby</span><span class="pill">${lobbyStatus}</span></div>
-    <div class="lobby-intro"><h2>Gather your fellow fact detectives.</h2>
+    <h2>Gather your fellow fact detectives.</h2>
+        ${isHost ? roundSettings() : `<p class="muted">${state.roundMode === 'host' ? 'Host decides when to finish, up to 10 rounds' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'}`} · Highest personal score wins. The host sets the rules.</p>`}
+    <div class="lobby-footer">${isHost ? `<button class="primary" type="button" data-action="start" ${!ready || pending ? 'disabled' : ''}>Start the game</button><p class="muted small">${!ready ? 'Waiting for 2 players.' : state.roundMode === 'host' ? 'Finish after any reveal, at most 10 rounds.' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'} · plan for ${Math.ceil(state.totalRounds / 2)}+ ${state.totalRounds <= 2 ? 'minute' : 'minutes'}; host sets the pace.`}</p>` : `<p class="muted">${ready ? 'Waiting for the host to start…' : 'Waiting for more players…'}</p>`}</div>
+        <details class="lobby-rules"><summary>How to play</summary>
       <ul class="lobby-guide" aria-label="How this game works">
         <li><span class="guide-icon" aria-hidden="true">↗</span><div><strong>Invite your friends</strong><span>Share the room code or link. Everyone plays on their own device.</span></div></li>
         <li><span class="guide-icon" aria-hidden="true">?</span><div><strong>Spot the truth</strong><span>Pick the one real claim from three in <b>20 seconds</b>.</span></div></li>
         <li><span class="guide-icon" aria-hidden="true">+10</span><div><strong>Score your points</strong><span>Correct: <b>+10</b>. Wrong or timeout: <b>0</b>. One Wild Card: <b>+20</b> if right, <b>−5</b> if wrong.</span></div></li>
         <li><span class="guide-icon" aria-hidden="true">✦</span><div><strong>See the reveal</strong><span>Votes appear first, then the truth and leaderboard. The host starts the next round.</span></div></li>
       </ul>
-    </div>
-    <div class="lobby-players">${state.players.map(player => `<span class="lobby-player"><span class="lobby-avatar" aria-hidden="true">${avatarArt(player.avatar, 'lobby-avatar-art')}</span>${escapeHtml(player.name)}</span>`).join('')}</div>
-    ${isHost ? roundSettings() : `<p class="muted">${state.roundMode === 'host' ? 'Host decides when to finish, up to 10 rounds' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'}`} · Highest personal score wins. The host sets the rules.</p>`}
-    <div class="lobby-footer">${isHost ? `<button class="primary" type="button" data-action="start" ${!ready || pending ? 'disabled' : ''}>Start the game</button><p class="muted small">${!ready ? 'Waiting for 2 players.' : state.roundMode === 'host' ? 'Finish after any reveal, at most 10 rounds.' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'} · plan for ${Math.ceil(state.totalRounds / 2)}+ ${state.totalRounds <= 2 ? 'minute' : 'minutes'}; host sets the pace.`}</p>` : `<p class="muted">${ready ? 'Waiting for the host to start…' : 'Waiting for more players…'}</p>`}</div>`;
+    </details>
+`;
 }
 
 function choiceList() {
@@ -393,14 +394,14 @@ function choiceList() {
 function roundWinner() {
   const { winners, points: winningPoints } = state.roundResult;
   if (!winners.length) return '<div class="round-winner"><span>Round result</span><strong>Nobody got this one!</strong><small>The fact wins this round.</small></div>';
-  const names = winners.map(identityInline).join(' <span aria-hidden="true">·</span> ');
+  const names = winners.map(player => `<span class="winner-person">${identityInline(player)}</span>`).join('');
   return `<div class="round-winner"><span>${winners.length === 1 ? 'Round winner' : 'Round winners · tied'}</span><strong>${names}</strong><small>+${winningPoints} points this round</small></div>`;
 }
 
 function leaderboardRows(rows, showRound = false) {
   return `<div class="leaderboard-list">${rows.map(player => `<div class="leaderboard-row ${player.id === state.you ? 'is-you' : ''}">
     <span class="rank">${player.rank}.</span><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span>
-    <span class="leaderboard-name">${escapeHtml(player.name)}${player.id === state.you ? ' <small>(You)</small>' : ''}</span>
+    <span class="leaderboard-name">${playerName(player)}</span>
     ${showRound ? `<span class="round-delta ${player.points < 0 ? 'negative' : ''}">${player.points > 0 ? '+' : ''}${player.points} this round${player.movement > 0 ? ` · ↑${player.movement}` : player.movement < 0 ? ` · ↓${-player.movement}` : ''}</span>` : ''}
     <strong>${points(player.score)}</strong></div>`).join('')}</div>`;
 }
@@ -445,11 +446,11 @@ function questionStage() {
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
-      ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}<p class="outcome-note ${state.roundResult.winners.some(player => player.id === state.you) ? 'won' : 'gentle-miss'}" role="status">${outcomeText()}</p></div>
-      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : `<p class="muted small next-status">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>`}</div>`}`;
+      ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}</div>
+      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : ''}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
-    <div class="stage-question"><div class="eyebrow">Which claim is real?</div><h2>Only one of these is oddly true.</h2></div>
+    <div class="stage-question"><div class="eyebrow">${phase === 'reveal' ? 'The reveal' : phase === 'votes' ? 'Answers locked' : 'Which claim is real?'}</div><h2>${phase === 'reveal' ? "Here’s the truth." : phase === 'votes' ? 'The room has spoken.' : 'Only one of these is oddly true.'}</h2>${phase === 'reveal' && state.kind !== 'solo' && state.hostId !== state.you ? `<p class="muted small">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>` : ''}</div>
     ${choiceList()}${bottom}`;
 }
 
@@ -475,7 +476,7 @@ function finished() {
   }
   const best = result.players[0].score;
   const winners = result.players.filter(player => player.score === best);
-  const winnerText = winners.map(identityInline).join(' <span aria-hidden="true">&amp;</span> ');
+  const winnerText = winners.map(player => `<span class="winner-person">${identityInline(player)}</span>`).join('');
   const lone = result.players.filter(player => result.awards.loneGeniuses.includes(player.id));
   const isWinner = winners.some(player => player.id === state.you);
   return `<div class="eyebrow">Game over · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'round' : 'rounds'}</div><h2>Overall ${winners.length === 1 ? 'winner' : 'winners · tied'}</h2>
@@ -518,12 +519,12 @@ function render() {
   syncSoloAutoTimer();
   app.classList.toggle('room-shell', Boolean(state));
   if (!state) { app.innerHTML = landing(); if (musicEnabled) void startMusic(); return; }
-  stopMusic();
+  if (musicEnabled) void startMusic();
   const stage = state.phase === 'lobby' ? lobby() : state.phase === 'finished' ? finished() : questionStage();
   const side = state.kind === 'solo' ? '' : state.phase === 'reveal'
     ? `<aside class="reveal-side" aria-label="Round standings and reactions">${roundLeaderboard()}<section class="panel reaction-panel"><h3>React to this fact</h3><p class="muted small">Let the room know what you think.</p>${reactionButtons('React to the reveal')}</section>${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}</aside>`
     : sidebar();
-  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'reveal' ? 'reveal-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
+  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'reveal' ? 'reveal-grid' : state.phase === 'lobby' ? 'lobby-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
   updateTimer();
 }
 
