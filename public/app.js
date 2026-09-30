@@ -478,15 +478,24 @@ function finished() {
   const winners = result.players.filter(player => player.score === best);
   const winnerText = winners.map(player => `<span class="winner-person">${identityInline(player)}</span>`).join('');
   const lone = result.players.filter(player => result.awards.loneGeniuses.includes(player.id));
+  const wild = result.players.filter(player => result.awards.wildCards.includes(player.id));
   const isWinner = winners.some(player => player.id === state.you);
+  const isHost = state.hostId === state.you;
+  const awards = lone.map(player => {
+    const count = result.awards.loneGeniusCounts?.[player.id];
+    return `<div class="award"><strong>🧠 Lone Genius${lone.length > 1 ? ' · shared award' : ''}</strong><span>${playerName(player)}</span><small>${count ? `${count} ${count === 1 ? 'round' : 'rounds'} answered correctly alone · most in this game` : 'Most rounds answered correctly alone'}</small></div>`;
+  }).join('') + wild.map(player => `<div class="award"><strong>✦ Daring Guesser</strong><span>${playerName(player)}</span><small>Played a Wild Card</small></div>`).join('');
   return `<div class="eyebrow">Game over · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'round' : 'rounds'}</div><h2>Overall ${winners.length === 1 ? 'winner' : 'winners · tied'}</h2>
-    <div class="winner"><span class="winner-icon" aria-hidden="true">🏆</span><div><strong>${winnerText}</strong><span>${points(best)} points</span></div></div>
-    <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? 'Congratulations! You tied for first place!' : 'Congratulations! You won the game!' : result.players.some(player => player.id === state.you) ? 'Well played! This one went to the winner above. Ready for a rematch?' : 'You joined for the next game.'}</p>
-    <section class="leaderboard" aria-label="Final leaderboard"><h3>Final leaderboard</h3><h4>Scores</h4>${leaderboardRows(result.players)}</section>
-    <div class="awards">${lone.map(player => `<span class="award">🧠 Lone Genius · ${escapeHtml(player.name)}</span>`).join('')}${result.players.filter(player => result.awards.wildCards.includes(player.id)).map(player => `<span class="award">✦ Daring Guesser · ${escapeHtml(player.name)}</span>`).join('')}</div>
-    ${state.hostId === state.you ? `${state.factsAvailable ? `<p class="muted small">Keep the scores and play ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'round' : 'rounds'} with this group.</p><button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : '<p class="muted small">You have seen every fact in this session. Start a new game to play again.</p>'}${roundSettings()}<button class="secondary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play again from zero</button>` : '<p class="muted small">The host can continue with more rounds or start a new game.</p>'}
-    <button class="secondary home-button" type="button" data-action="home" ${pending ? 'disabled' : ''}>Back to home</button>
-    ${reactionButtons('Celebrate')}`;
+    <div class="winner"><span class="winner-icon" aria-hidden="true">🏆</span><div><strong>${winnerText}</strong><span class="winning-score">${points(best)} points${winners.length > 1 ? ' each' : ''}</span></div></div>
+    <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? 'Congratulations! You tied for first place!' : 'Congratulations! You won the game!' : result.players.some(player => player.id === state.you) ? 'Well played! Ready for a rematch?' : 'You joined for the next game.'}</p>
+    <section class="leaderboard" aria-label="Final leaderboard"><h3>Final leaderboard</h3>${leaderboardRows(result.players)}</section>
+    <section class="final-actions" aria-label="Game actions"><h3>What’s next?</h3>
+      <p class="muted small">${isHost ? state.factsAvailable ? `Keep your scores and continue with ${Math.min(5, state.factsAvailable)} new rounds, or start a new game below.` : 'You have seen every fact in this session. Start a new game to play again.' : 'The host can continue this game or start a new one. You can return home whenever you’re ready.'}</p>
+      <div class="final-action-row">${isHost && state.factsAvailable ? `<button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : ''}<button class="secondary" type="button" data-action="home" ${pending ? 'disabled' : ''}>Back to home</button></div>
+      ${isHost ? `<section class="new-game-settings" aria-label="Start a new game"><h3>Start a new game</h3><p class="muted small">Choose a length below. Starting a new game resets everyone’s score and Wild Card.</p>${roundSettings()}<button class="secondary" type="button" data-action="start" ${pending ? 'disabled' : ''}>Start new game · reset scores</button></section>` : ''}
+    </section>
+    ${awards ? `<section class="final-awards" aria-label="Game awards"><h3>Game awards</h3><div class="awards">${awards}</div></section>` : ''}
+    <section class="final-reactions"><h3>React to the game</h3>${reactionButtons('React to the game')}</section>`;
 }
 
 function syncSoloAutoTimer() {
@@ -521,10 +530,10 @@ function render() {
   if (!state) { app.innerHTML = landing(); if (musicEnabled) void startMusic(); return; }
   if (musicEnabled) void startMusic();
   const stage = state.phase === 'lobby' ? lobby() : state.phase === 'finished' ? finished() : questionStage();
-  const side = state.kind === 'solo' ? '' : state.phase === 'reveal'
+  const side = state.kind === 'solo' || state.phase === 'finished' ? '' : state.phase === 'reveal'
     ? `<aside class="reveal-side" aria-label="Round standings and reactions">${roundLeaderboard()}<section class="panel reaction-panel"><h3>React to this fact</h3><p class="muted small">Let the room know what you think.</p>${reactionButtons('React to the reveal')}</section>${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}</aside>`
     : sidebar();
-  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'reveal' ? 'reveal-grid' : state.phase === 'lobby' ? 'lobby-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
+  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'finished' ? 'finished-grid' : state.phase === 'reveal' ? 'reveal-grid' : state.phase === 'lobby' ? 'lobby-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
   updateTimer();
 }
 
