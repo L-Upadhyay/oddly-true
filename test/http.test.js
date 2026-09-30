@@ -21,6 +21,13 @@ test('HTTP and live events connect separate players in one room', async t => {
     server.once('exit', code => reject(new Error(`Server exited before ready: ${code}`)));
   });
   const base = `http://127.0.0.1:${port}`;
+  const music = await fetch(`${base}/assets/audio/intro-start-game-loop.mp3`);
+  assert.equal(music.status, 200);
+  assert.match(music.headers.get('content-type'), /audio\/mpeg/);
+  assert.equal((await music.arrayBuffer()).byteLength, 600188);
+  const loopModule = await fetch(`${base}/assets/music-loop.js`);
+  assert.equal(loopModule.status, 200);
+  assert.match(await loopModule.text(), /export function makeMusicLoop/);
   const post = async (path, body, seat) => {
     const response = await fetch(`${base}${path}`, {
       method: 'POST',
