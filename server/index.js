@@ -18,11 +18,14 @@ const assets = new Map([
   ['/assets/theme.css', ['theme.css', 'text/css; charset=utf-8']],
   ['/assets/app.js', ['app.js', 'text/javascript; charset=utf-8']],
   ['/assets/music-loop.js', ['music-loop.js', 'text/javascript; charset=utf-8', sharedDir]],
+  ['/assets/avatar-feedback.js', ['avatar-feedback.js', 'text/javascript; charset=utf-8', sharedDir]],
   ['/assets/audio/intro-start-game-loop.mp3', ['assets/audio/intro-start-game-loop.mp3', 'audio/mpeg']],
   ['/assets/personas.js', ['personas.js', 'text/javascript; charset=utf-8', sharedDir]]
 ]);
 for (const character of CHARACTERS) {
-  assets.set(character.art, [`${character.asset}.svg`, 'image/svg+xml; charset=utf-8', characterDir]);
+  for (const path of new Set([character.art, ...Object.values(character.expressions ?? {})])) {
+    assets.set(path, [path.slice('/assets/characters/'.length), path.endsWith('.png') ? 'image/png' : 'image/svg+xml; charset=utf-8', characterDir]);
+  }
 }
 for (const question of QUESTIONS) {
   if (question.image) {
