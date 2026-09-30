@@ -4,6 +4,8 @@
 
 Most character SVGs derive from [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji), Copyright Microsoft Corporation, under the MIT licence. The full notice is preserved in [public/assets/characters/LICENSE.txt](public/assets/characters/LICENSE.txt). Selected SVGs have friendly-expression edits; the maintenance script documents those changes. `pigeon.svg` is original Oddly True artwork.
 
+Doctor Pigeon and Lucky Lion now use AI-generated expression PNGs based on the user's supplied, approved character designs. Their preparation, generation prompts, and output-rights review are documented in [character artwork provenance](docs/character-art.md). These PNGs are separate from the Microsoft Fluent Emoji SVG artwork.
+
 ## Fact photographs
 
 The following credits and usage links are recorded in `server/questions.js` and `server/questions-extra.js` and displayed during the reveal. Fact sources and image sources are separate: an article supporting a claim does not itself grant rights to an image. The images in `public/assets/questions/` are bundled as JPEGs for display. Preserve each image's attribution and applicable terms when redistributing or replacing it.

@@ -1,7 +1,9 @@
 import { makeMusicLoop } from '/assets/music-loop.js';
+import { playerExpression, soloScoreFeedback } from '/assets/avatar-feedback.js';
 import {
   PERSONAS as personas,
   characterForAvatar,
+  characterArtForAvatar,
   customCharacterForName,
   characterMatchForName,
   personaForAvatar
@@ -163,15 +165,6 @@ for (const gesture of ['pointerdown', 'keydown']) {
   }, { capture: true });
 }
 
-function soloScoreFeedback(result, playerId) {
-  const score = result.players.find(player => player.id === playerId)?.score ?? 0;
-  // Ten points per played fact is the baseline. A Wild Card can lift the score above 100%.
-  const percent = score / Math.max(1, result.roundsPlayed * 10) * 100;
-  if (percent >= 70) return { cue: 'celebrate', message: 'Brilliant run! You spotted so many truths.' };
-  if (percent <= 20) return { cue: 'softLanding', message: 'Those facts were tricky. Take a breath and try another set!' };
-  return { cue: 'steady', message: 'Nice work! A few more truths are waiting for you.' };
-}
-
 function soundForTransition(previous, next) {
   if (!previous || previous.code !== next.code) return;
   const answerLocked = !previous.myAnswer && next.myAnswer && previous.round === next.round;
@@ -224,13 +217,13 @@ function topbar(note = 'The real fact is the weirdest one.', isLanding = false) 
   return `<header class="topbar${isLanding ? ' landing-topbar' : ''}"><a class="brand" href="/oddly-true/" ${state ? 'data-action="home"' : ''}><span class="brand-mark" aria-hidden="true">?</span> Oddly True</a><div class="topbar-right"><span class="top-note">${escapeHtml(note)}</span><button type="button" class="theme-toggle sound-toggle" data-action="sound" aria-label="Turn sound effects ${soundEnabled ? 'off' : 'on'}" aria-pressed="${soundEnabled}">${soundEnabled ? '♫ Sound on' : '♫ Sound off'}</button><button type="button" class="theme-toggle music-button" data-action="music" aria-pressed="${musicEnabled}" aria-label="Turn background music ${musicEnabled ? 'off' : 'on'}">♪ Music ${musicEnabled ? 'on' : 'off'}</button><button type="button" class="theme-toggle" data-action="theme" aria-label="Switch to ${theme === 'dark' ? 'light' : 'dark'} mode">${theme === 'dark' ? '☀ Light' : '☾ Dark'}</button></div></header>`;
 }
 
-function avatarArt(avatar, className = 'avatar-art') {
+function avatarArt(avatar, className = 'avatar-art', expression = 'neutral') {
   const character = characterForAvatar(avatar);
-  return `<img class="${className}" src="${escapeHtml(character.art)}" alt="" width="64" height="64" draggable="false">`;
+  return `<img class="${className}${character.expressions ? ' expression-portrait' : ''}" src="${escapeHtml(characterArtForAvatar(avatar, expression))}" alt="" width="64" height="64" draggable="false">`;
 }
 
 function identityInline(player) {
-  return `<span class="identity-inline">${avatarArt(player.avatar, 'inline-avatar')}${playerName(player)}</span>`;
+  return `<span class="identity-inline">${avatarArt(player.avatar, 'inline-avatar', playerExpression(state, player.id))}${playerName(player)}</span>`;
 }
 
 function characterArt(character) {
@@ -329,7 +322,7 @@ function points(value) {
 function sidebar() {
   return `<aside class="panel score-side" aria-label="Scores">
     <h3>Players <span class="muted small">${state.players.length}/8</span></h3>
-    <div class="score-list">${state.players.map(player => `<div class="player-row"><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span><span class="player-name">${playerName(player)}</span><span class="player-points">${state.phase === 'lobby' ? '—' : player.score}</span></div>`).join('')}</div>
+    <div class="score-list">${state.players.map(player => `<div class="player-row"><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art', playerExpression(state, player.id))}</span><span class="player-name">${playerName(player)}</span><span class="player-points">${state.phase === 'lobby' ? '—' : player.score}</span></div>`).join('')}</div>
     ${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}
   </aside>`;
 }
@@ -389,7 +382,7 @@ function roundWinner() {
 
 function leaderboardRows(rows, showRound = false) {
   return `<div class="leaderboard-list">${rows.map(player => `<div class="leaderboard-row ${player.id === state.you ? 'is-you' : ''}">
-    <span class="rank">${player.rank}.</span><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art')}</span>
+    <span class="rank">${player.rank}.</span><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art', playerExpression(state, player.id))}</span>
     <span class="leaderboard-name">${playerName(player)}</span>
     ${showRound ? `<span class="round-delta ${player.points < 0 ? 'negative' : ''}">${player.points > 0 ? '+' : ''}${player.points} this round${player.movement > 0 ? ` · ↑${player.movement}` : player.movement < 0 ? ` · ↓${-player.movement}` : ''}</span>` : ''}
     <strong>${points(player.score)}</strong></div>`).join('')}</div>`;
@@ -433,7 +426,10 @@ function questionStage() {
     const points = me ? (me.choice === state.question.correct ? (me.wildCard ? 20 : 10) : (me.wildCard ? -5 : 0)) : 0;
     const label = !me ? 'Time ran out · 0 points' : points > 0 ? `You got it · +${points} points` : points < 0 ? 'Wild Card missed · −5 points' : 'The fact fooled you · 0 points';
     const picture = state.question.image ? `<figure class="fact-image"><img class="${state.question.image.fit === 'contain' ? 'fact-image-contain' : ''}" src="${escapeHtml(state.question.image.path)}" alt="${escapeHtml(state.question.image.alt)}" loading="eager"><figcaption>Image: <a href="${escapeHtml(state.question.image.creditUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.credit)}</a> · <a href="${escapeHtml(state.question.image.licenseUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(state.question.image.license)}</a></figcaption></figure>` : factArt(state.question);
-    bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${label}</div>
+    const mePlayer = state.players.find(player => player.id === state.you);
+    const portrait = state.kind === 'solo' && characterForAvatar(mePlayer?.avatar).expressions
+      ? `<span aria-hidden="true">${avatarArt(mePlayer.avatar, 'result-avatar-art', playerExpression(state, state.you))}</span>` : '';
+    bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${portrait}${label}</div>
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
       ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}</div>
       ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : ''}</div>`}`;
@@ -457,9 +453,12 @@ function factArt(question) {
 function finished() {
   const result = state.finalResult;
   if (state.kind === 'solo') {
-    const score = result.players.find(player => player.id === state.you)?.score ?? 0;
+    const player = result.players.find(player => player.id === state.you);
+    const score = player?.score ?? 0;
+    const portrait = player && characterForAvatar(player.avatar).expressions
+      ? avatarArt(player.avatar, 'final-avatar-art', playerExpression(state, player.id)) : '✦';
     return `<div class="eyebrow">Solo complete · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'fact' : 'facts'}</div><h2>Your final score</h2>
-      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">✦</span><div><strong>${points(score)} points</strong><span>${soloScoreFeedback(result, state.you).message}</span></div></div>
+      <div class="winner solo-score"><span class="winner-icon" aria-hidden="true">${portrait}</span><div><strong>${points(score)} points</strong><span>${soloScoreFeedback(result, state.you).message}</span></div></div>
       <p class="muted small">${state.factsAvailable ? `Want to keep your score going? Continue with ${Math.min(5, state.factsAvailable)} new ${state.factsAvailable === 1 ? 'fact' : 'facts'}.` : 'You have seen every fact in this session. Start fresh to play again.'}</p>
       <div class="solo-result-actions ${state.factsAvailable ? '' : 'solo-result-actions-two'}">${state.factsAvailable ? `<button class="primary" type="button" data-action="extend" ${pending ? 'disabled' : ''}>Keep playing · ${Math.min(5, state.factsAvailable)} more</button>` : ''}<button class="${state.factsAvailable ? 'secondary' : 'primary'}" type="button" data-action="start" ${pending ? 'disabled' : ''}>Play Solo again</button><button class="secondary" type="button" data-action="home" ${pending ? 'disabled' : ''}>Back to home</button></div>`;
   }

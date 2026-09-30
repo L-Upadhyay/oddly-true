@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { QUESTIONS } from '../server/questions.js';
+import { CHARACTERS } from '../shared/personas.js';
 
 test('HTTP and live events connect separate players in one room', async t => {
   const server = spawn(process.execPath, ['server/index.js'], {
@@ -30,6 +31,19 @@ test('HTTP and live events connect separate players in one room', async t => {
   const loopModule = await fetch(`${base}/assets/music-loop.js`);
   assert.equal(loopModule.status, 200);
   assert.match(await loopModule.text(), /export function makeMusicLoop/);
+  const avatarModule = await fetch(`${base}/assets/avatar-feedback.js`);
+  assert.equal(avatarModule.status, 200);
+  assert.match(await avatarModule.text(), /export function playerExpression/);
+  for (const character of CHARACTERS.filter(character => character.expressions)) {
+    assert.equal(character.art, character.expressions.neutral);
+    for (const path of Object.values(character.expressions)) {
+      const portrait = await fetch(`${base}${path}`);
+      assert.equal(portrait.status, 200, `Portrait unavailable: ${path}`);
+      assert.match(portrait.headers.get('content-type'), /image\/png/);
+      const expected = await readFile(new URL(`../public${path}`, import.meta.url));
+      assert.deepEqual(Buffer.from(await portrait.arrayBuffer()), expected);
+    }
+  }
   for (const question of QUESTIONS) {
     const image = await fetch(`${base}${question.image.path}`);
     assert.equal(image.status, 200, `Image unavailable: ${question.id}`);

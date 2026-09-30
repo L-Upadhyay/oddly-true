@@ -1,6 +1,10 @@
 // Preset identities have linked names and one-time greetings.
 // Custom identities use the same locally bundled Fluent Emoji artwork without a scripted greeting.
 const art = asset => `/assets/characters/${asset}.svg`;
+const portraitAssets = new Set(['pigeon', 'lion']);
+const expressionArt = asset => Object.fromEntries(
+  ['neutral', 'happy', 'disappointed'].map(expression => [expression, `/assets/characters/${asset}-${expression}.png`])
+);
 
 export const PERSONAS = [
   { name: 'Doctor Pigeon', label: 'Pigeon', avatar: '🐦', asset: 'pigeon', keywords: ['pigeon', 'bird'], greeting: 'Coo there, curious human!', motion: 'tilt' },
@@ -17,7 +21,10 @@ export const PERSONAS = [
   { name: 'Stellar Alien', label: 'Alien', avatar: '👽', asset: 'alien', keywords: ['alien'], greeting: 'Take me to your snacks!', motion: 'float' },
   { name: 'Glitter Unicorn', label: 'Unicorn', avatar: '🦄', asset: 'unicorn', keywords: ['unicorn'], greeting: 'Neigh-hello, sparkle pal!', motion: 'prance' },
   { name: 'Party Penguin', label: 'Penguin', avatar: '🐧', asset: 'penguin', keywords: ['penguin'], greeting: 'Let’s break the ice!', motion: 'waddle' }
-].map(persona => ({ ...persona, art: art(persona.asset), preset: true }));
+].map(persona => {
+  const expressions = portraitAssets.has(persona.asset) ? expressionArt(persona.asset) : undefined;
+  return { ...persona, art: expressions?.neutral ?? art(persona.asset), ...(expressions ? { expressions } : {}), preset: true };
+});
 
 export const CUSTOM_CHARACTERS = [
   { label: 'Jellyfish', avatar: '🪼', asset: 'jellyfish', keywords: ['jellyfish', 'jelly'] },
@@ -68,6 +75,11 @@ export function characterForAvatar(avatar) {
   return CHARACTERS.find(character => character.avatar === avatar)
     ?? PERSONAS.find(persona => persona.avatar === '👽')
     ?? PERSONAS[0];
+}
+
+export function characterArtForAvatar(avatar, expression = 'neutral') {
+  const character = characterForAvatar(avatar);
+  return character.expressions?.[expression] ?? character.art;
 }
 
 function normalizedWords(value) {
