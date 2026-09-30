@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { networkInterfaces } from 'node:os';
 import { GameError, GameStore } from './game.js';
+import { QUESTIONS } from './questions.js';
 import { CHARACTERS } from '../shared/personas.js';
 
 const publicDir = fileURLToPath(new URL('../public/', import.meta.url));
@@ -18,20 +19,15 @@ const assets = new Map([
   ['/assets/app.js', ['app.js', 'text/javascript; charset=utf-8']],
   ['/assets/music-loop.js', ['music-loop.js', 'text/javascript; charset=utf-8', sharedDir]],
   ['/assets/audio/intro-start-game-loop.mp3', ['assets/audio/intro-start-game-loop.mp3', 'audio/mpeg']],
-  ['/assets/personas.js', ['personas.js', 'text/javascript; charset=utf-8', sharedDir]],
-  ['/assets/sea-otter.jpg', ['assets/sea-otter.jpg', 'image/jpeg']],
-  ['/assets/octopus.jpg', ['assets/octopus.jpg', 'image/jpeg']],
-  ['/assets/seahorse.jpg', ['assets/seahorse.jpg', 'image/jpeg']],
-  ['/assets/wombat.jpg', ['assets/wombat.jpg', 'image/jpeg']],
-  ['/assets/venus.jpg', ['assets/venus.jpg', 'image/jpeg']],
-  ['/assets/unicorn.jpg', ['assets/unicorn.jpg', 'image/jpeg']],
-  ['/assets/frog.jpg', ['assets/frog.jpg', 'image/jpeg']],
-  ['/assets/jellyfish.jpg', ['assets/jellyfish.jpg', 'image/jpeg']],
-  ['/assets/titan.jpg', ['assets/titan.jpg', 'image/jpeg']],
-  ['/assets/blood-falls.jpg', ['assets/blood-falls.jpg', 'image/jpeg']]
+  ['/assets/personas.js', ['personas.js', 'text/javascript; charset=utf-8', sharedDir]]
 ]);
 for (const character of CHARACTERS) {
   assets.set(character.art, [`${character.asset}.svg`, 'image/svg+xml; charset=utf-8', characterDir]);
+}
+for (const question of QUESTIONS) {
+  if (question.image) {
+    assets.set(question.image.path, [question.image.path.slice(1), 'image/jpeg']);
+  }
 }
 assets.set('/assets/characters/LICENSE.txt', ['LICENSE.txt', 'text/plain; charset=utf-8', characterDir]);
 

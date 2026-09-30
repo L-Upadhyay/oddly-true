@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
+import { QUESTIONS } from '../server/questions.js';
 
 test('HTTP and live events connect separate players in one room', async t => {
   const server = spawn(process.execPath, ['server/index.js'], {
@@ -28,6 +30,16 @@ test('HTTP and live events connect separate players in one room', async t => {
   const loopModule = await fetch(`${base}/assets/music-loop.js`);
   assert.equal(loopModule.status, 200);
   assert.match(await loopModule.text(), /export function makeMusicLoop/);
+  for (const question of QUESTIONS) {
+    const image = await fetch(`${base}${question.image.path}`);
+    assert.equal(image.status, 200, `Image unavailable: ${question.id}`);
+    assert.match(image.headers.get('content-type'), /image\/jpeg/);
+    const expected = await readFile(new URL(`../public${question.image.path}`, import.meta.url));
+    assert.deepEqual(Buffer.from(await image.arrayBuffer()), expected, `Wrong image bytes: ${question.id}`);
+  }
+  for (const path of ['/assets/questions/not-a-question.jpg', '/server/questions.js']) {
+    assert.equal((await fetch(`${base}${path}`)).status, 404);
+  }
   const post = async (path, body, seat) => {
     const response = await fetch(`${base}${path}`, {
       method: 'POST',
@@ -49,7 +61,9 @@ test('HTTP and live events connect separate players in one room', async t => {
     post(`/api/rooms/${host.code}/join`, { name })
   ));
   await post(`/api/rooms/${host.code}/settings`, { roundMode: 'host' }, host);
-  assert.equal((await getState(guests[0])).players.length, 4);
+  const lobby = await getState(guests[0]);
+  assert.equal(lobby.players.length, 4);
+  const nextHostId = lobby.players.find(player => player.id !== host.playerId).id;
   await post(`/api/rooms/${host.code}/start`, {}, host);
 
   const controller = new AbortController();
@@ -84,7 +98,7 @@ test('HTTP and live events connect separate players in one room', async t => {
   assert.equal(final.finalResult.players.length, 4);
   await post(`/api/rooms/${host.code}/leave`, {}, host);
   const transferred = await getState(guests[0]);
-  assert.equal(transferred.hostId, guests[0].playerId);
+  assert.equal(transferred.hostId, nextHostId);
   assert.equal(transferred.finalResult.players.length, 4);
   const newcomer = await post(`/api/rooms/${host.code}/join`, { name: 'Newcomer' });
   assert.equal((await getState(newcomer)).phase, 'finished');
