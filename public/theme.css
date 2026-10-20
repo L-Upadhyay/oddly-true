@@ -198,6 +198,7 @@
 [data-theme="light"] .player-points { color: #347536; }
 [data-theme="light"] .host-tag, [data-theme="light"] .you-tag { color: #5b725f; }
 [data-theme="light"] .lobby-guide li { background: #f5faf1; border-color: #d0e2c9; }
+[data-theme="light"] .share-dialog { background: #fffdf8; color: #173528; border-color: #d0e2c9; }
 [data-theme="light"] .lobby-guide b { color: #28643a; }
 [data-theme="light"] .lobby-player { background: #eff7ea; border-color: #cee0c6; }
 [data-theme="light"] .lobby-footer { border-color: #dbe5d5; }

@@ -4,7 +4,7 @@ A bizarre-fact trivia game to play alone or with **2–8 friends** across device
 
 **[Play the live game](https://oddly-true.oddlytrue-play.workers.dev)** · [Architecture](docs/architecture.md) · [Testing](docs/testing.md) · [API](docs/api.md)
 
-No account is needed. Choose a quick five-fact Solo game, ten facts, or a custom length from 1–10; or create a room, share its five-character code or invite link, and play with friends on separate devices. The lobby's Invite your friends card opens your device's share options when available, with a copy-link fallback.
+No account is needed. Choose a quick five-fact Solo game, ten facts, or a custom length from 1–10; or create a room, share its five-character code or invite link, and play with friends on separate devices. The lobby's Invite your friends card opens a share panel with the link and a Copy button, plus native share options when the device supports them.
 
 ## How it works
 

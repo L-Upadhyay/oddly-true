@@ -173,6 +173,17 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .guide-share .guide-copy { min-width: 0; }
 .guide-share .guide-copy > span { display: block; line-height: 1.45; font-size: .93rem; }
 .guide-share .guide-copy > small { display: block; margin-top: 7px; font-size: .78rem; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.share-dialog { width: min(520px, calc(100% - 28px)); max-height: calc(100vh - 32px); padding: 30px; border: 1px solid #5c7764; border-radius: 20px; background: #202e2a; color: #f7f8ff; box-shadow: 0 24px 80px #0b1d1a7a; }
+.share-dialog::backdrop { background: #10221ac2; }
+.share-dialog h2 { margin: 8px 0 10px; font-size: 1.9rem; }
+.share-dialog p { line-height: 1.5; }
+.share-dialog .field { display: block; margin: 18px 0 8px; }
+.share-close { float: right; border: 0; background: transparent; color: inherit; font-size: 1.8rem; line-height: 1; }
+.share-link-row { display: flex; gap: 8px; }
+.share-link-row input { flex: 1; min-width: 0; font-size: .85rem; }
+.share-link-row button { white-space: nowrap; }
+.share-native { width: 100%; margin-top: 12px; }
+.share-native[hidden] { display: none; }
 .lobby-guide li > div { min-width: 0; }
 .lobby-guide strong { display: block; margin-bottom: 5px; font: 700 1rem 'Space Grotesk', sans-serif; }
 .lobby-guide li div > span { display: block; line-height: 1.45; font-size: .93rem; }
@@ -276,4 +287,5 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
   .lobby-guide { grid-template-columns: 1fr; }
   .lobby-guide li { padding: 13px; }
   .guide-share { padding: 13px; }
+  .share-link-row { flex-direction: column; }
 }
