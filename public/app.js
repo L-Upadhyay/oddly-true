@@ -12,6 +12,9 @@ import {
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
 const reactionTray = document.querySelector('#reactions');
+const shareDialog = document.querySelector('#share-dialog');
+const shareUrlInput = document.querySelector('#share-url');
+const nativeShareButton = document.querySelector('#share-native');
 const letters = ['A', 'B', 'C'];
 const reactions = ['🤯', '😂', '👏', '😱', '🤔'];
 let theme = 'light';
@@ -310,6 +313,26 @@ function roomHeader() {
     <div class="room-actions"><button class="secondary" type="button" data-action="copy-link">Copy invite link</button></div>
   </div>`;
 }
+
+function inviteUrl() {
+  return `${location.origin}/oddly-true/?room=${encodeURIComponent(state.code)}`;
+}
+
+async function copyInviteLink(value = inviteUrl()) {
+  try { await navigator.clipboard.writeText(value); notify('Invite link copied. Share it with your friends!'); }
+  catch { window.prompt('Copy this invite link:', value); }
+}
+
+document.querySelector('#share-copy').addEventListener('click', () => { void copyInviteLink(shareUrlInput.value); });
+shareUrlInput.addEventListener('focus', () => shareUrlInput.select());
+nativeShareButton.addEventListener('click', async () => {
+  try {
+    await navigator.share({ title: 'Oddly True', text: 'Join my Oddly True game!', url: shareUrlInput.value });
+    shareDialog.close();
+  } catch (error) {
+    if (error?.name !== 'AbortError') notify('Sharing is unavailable here. You can copy the link instead.');
+  }
+});
 
 function playerName(player) {
   return `${escapeHtml(player.name)}${player.id === state?.hostId ? ' <span class="host-tag">(Host)</span>' : ''}${player.id === state?.you ? ' <span class="you-tag">(You)</span>' : ''}`;
@@ -834,22 +857,14 @@ app.addEventListener('click', async event => {
     return;
   }
   if (kind === 'share-link') {
-    const value = `${location.origin}/oddly-true/?room=${encodeURIComponent(state.code)}`;
-    if (typeof navigator.share === 'function') {
-      try {
-        await navigator.share({ title: 'Oddly True', text: 'Join my Oddly True game!', url: value });
-        return;
-      } catch (error) {
-        if (error?.name === 'AbortError') return;
-      }
-    }
-    try { await navigator.clipboard.writeText(value); notify('Invite link copied. Share it with your friends!'); }
-    catch { window.prompt('Copy this invite link:', value); }
+    shareUrlInput.value = inviteUrl();
+    nativeShareButton.hidden = typeof navigator.share !== 'function';
+    shareDialog.showModal();
     return;
   }
   if (kind === 'copy-code' || kind === 'copy-link') {
     const copyingCode = kind === 'copy-code';
-    const value = copyingCode ? state.code : `${location.origin}/oddly-true/?room=${encodeURIComponent(state.code)}`;
+    const value = copyingCode ? state.code : inviteUrl();
     try { await navigator.clipboard.writeText(value); notify(`${copyingCode ? 'Room code' : 'Invite link'} copied.`); }
     catch { window.prompt(`Copy this ${copyingCode ? 'room code' : 'invite link'}:`, value); }
     return;
