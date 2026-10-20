@@ -4,7 +4,7 @@
 
 Most character SVGs derive from [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji), Copyright Microsoft Corporation, under the MIT licence. The full notice is preserved in [public/assets/characters/LICENSE.txt](public/assets/characters/LICENSE.txt). Selected SVGs have friendly-expression edits; the maintenance script documents those changes. `pigeon.svg` is original Oddly True artwork.
 
-Doctor Pigeon, Lucky Lion, Glitter Unicorn, and Party Penguin now use AI-generated expression PNGs based on the user's supplied character designs. Their preparation, generation prompts, and output-rights review are documented in [character artwork provenance](docs/character-art.md). These PNGs are separate from the Microsoft Fluent Emoji SVG artwork.
+Doctor Pigeon, Lucky Lion, Captain Fox, Cosmic Frog, Professor Octopus, Disco Ghost, Mysterious Owl, Dinner Dino, Buzzy Bee, Social Butterfly, Glitter Unicorn, and Party Penguin now use AI-generated expression PNGs based on the user's supplied character designs. Their preparation, generation prompts, and output-rights review are documented in [character artwork provenance](docs/character-art.md). These PNGs are separate from the Microsoft Fluent Emoji SVG artwork.
 
 ## Fact photographs
 
