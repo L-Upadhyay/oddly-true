@@ -63,7 +63,7 @@ Local settings are optional shell environment variables, for example `PORT=3001 
 - Solo practice with a chosen 1–10 facts and optional, pausable Auto next after each reveal; 2–8-player Friends rooms with individual scores and fixed, custom and host-controlled lengths. Both modes can finish early and extend with up to five unseen facts while keeping scores.
 - Locked answers, server-enforced deadlines and once-per-game Wild Cards.
 - Personal round/final messages, cumulative leaderboards, reactions and brief celebrations.
-- Fourteen preset characters, custom names, creature/theme matching and rerolling.
+- Twelve preset characters with neutral, happy and disappointed portraits, custom names, creature/theme matching and rerolling.
 - Bundled illustrated avatars, a custom pigeon, brief welcome overlays and credited fact photographs.
 - Original short sound cues for questions, locked answers, reveals and final scores. Tozan’s CC0 “Intro Start Game Loop” plays across the landing page, Solo, and Friends screens. Music and Sound have independent controls; both and the light theme start on for every new page load. Browsers may wait for the first interaction before allowing music; clicking Music immediately switches it off, while another page interaction starts it if still enabled. Solo completion uses celebratory (70%+), gentle (20% or less), or steady (between) feedback based on points relative to 10 per fact played; a Wild Card can exceed that baseline.
 

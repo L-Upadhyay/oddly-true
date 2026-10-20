@@ -263,10 +263,10 @@ function landing() {
   return `${topbar('The real fact is the weirdest one.', true)}
     <div class="landing">
       <section class="landing-copy">
-        <div class="eyebrow">Play with friends or go Solo</div>
-        <h1>Sounds fake.<br><em>Oddly true.</em></h1>
+        <div class="eyebrow">Play with 2–8 friends or solo.</div>
+        <h1>Sounds fake,<br><em>Oddly true.</em></h1>
         <p>Three bizarre claims. Only one actually happened. Trust your gut, bring your people if you like, and prepare to be confidently wrong.</p>
-        <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li>Three bizarre claims. Pick the one that’s true.</li><li>A correct answer earns 10 points. A wrong answer or timeout earns 0.</li><li>Go Solo or play live with 2 to 8 friends. With friends, the highest score wins; ties share the win.</li></ol><p class="wild-card-note"><span aria-hidden="true">✦</span> <strong>Wild Card:</strong> Once per game, earn 20 points if right or lose 5 points if wrong.</p></section>
+        <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li><strong>Pick the truth.</strong> Choose the one real claim from three bizarre claims.</li><li><strong>Timing.</strong> You have 20 seconds to answer.</li><li><strong>Points.</strong> Correct: +10. Wrong or timeout: 0.</li><li><strong>Wild Card.</strong> Once per game: +20 if right, −5 if wrong.</li><li><strong>Winner.</strong> The highest total wins with friends; ties share the win. Solo is your personal score.</li></ol></section>
         <div class="rule-line"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 19v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 2 4v1"/></svg>Solo or friends</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>20 seconds</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v8a5 5 0 0 1-10 0V3ZM7 5H4v3a4 4 0 0 0 4 4m9-7h3v3a4 4 0 0 1-4 4m-4 4v3m-4 2h8"/></svg>10 points for a correct pick</span></div>
       </section>
       <section class="panel setup-panel" aria-label="Choose a game and identity">
