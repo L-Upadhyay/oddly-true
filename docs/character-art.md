@@ -1,6 +1,6 @@
 # Character portrait preparation
 
-Doctor Pigeon and Lucky Lion were prepared 2026-09-30, and Glitter Unicorn and Party Penguin were prepared 2026-10-20, with the built-in image-generation editor. These are static expression portraits, not animated GIFs.
+Doctor Pigeon and Lucky Lion were prepared 2026-09-30. Glitter Unicorn, Party Penguin, Captain Fox, Cosmic Frog, Professor Octopus, Disco Ghost, Mysterious Owl, Dinner Dino, Buzzy Bee, and Social Butterfly were prepared 2026-10-20 with the built-in image-generation editor. These are static expression portraits, not animated GIFs.
 
 ## References and provenance
 
@@ -41,6 +41,23 @@ The happy and disappointed prompts edited that neutral portrait, preserving its 
 Neutral prompt: `The uploaded Party Penguin character sheet is the identity and painting-style reference. Create one isolated straight-on head-and-shoulders portrait of the same chubby black-and-white penguin with a neutral smile, brown eyes, colorful square-rim party glasses, striped rainbow party hat with flower pompom and colorful bulb necklace. Transparent square PNG with full hat and cheeks inside the canvas and a rounded chest crop. No clipboard, doctor insignia, text, labels, backdrop or shadow.`
 
 The happy and disappointed prompts edited that neutral portrait, preserving its glasses, hat, necklace, colors, scale and transparency. Happy requested a delighted open-beak smile; disappointed requested a subtly downturned beak and softened eyes without tears. All three game assets are 256 × 256 PNGs.
+
+### New preset portraits, October 20
+
+The user's uploaded character sheets guided eight additional characters. Only the newly generated portraits are committed; the source sheets and generated full-resolution masters are kept outside this repository.
+
+| Preset | Uploaded reference sheet | Identifying details preserved |
+| --- | --- | --- |
+| Captain Fox | `beMSkZVmKaKTGMCz(1).png` | Orange fox, navy captain hat, striped scarf, binoculars |
+| Cosmic Frog | `oHqjpz8f4RfJLhz8(1).png` | Mint frog, bubble helmet, galaxy cape |
+| Professor Octopus | `zvLS8xQOkMu5r9OT(1).png` | Lilac octopus, round glasses, graduation cap, pointer |
+| Disco Ghost | `viv8wxMTeQlDN1Rk(1).png` | Pale blue ghost, gold star glasses, bow tie, disco-ball pendant |
+| Mysterious Owl | `G-nncqMA_PFkypoS(1).png` | Brown owl, dark cloak, magnifying glass |
+| Dinner Dino | `RhbFpgWJMWJiU3aM(2).png` | Mint dinosaur, white dinner napkin |
+| Buzzy Bee | `qh06gu7gi1zj6ab3(1).png` | Fuzzy bee, round glasses, doctor coat, stethoscope |
+| Social Butterfly | `efalZsTt-h06HjsT(1).png` | Pink patterned wings, glasses, doctor coat, stethoscope |
+
+For each preset, the editor generated one centered neutral portrait on a transparent square from the reference sheet. Two edits of that portrait retained its identity and framing while changing the expression to a delighted celebration and gentle disappointment. Prompts excluded typography, scenery, and other characters. FFmpeg resized and losslessly encoded each output as a 256 × 256 transparent PNG. The game's expression mapping and reveal rules above apply to all eight.
 
 ## Remaining checks
 
