@@ -1,7 +1,7 @@
 // Preset identities have linked names and one-time greetings.
 // Custom identities use the same locally bundled Fluent Emoji artwork without a scripted greeting.
 const art = asset => `/assets/characters/${asset}.svg`;
-const portraitAssets = new Set(['pigeon', 'lion', 'unicorn']);
+const portraitAssets = new Set(['pigeon', 'lion', 'unicorn', 'penguin']);
 const expressionArt = asset => Object.fromEntries(
   ['neutral', 'happy', 'disappointed'].map(expression => [expression, `/assets/characters/${asset}-${expression}.png`])
 );

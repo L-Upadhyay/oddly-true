@@ -1,10 +1,10 @@
 # Character portrait preparation
 
-Doctor Pigeon and Lucky Lion were prepared 2026-09-30, and Glitter Unicorn was prepared 2026-10-20, with the built-in image-generation editor. These are static expression portraits, not animated GIFs.
+Doctor Pigeon and Lucky Lion were prepared 2026-09-30, and Glitter Unicorn and Party Penguin were prepared 2026-10-20, with the built-in image-generation editor. These are static expression portraits, not animated GIFs.
 
 ## References and provenance
 
-The user supplied a Doctor Pigeon character sheet (`image (1).png`), a Lucky Lion sheet (`DSP39j6urb4YXy3l.png`), and a Glitter Unicorn sheet (`d4-fw0dq_DK9O3nA(1).png`). The front-facing pigeon and large smiling lion were approved identity references; approved three-expression preview strips were used for their final portraits. The large smiling front-facing unicorn on its sheet was the reference for a new neutral portrait; happy and gently disappointed variants were edited from that portrait. No reference-sheet text or labels are included in the game images.
+The user supplied a Doctor Pigeon character sheet (`image (1).png`), a Lucky Lion sheet (`DSP39j6urb4YXy3l.png`), a Glitter Unicorn sheet (`d4-fw0dq_DK9O3nA(1).png`), and a Party Penguin sheet (`DYp4iygXtg9Gdkox(1).png`). The front-facing pigeon and large smiling lion were approved identity references; approved three-expression preview strips were used for their final portraits. The large front-facing unicorn and penguin on their sheets were references for new neutral portraits; happy and gently disappointed variants were edited from those portraits. No reference-sheet text or labels are included in the game images.
 
 Miora's official Service Agreement was checked on 2026-09-30 at https://miora.design/document/service-agreement. Its English content is supplied by the official site bundle https://static.d.gtimg.com/miora/9e17ad7b/assets/js/index-DIwH3zeh.js. Section 9.2(d) assigns Tencent's rights in generated output to the user; section 9.2(a) retains applicable third-party model restrictions. This is the basis for using the user's original generated character designs in this project; it is not a guarantee of exclusivity or a licence over unrelated third-party artwork. The portraits are AI-generated and edited, not represented as human-drawn. The older SVG artwork remains bundled for rollback.
 
@@ -16,7 +16,7 @@ Selection, lobby, questions, and vote suspense use the default resting portrait.
 
 ## Final generation prompts
 
-Doctor Pigeon and Lucky Lion used the approved strips as references. Glitter Unicorn used the user-uploaded character sheet for its neutral portrait and that portrait for its two variants. Every output requested a transparent background.
+Doctor Pigeon and Lucky Lion used the approved strips as references. Glitter Unicorn and Party Penguin used their user-uploaded character sheets for neutral portraits and those portraits for their two variants. Every output requested a transparent background.
 
 ### Doctor Pigeon
 
@@ -35,6 +35,12 @@ Selections: neutral = `Left portrait, relaxed friendly closed mouth`; happy = `C
 Neutral prompt: `The uploaded Glitter Unicorn character sheet is the identity and painting-style reference. Create one isolated front-facing head-and-shoulders portrait of that exact white unicorn, cheerful calm neutral smile, warm eyes, pastel rainbow forelock and mane, striped rainbow horn, pink ears, glittery pink star scarf. Square transparent PNG with margin around the horn and sides, smooth rounded chest crop. No full body, wand, other characters, text, backdrop or shadow.`
 
 The happy and disappointed prompts edited that neutral portrait, preserving its design, scale and transparency. Happy requested an open-mouth smile and lifted cheeks. Disappointed requested a small soft frown and worried brows without dramatic tears. All three game assets are 256 × 256 PNGs at approximately 100 KB each.
+
+### Party Penguin
+
+Neutral prompt: `The uploaded Party Penguin character sheet is the identity and painting-style reference. Create one isolated straight-on head-and-shoulders portrait of the same chubby black-and-white penguin with a neutral smile, brown eyes, colorful square-rim party glasses, striped rainbow party hat with flower pompom and colorful bulb necklace. Transparent square PNG with full hat and cheeks inside the canvas and a rounded chest crop. No clipboard, doctor insignia, text, labels, backdrop or shadow.`
+
+The happy and disappointed prompts edited that neutral portrait, preserving its glasses, hat, necklace, colors, scale and transparency. Happy requested a delighted open-beak smile; disappointed requested a subtly downturned beak and softened eyes without tears. All three game assets are 256 × 256 PNGs.
 
 ## Remaining checks
 
