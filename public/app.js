@@ -346,7 +346,7 @@ function lobby() {
     <div class="lobby-footer">${isHost ? `<button class="primary" type="button" data-action="start" ${!ready || pending ? 'disabled' : ''}>Start the game</button><p class="muted small">${!ready ? 'Waiting for 2 players.' : state.roundMode === 'host' ? 'Finish after any reveal, at most 10 rounds.' : `${state.totalRounds} ${state.totalRounds === 1 ? 'round' : 'rounds'} · plan for ${Math.ceil(state.totalRounds / 2)}+ ${state.totalRounds <= 2 ? 'minute' : 'minutes'}; host sets the pace.`}</p>` : `<p class="muted">${ready ? 'Waiting for the host to start…' : 'Waiting for more players…'}</p>`}</div>
         <details class="lobby-rules"><summary>How to play</summary>
       <ul class="lobby-guide" aria-label="How this game works">
-        <li><span class="guide-icon" aria-hidden="true">↗</span><div><strong>Invite your friends</strong><span>Share the room code or link. Everyone plays on their own device.</span></div></li>
+        <li><button class="guide-share" type="button" data-action="share-link"><span class="guide-icon" aria-hidden="true">↗</span><span class="guide-copy"><strong>Invite your friends</strong><span>Share the room link. Everyone plays on their own device.</span><small>Open share options ↗</small></span></button></li>
         <li><span class="guide-icon" aria-hidden="true">?</span><div><strong>Spot the truth</strong><span>Pick the one real claim from three in <b>20 seconds</b>.</span></div></li>
         <li><span class="guide-icon" aria-hidden="true">+10</span><div><strong>Score your points</strong><span>Correct: <b>+10</b>. Wrong or timeout: <b>0</b>. One Wild Card: <b>+20</b> if right, <b>−5</b> if wrong.</span></div></li>
         <li><span class="guide-icon" aria-hidden="true">✦</span><div><strong>See the reveal</strong><span>Votes appear first, then the truth and leaderboard. The host starts the next round.</span></div></li>
@@ -833,9 +833,23 @@ app.addEventListener('click', async event => {
     finally { pending = false; render(); }
     return;
   }
+  if (kind === 'share-link') {
+    const value = `${location.origin}/oddly-true/?room=${encodeURIComponent(state.code)}`;
+    if (typeof navigator.share === 'function') {
+      try {
+        await navigator.share({ title: 'Oddly True', text: 'Join my Oddly True game!', url: value });
+        return;
+      } catch (error) {
+        if (error?.name === 'AbortError') return;
+      }
+    }
+    try { await navigator.clipboard.writeText(value); notify('Invite link copied. Share it with your friends!'); }
+    catch { window.prompt('Copy this invite link:', value); }
+    return;
+  }
   if (kind === 'copy-code' || kind === 'copy-link') {
     const copyingCode = kind === 'copy-code';
-    const value = copyingCode ? state.code : `${location.origin}/oddly-true/?room=${state.code}`;
+    const value = copyingCode ? state.code : `${location.origin}/oddly-true/?room=${encodeURIComponent(state.code)}`;
     try { await navigator.clipboard.writeText(value); notify(`${copyingCode ? 'Room code' : 'Invite link'} copied.`); }
     catch { window.prompt(`Copy this ${copyingCode ? 'room code' : 'invite link'}:`, value); }
     return;
