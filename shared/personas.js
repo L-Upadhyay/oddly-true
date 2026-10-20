@@ -14,11 +14,9 @@ export const PERSONAS = [
   { name: 'Professor Octopus', label: 'Octopus', avatar: '🐙', asset: 'octopus', keywords: ['octopus'], greeting: 'Need a hand? Got eight!', motion: 'wiggle' },
   { name: 'Disco Ghost', label: 'Ghost', avatar: '👻', asset: 'ghost', keywords: ['ghost'], greeting: 'Boo-gie with me!', motion: 'float' },
   { name: 'Mysterious Owl', label: 'Owl', avatar: '🦉', asset: 'owl', keywords: ['owl'], greeting: 'Owl be seeing you!', motion: 'tilt' },
-  { name: 'Detective Robot', label: 'Robot', avatar: '🤖', asset: 'robot', keywords: ['robot', 'bot'], greeting: 'I detect a new friend!', motion: 'scan' },
   { name: 'Dinner Dino', label: 'Dinosaur', avatar: '🦖', asset: 't-rex', keywords: ['dinosaur', 'dino', 't rex'], greeting: 'Dino-mite to meet you!', motion: 'stomp' },
   { name: 'Buzzy Bee', label: 'Bee', avatar: '🐝', asset: 'honeybee', keywords: ['bee', 'honeybee'], greeting: 'What’s the buzz, bud?', motion: 'buzz' },
   { name: 'Social Butterfly', label: 'Butterfly', avatar: '🦋', asset: 'butterfly', keywords: ['butterfly'], greeting: 'Let’s wing it together!', motion: 'flutter' },
-  { name: 'Stellar Alien', label: 'Alien', avatar: '👽', asset: 'alien', keywords: ['alien'], greeting: 'Take me to your snacks!', motion: 'float' },
   { name: 'Glitter Unicorn', label: 'Unicorn', avatar: '🦄', asset: 'unicorn', keywords: ['unicorn'], greeting: 'Neigh-hello, sparkle pal!', motion: 'prance' },
   { name: 'Party Penguin', label: 'Penguin', avatar: '🐧', asset: 'penguin', keywords: ['penguin'], greeting: 'Let’s break the ice!', motion: 'waddle' }
 ].map(persona => {
@@ -73,7 +71,6 @@ export function personaForAvatar(avatar) {
 
 export function characterForAvatar(avatar) {
   return CHARACTERS.find(character => character.avatar === avatar)
-    ?? PERSONAS.find(persona => persona.avatar === '👽')
     ?? PERSONAS[0];
 }
 
@@ -108,9 +105,8 @@ const THEMES = [
   ['fox', ['clever', 'cunning', 'sly', 'trickster', 'sneaky']],
   ['butterfly', ['social', 'bloom', 'flower', 'flowers', 'spring', 'grace']],
   ['honeybee', ['busy', 'buzz', 'honey', 'teamwork', 'worker']],
-  ['alien', ['space', 'cosmic', 'galaxy', 'galactic', 'star', 'stars', 'planet']],
+  ['frog', ['space', 'cosmic', 'galaxy', 'galactic', 'star', 'stars', 'planet']],
   ['unicorn', ['magic', 'magical', 'sparkle', 'sparkles', 'glitter', 'rainbow']],
-  ['robot', ['tech', 'technology', 'code', 'coding', 'computer', 'logic']],
   ['ghost', ['spooky', 'haunted', 'boo', 'phantom']],
   ['penguin', ['ice', 'icy', 'snow', 'snowy', 'winter', 'frost']],
   ['turtle', ['calm', 'patience', 'patient', 'steady', 'peaceful']],
