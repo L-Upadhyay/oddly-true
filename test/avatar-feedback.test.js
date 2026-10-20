@@ -52,5 +52,5 @@ test('expression artwork uses supported variants and falls back for other charac
     }
     assert.equal(characterArtForAvatar(avatar, 'unexpected'), characterForAvatar(avatar).art);
   }
-  assert.equal(characterArtForAvatar('👽', 'happy'), characterForAvatar('👽').art);
+  assert.equal(characterArtForAvatar('🪼', 'happy'), characterForAvatar('🪼').art);
 });

@@ -20,7 +20,7 @@ function shuffle(items) {
 function cleanPlayer(input) {
   const name = String(input?.name ?? '').trim().replace(/\s+/g, ' ').slice(0, 24);
   if (!name) throw new GameError('Add a name to join.');
-  const avatar = AVATARS.includes(input?.avatar) ? input.avatar : '👽';
+  const avatar = AVATARS.includes(input?.avatar) ? input.avatar : '🐦';
   return { name, avatar };
 }
 

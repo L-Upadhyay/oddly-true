@@ -170,7 +170,7 @@ test('two players join, answer, see votes before truth, and score a Wild Card', 
 });
 
 test('preset and custom characters are unique, illustrated, and matched by name', () => {
-  assert.equal(PERSONAS.length, 14);
+  assert.equal(PERSONAS.length, 12);
   assert.equal(CUSTOM_CHARACTERS.length, 35);
   assert.equal(CHARACTERS.length, AVATARS.length);
   assert.equal(new Set(AVATARS).size, AVATARS.length);
@@ -188,7 +188,9 @@ test('preset and custom characters are unique, illustrated, and matched by name'
   assert.equal(personaForAvatar('🦖').name, 'Dinner Dino');
   assert.equal(personaForAvatar('🦋').name, 'Social Butterfly');
   assert.equal(personaForAvatar('🦄').name, 'Glitter Unicorn');
-  assert.equal(personaForAvatar('🤖').name, 'Detective Robot');
+  assert.equal(personaForAvatar('👻').name, 'Disco Ghost');
+  assert.equal(personaForAvatar('🤖'), undefined);
+  assert.equal(personaForAvatar('👽'), undefined);
   assert.equal(personaForAvatar('🐝').name, 'Buzzy Bee');
   assert.equal(personaForAvatar('🐧').name, 'Party Penguin');
   assert.equal(personaForAvatar('🍄'), undefined);
@@ -397,14 +399,14 @@ test('leaving after a game preserves the final board and passes host control', (
 
 test('room names are unique after case and whitespace normalization; avatars can repeat', () => {
   const game = new GameStore({ scheduleTimers: false });
-  const host = game.create({ name: 'Doctor Pigeon', avatar: '👽' });
+  const host = game.create({ name: 'Doctor Pigeon', avatar: '👻' });
   for (const name of ['Doctor Pigeon', ' doctor pigeon ', 'DOCTOR   PIGEON']) {
-    assert.throws(() => game.join(host.code, { name, avatar: '👽' }), error => error instanceof GameError && error.status === 409);
+    assert.throws(() => game.join(host.code, { name, avatar: '👻' }), error => error instanceof GameError && error.status === 409);
   }
   assert.equal(game.room(host.code).players.length, 1);
-  const guest = game.join(host.code, { name: 'Doctor Pigeon 2', avatar: '👽' });
+  const guest = game.join(host.code, { name: 'Doctor Pigeon 2', avatar: '👻' });
   assert.equal(game.room(host.code).players.length, 2);
-  assert.equal(game.room(host.code).players[1].avatar, '👽');
+  assert.equal(game.room(host.code).players[1].avatar, '👻');
   game.leave(host.code, guest.token);
   assert.doesNotThrow(() => game.join(host.code, { name: 'doctor pigeon 2' }));
   assert.doesNotThrow(() => game.create({ name: 'Doctor Pigeon', kind: 'solo' }));
