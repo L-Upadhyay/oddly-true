@@ -8,7 +8,7 @@ The test suite covers Solo round choices, early finish and replay; multiplayer r
 
 Hosted persistence tests adapt SQLite to the D1 prepared-statement interface. They verify our SQL/concurrency logic, not production load or network latency. CI uses Node 24 so hosted tests run rather than being skipped on an older runtime.
 
-The coverage report describes instrumented server/shared modules; it does not measure browser interactions or the separately spawned local server. Submission preparation was verified with Node 24: clean install, syntax checks, all 12 tests without skips, and production build passed.
+The coverage report describes instrumented server/shared modules; it does not measure browser interactions or the separately spawned local server. Submission preparation was verified with Node 24: clean install, syntax checks, all 25 tests without skips, and production build passed.
 
 ## Manual acceptance
 

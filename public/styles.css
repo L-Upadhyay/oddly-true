@@ -40,7 +40,7 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 34px; padding-top: 20px; border-top: 1px solid currentColor; font-size: .82rem; line-height: 1.5; opacity: .8; }
 .site-footer small { display: block; font-size: .76rem; }
 .friends-actions { margin-top: 12px; }
-.solo-grid { display: block; max-width: 850px; margin-inline: auto; }
+.solo-grid { display: block; max-width: 1120px; margin-inline: auto; }
 .solo-score { margin: 20px 0; }
 .landing-copy { padding-top: 26px; }
 .landing-copy h1 em { font-style: normal; color: #b9f57b; }
@@ -115,7 +115,7 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .room-actions { display: flex; gap: 9px; flex-wrap: wrap; }
 .room-actions .secondary { min-height: 42px; font-size: .86rem; padding: 8px 13px; }
 .game-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 480px); gap: 24px; align-items: start; }
-.game-grid.solo-grid { display: block; width: 100%; max-width: 850px; }
+.game-grid.solo-grid { display: block; width: 100%; max-width: 1120px; }
 .stage { padding: clamp(22px, 4vw, 42px); min-height: 485px; }
 .stage-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 24px; }
 .progress-label { color: #b8c0dc; font-size: .9rem; font-weight: 700; }
