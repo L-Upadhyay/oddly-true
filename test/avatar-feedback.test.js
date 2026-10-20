@@ -46,7 +46,7 @@ test('Solo final faces follow score feedback boundaries, penalties and extended 
 });
 
 test('expression artwork uses supported variants and falls back for other characters', () => {
-  for (const avatar of ['🐦', '🦁']) {
+  for (const avatar of ['🐦', '🦁', '🦄']) {
     for (const expression of ['neutral', 'happy', 'disappointed']) {
       assert.equal(characterArtForAvatar(avatar, expression), characterForAvatar(avatar).expressions[expression]);
     }
