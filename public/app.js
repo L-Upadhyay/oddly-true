@@ -435,6 +435,10 @@ function soloRevealActions(points) {
   return `<div class="round-finish"><p class="outcome-note ${points > 0 ? 'won' : 'gentle-miss'}" role="status">${points > 0 ? 'Nice catch! You spotted the truth.' : state.round === state.totalRounds ? 'This one was sneaky. See how you did.' : 'This one was sneaky. The next fact is a fresh chance.'}</p>${auto}<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? (soloAutoNext ? 'See score now' : 'See your score') : (soloAutoNext ? 'Next now' : 'Next fact')}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div></div>`;
 }
 
+function friendsRevealActions() {
+  return `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>`;
+}
+
 function questionStage() {
   const phase = state.phase;
   const me = state.myAnswer;
@@ -453,10 +457,11 @@ function questionStage() {
     const portrait = state.kind === 'solo' && characterForAvatar(mePlayer?.avatar).expressions
       ? `<span aria-hidden="true">${avatarArt(mePlayer.avatar, 'result-avatar-art', playerExpression(state, state.you))}</span>` : '';
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${portrait}${label}</div>
+      ${state.kind !== 'solo' && state.hostId === state.you ? `<div class="mobile-reveal-actions">${friendsRevealActions()}</div>` : ''}
       ${state.kind !== 'solo' ? `<section class="mobile-reactions" aria-label="React to this fact"><h3>React to this fact</h3>${reactionButtons('React to the reveal')}</section>` : ''}
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
       ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}</div>
-      ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : ''}</div>`}`;
+      ${state.hostId === state.you ? friendsRevealActions() : ''}</div>`}`;
   }
   return `<div class="stage-head"><span class="progress-label">${state.kind === 'solo' ? 'SOLO · FACT' : 'ROUND'} ${state.round} / ${state.activeRoundMode === 'host' ? 'up to ' : ''}${state.totalRounds}</span><span class="pill">${escapeHtml(state.question.topic)}</span></div>
     <div class="stage-question"><div class="eyebrow">${phase === 'reveal' ? 'The reveal' : phase === 'votes' ? 'Answers locked' : 'Which claim is real?'}</div><h2>${phase === 'reveal' ? "Here’s the truth." : phase === 'votes' ? 'The room has spoken.' : 'Only one of these is oddly true.'}</h2>${phase === 'reveal' && state.kind !== 'solo' && state.hostId !== state.you ? `<p class="muted small">${state.round === state.totalRounds ? 'Waiting for the host to show final scores…' : 'Waiting for the host to start the next round…'}</p>` : ''}</div>
@@ -493,10 +498,9 @@ function finished() {
   const wild = result.players.filter(player => result.awards.wildCards.includes(player.id));
   const isWinner = winners.some(player => player.id === state.you);
   const isHost = state.hostId === state.you;
-  const awards = lone.map(player => {
-    const count = result.awards.loneGeniusCounts?.[player.id];
-    return `<div class="award"><strong>🧠 Lone Genius${lone.length > 1 ? ' · shared award' : ''}</strong><span>${playerName(player)}</span><small>${count ? `${count} ${count === 1 ? 'round' : 'rounds'} answered correctly alone · most in this game` : 'Most rounds answered correctly alone'}</small></div>`;
-  }).join('') + wild.map(player => `<div class="award"><strong>✦ Daring Guesser</strong><span>${playerName(player)}</span><small>Played a Wild Card</small></div>`).join('');
+  const loneCount = lone.length ? result.awards.loneGeniusCounts?.[lone[0].id] : 0;
+  const awards = (lone.length ? `<div class="award"><strong>🧠 Lone Genius${lone.length > 1 ? ' · shared award' : ''}</strong><span>${lone.map(playerName).join(' & ')}</span><small>${loneCount ? `${loneCount} ${loneCount === 1 ? 'round' : 'rounds'} answered correctly alone · most in this game` : 'Most rounds answered correctly alone'}</small></div>` : '')
+    + wild.map(player => `<div class="award"><strong>✦ Daring Guesser</strong><span>${playerName(player)}</span><small>Played a Wild Card</small></div>`).join('');
   return `<div class="eyebrow">Game over · ${result.roundsPlayed} ${result.roundsPlayed === 1 ? 'round' : 'rounds'}</div><h2>Overall ${winners.length === 1 ? 'winner' : 'winners · tied'}</h2>
     <div class="winner"><span class="winner-icon" aria-hidden="true">🏆</span><div><strong>${winnerText}</strong><span class="winning-score">${points(best)} points${winners.length > 1 ? ' each' : ''}</span></div></div>
     <p class="outcome-note ${isWinner ? 'won' : 'gentle-miss'}" role="status">${isWinner ? winners.length > 1 ? 'Congratulations! You tied for first place!' : 'Congratulations! You won the game!' : result.players.some(player => player.id === state.you) ? 'Well played! Ready for a rematch?' : 'You joined for the next game.'}</p>
