@@ -324,10 +324,19 @@
 .reaction-buttons, .reaction-panel .reaction-buttons { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .reaction-buttons button { min-width: 0; min-height: 44px; padding-inline: 4px; }
 .mobile-reactions { display: none; }
+.mobile-reveal-actions { display: none; }
 @media (max-width: 570px) {
+  .app-shell { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .reveal-grid .mobile-reveal-actions { display: block; margin: 2px 0 18px; }
+  .mobile-reveal-actions .continue-actions { display: flex; }
+  .mobile-reveal-actions .primary { flex: 1; }
+  .reveal-grid .round-finish .continue-actions { display: none; }
   .reveal-grid .mobile-reactions { display: block; margin: 18px 0; }
   .mobile-reactions h3 { margin: 0 0 10px; font-size: 1rem; }
   .reveal-grid .reaction-panel { display: none; }
+  .reveal-grid .reveal-box { gap: 14px; padding: 15px; }
+  .reveal-grid .reveal-box .fact-copy { order: -1; }
+  .reveal-grid .fact-image img, .reveal-grid .fact-art { height: 155px; }
 }
 @media (max-width: 850px) {
   .lobby-grid .score-side { grid-row: 1; }
