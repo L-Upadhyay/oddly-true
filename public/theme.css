@@ -323,6 +323,12 @@
 .room-header-compact .room-actions button { padding: 8px 12px; font-size: .85rem; }
 .reaction-buttons, .reaction-panel .reaction-buttons { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .reaction-buttons button { min-width: 0; min-height: 44px; padding-inline: 4px; }
+.mobile-reactions { display: none; }
+@media (max-width: 570px) {
+  .reveal-grid .mobile-reactions { display: block; margin: 18px 0; }
+  .mobile-reactions h3 { margin: 0 0 10px; font-size: 1rem; }
+  .reveal-grid .reaction-panel { display: none; }
+}
 @media (max-width: 850px) {
   .lobby-grid .score-side { grid-row: 1; }
   .topbar { flex-wrap: wrap; gap: 12px; }
