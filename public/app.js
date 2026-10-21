@@ -226,7 +226,7 @@ function avatarArt(avatar, className = 'avatar-art', expression = 'neutral') {
 }
 
 function identityInline(player) {
-  return `<span class="identity-inline">${avatarArt(player.avatar, 'inline-avatar', playerExpression(state, player.id))}${playerName(player)}</span>`;
+  return `<span class="identity-inline">${avatarArt(player.avatar, 'inline-avatar', playerExpression(state, player.id))}<span class="identity-label">${playerName(player)}</span></span>`;
 }
 
 function characterArt(character) {
