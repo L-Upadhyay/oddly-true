@@ -327,7 +327,7 @@
 .mobile-reactions { display: none; }
 .mobile-reveal-actions { display: none; }
 @media (max-width: 570px) {
-  .app-shell { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .app-shell { padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
   .reveal-grid .mobile-reveal-actions { display: block; margin: 2px 0 18px; }
   .mobile-reveal-actions .continue-actions { display: flex; }
   .mobile-reveal-actions .primary { flex: 1; }
