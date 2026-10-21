@@ -407,7 +407,7 @@ function leaderboardRows(rows, showRound = false) {
   return `<div class="leaderboard-list">${rows.map(player => `<div class="leaderboard-row ${player.id === state.you ? 'is-you' : ''}">
     <span class="rank">${player.rank}.</span><span class="player-avatar" aria-hidden="true">${avatarArt(player.avatar, 'player-avatar-art', playerExpression(state, player.id))}</span>
     <span class="leaderboard-name">${playerName(player)}</span>
-    ${showRound ? `<span class="round-delta ${player.points < 0 ? 'negative' : ''}">${player.points > 0 ? '+' : ''}${player.points} this round${player.movement > 0 ? ` · ↑${player.movement}` : player.movement < 0 ? ` · ↓${-player.movement}` : ''}</span>` : ''}
+    ${showRound ? `<span class="round-delta ${player.points < 0 ? 'negative' : ''}">${player.points > 0 ? '+' : ''}${player.points} this round${player.movement > 0 ? ` · Up ${player.movement} ${player.movement === 1 ? 'place' : 'places'}` : player.movement < 0 ? ` · Down ${-player.movement} ${player.movement === -1 ? 'place' : 'places'}` : ''}</span>` : ''}
     <strong>${points(player.score)}</strong></div>`).join('')}</div>`;
 }
 
@@ -453,6 +453,7 @@ function questionStage() {
     const portrait = state.kind === 'solo' && characterForAvatar(mePlayer?.avatar).expressions
       ? `<span aria-hidden="true">${avatarArt(mePlayer.avatar, 'result-avatar-art', playerExpression(state, state.you))}</span>` : '';
     bottom = `<div class="result-banner ${points <= 0 ? 'miss' : ''}" role="status">${portrait}${label}</div>
+      ${state.kind !== 'solo' ? `<section class="mobile-reactions" aria-label="React to this fact"><h3>React to this fact</h3>${reactionButtons('React to the reveal')}</section>` : ''}
       <div class="reveal-box">${picture}<div class="fact-copy"><strong>Oddly true.</strong><p>${escapeHtml(state.question.explanation)}</p><a href="${escapeHtml(state.question.source.url)}" target="_blank" rel="noopener noreferrer">Check the fact · ${escapeHtml(state.question.source.label)} ↗</a></div></div>
       ${state.kind === 'solo' ? soloRevealActions(points) : `<div class="round-finish"><div>${roundWinner()}</div>
       ${state.hostId === state.you ? `<div class="continue-actions"><button class="primary" type="button" data-action="advance" ${pending ? 'disabled' : ''}>${state.round === state.totalRounds ? 'See final scores' : 'Next round'}</button>${state.round < state.totalRounds ? `<button class="secondary" type="button" data-action="finish" ${pending ? 'disabled' : ''}>Finish early</button>` : ''}</div>` : ''}</div>`}`;
