@@ -114,7 +114,7 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
 .room-code small { letter-spacing: .04em; color: #b4bad1; font: 700 .7rem 'DM Sans', sans-serif; text-transform: uppercase; }
 .room-actions { display: flex; gap: 9px; flex-wrap: wrap; }
 .room-actions .secondary { min-height: 42px; font-size: .86rem; padding: 8px 13px; }
-.game-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 480px); gap: 24px; align-items: start; }
+.game-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(360px, 3fr); gap: 24px; align-items: start; }
 .game-grid.solo-grid { display: block; width: 100%; max-width: 1120px; }
 .stage { padding: clamp(22px, 4vw, 42px); min-height: 485px; }
 .stage-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 24px; }
@@ -244,6 +244,11 @@ h3 { font-size: 1.2rem; margin-bottom: 15px; }
   .game-grid { grid-template-columns: 1fr; }
   .score-side { order: 2; }
   .reveal-side { grid-template-columns: minmax(0, 1fr) minmax(250px, .7fr); align-items: start; }
+}
+@media (min-width: 1001px) {
+  .game-grid:not(.finished-grid) .player-avatar { width: 48px; height: 48px; border-radius: 13px; }
+  .game-grid:not(.finished-grid) .player-avatar-art { width: 44px; height: 44px; }
+  .reveal-side .leaderboard-row { grid-template-columns: 25px 48px minmax(0, 1fr) auto; }
 }
 @media (max-width: 700px) {
   .reveal-side { grid-template-columns: 1fr; }
