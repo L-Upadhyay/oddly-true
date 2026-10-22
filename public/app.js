@@ -266,7 +266,7 @@ function landing() {
   return `${topbar('The real fact is the weirdest one.', true)}
     <div class="landing">
       <section class="landing-copy">
-        <div class="eyebrow">Play with 2–8 friends or solo.</div>
+        <div class="eyebrow">Play with friends (2–8 players) or solo.</div>
         <h1>Sounds fake,<br><em>Oddly true.</em></h1>
         <p>Three bizarre claims. Only one actually happened. Trust your gut, bring your people if you like, and prepare to be confidently wrong.</p>
         <section class="rules-details" aria-labelledby="how-to-play"><h2 id="how-to-play">How to play</h2><ol><li><strong>Pick the truth.</strong> Choose the one real claim from three bizarre claims.</li><li><strong>Timing.</strong> You have 20 seconds to answer.</li><li><strong>Points.</strong> Correct: +10. Wrong or timeout: 0.</li><li><strong>Wild Card.</strong> Once per game: +20 if right, −5 if wrong.</li><li><strong>Winner.</strong> The highest total wins with friends; ties share the win. Solo is your personal score.</li></ol></section>
