@@ -303,7 +303,11 @@ function landing() {
           <label class="field" for="room-input">Room code</label>
           <div class="join-row"><input id="room-input" class="text-input" maxlength="5" autocapitalize="characters" autocomplete="off" placeholder="ABCDE" value="${escapeHtml(draftCode)}"><button class="secondary" type="button" data-action="join" ${pending ? 'disabled' : ''}>Join room</button></div></div>` : ''}
       </section>
-    </div><footer class="site-footer"><span><strong>Oddly True</strong> · Strange facts, good company.<small>© 2026 Oddly True. Game design and code.</small></span><span>Sources and image credits appear after each fact.</span></footer>`;
+    </div>`;
+}
+
+function siteFooter() {
+  return `<footer class="site-footer"><span><strong>Oddly True</strong> · Strange facts, good company.<small>© 2026 Oddly True. Game design and code.</small></span><span>Sources and image credits appear after each fact.</span></footer>`;
 }
 
 function roomHeader() {
@@ -543,13 +547,13 @@ document.addEventListener('visibilitychange', () => {
 function render() {
   syncSoloAutoTimer();
   app.classList.toggle('room-shell', Boolean(state));
-  if (!state) { app.innerHTML = landing(); if (musicEnabled) void startMusic(); return; }
+  if (!state) { app.innerHTML = `${landing()}${siteFooter()}`; if (musicEnabled) void startMusic(); return; }
   if (musicEnabled) void startMusic();
   const stage = state.phase === 'lobby' ? lobby() : state.phase === 'finished' ? finished() : questionStage();
   const side = state.kind === 'solo' || state.phase === 'finished' ? '' : state.phase === 'reveal'
     ? `<aside class="reveal-side" aria-label="Round standings and reactions">${roundLeaderboard()}<section class="panel reaction-panel"><h3>React to this fact</h3><p class="muted small">Let the room know what you think.</p>${reactionButtons('React to the reveal')}</section>${connectionStatus ? `<p class="status-note">${escapeHtml(connectionStatus)}</p>` : ''}</aside>`
     : sidebar();
-  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'finished' ? 'finished-grid' : state.phase === 'reveal' ? 'reveal-grid' : state.phase === 'lobby' ? 'lobby-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>`;
+  app.innerHTML = `${topbar('The real fact is the weirdest one.')}${roomHeader()}<div class="game-grid ${state.kind === 'solo' ? 'solo-grid' : state.phase === 'finished' ? 'finished-grid' : state.phase === 'reveal' ? 'reveal-grid' : state.phase === 'lobby' ? 'lobby-grid' : ''}"><section class="panel stage" aria-live="polite">${stage}</section>${side}</div>${siteFooter()}`;
   updateTimer();
 }
 
